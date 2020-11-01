@@ -15,6 +15,9 @@ class CreateBitacorasTable extends Migration
     {
         Schema::create('bitacoras', function (Blueprint $table) {
             $table->id();
+            $table->string('accion', 50);
+            $table->string('entidad', 100);
+            $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
         });
     }

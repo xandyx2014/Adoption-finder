@@ -15,6 +15,9 @@ class CreateTipoDenunciasTable extends Migration
     {
         Schema::create('tipo_denuncias', function (Blueprint $table) {
             $table->id();
+            $table->string('tipo', 100);
+            $table->string('descripcion', 200);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

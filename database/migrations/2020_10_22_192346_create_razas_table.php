@@ -15,6 +15,9 @@ class CreateRazasTable extends Migration
     {
         Schema::create('razas', function (Blueprint $table) {
             $table->id();
+            $table->string('nombre', 15);
+            $table->string('descripcion');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

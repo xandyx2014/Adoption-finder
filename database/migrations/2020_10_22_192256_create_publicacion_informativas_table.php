@@ -15,6 +15,12 @@ class CreatePublicacionInformativasTable extends Migration
     {
         Schema::create('publicacion_informativas', function (Blueprint $table) {
             $table->id();
+            $table->string('titulo', 200);
+            $table->string('subtitulo', 150);
+            $table->string('cuerpo');
+            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('tipo_publicacion_id')->constrained('tipo_publicacions');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

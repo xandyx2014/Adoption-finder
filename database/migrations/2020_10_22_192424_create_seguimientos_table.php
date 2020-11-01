@@ -15,7 +15,12 @@ class CreateSeguimientosTable extends Migration
     {
         Schema::create('seguimientos', function (Blueprint $table) {
             $table->id();
+            $table->string('descripcion');
+            $table->string('calidad', 10);
+            $table->tinyInteger('puntuacion');
+            $table->foreignId('mascota_id')->constrained('mascotas');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

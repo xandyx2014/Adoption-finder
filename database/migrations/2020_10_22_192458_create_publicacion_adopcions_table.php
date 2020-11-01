@@ -15,6 +15,10 @@ class CreatePublicacionAdopcionsTable extends Migration
     {
         Schema::create('publicacion_adopcions', function (Blueprint $table) {
             $table->id();
+            $table->string('descripcion_corta', 100);
+            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('mascota_id')->constrained('mascotas');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

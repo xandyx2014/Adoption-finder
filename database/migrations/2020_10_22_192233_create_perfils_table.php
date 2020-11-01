@@ -15,6 +15,11 @@ class CreatePerfilsTable extends Migration
     {
         Schema::create('perfils', function (Blueprint $table) {
             $table->id();
+            $table->string('apellidos', 200);
+            $table->string('apodo', 20);
+            $table->string('telefono', 100);
+            $table->string('about');
+            $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
         });
     }

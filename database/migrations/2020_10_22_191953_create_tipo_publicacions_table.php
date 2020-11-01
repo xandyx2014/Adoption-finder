@@ -15,6 +15,8 @@ class CreateTipoPublicacionsTable extends Migration
     {
         Schema::create('tipo_publicacions', function (Blueprint $table) {
             $table->id();
+            $table->string('tipo', 50);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

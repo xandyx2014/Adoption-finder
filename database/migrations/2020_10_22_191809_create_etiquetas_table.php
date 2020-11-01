@@ -15,6 +15,8 @@ class CreateEtiquetasTable extends Migration
     {
         Schema::create('etiquetas', function (Blueprint $table) {
             $table->id();
+            $table->string('nombre', 15);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
