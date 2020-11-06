@@ -1,8 +1,7 @@
 @extends('layouts.app')
-@section('title', 'Especie')
+@section('title', 'Hogar')
 @section('content')
     @push('css')
-
         <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
     @endpush
     <div class="container">
@@ -10,21 +9,12 @@
             <div class="col">
                 <div class="card">
                     <div class="card-header">
-                        Especie
-                        @unless($bin)
-                        <a href="{{ route('especie.index', [ 'bin' => true]) }}" class="btn btn-sm btn-outline-danger">
+                        Especie Reciclaje
+                        <a href="{{ route('especie.create') }}" class="btn btn-sm btn-outline-danger">
                             Papelera <i class="fa fa-recycle" aria-hidden="true"></i>
                         </a>
-                        @endunless
-                        @if($bin)
-                            <a href="{{ route('especie.index') }}" class="btn btn-sm btn-outline-success">
-                                Lista <i class="fa fa-list" aria-hidden="true"></i>
-                            </a>
-                        @endif
-
                     </div>
                     <div class="row">
-                        @unless($bin)
                         <div class="col-3">
                             <form class="p-2 pr-0" action="{{ route('especie.store') }}" method="POST">
                                 @csrf
@@ -73,8 +63,7 @@
                                 </div>
                             </form>
                         </div>
-                        @endunless
-                        <div class="@if($bin) col @else col-9 @endif">
+                        <div class="col-9">
                             <div class="card-body pt-2">
                                 <table id="especie-data-table" class="table table-striped table-bordered table-sm"
                                        style="width:100%">
@@ -84,9 +73,6 @@
                                         <th>Nombre</th>
                                         <th>Creado en</th>
                                         <th>Actualizado en</th>
-                                        @if($bin)
-                                        <th>Eliminado en</th>
-                                        @endif
                                         <th>Acciones</th>
                                     </tr>
                                     </thead>
@@ -106,21 +92,6 @@
 
         <script>
             $(document).ready(function () {
-                const url = '{{ $bin }}' == '1' ? '{{ url('api/especie') }}' + '?bin=1': '{{ url('api/especie') }}';
-                const columns = '{{ $bin }}' != '1' ? [
-                    {data: 'id'},
-                    {data: 'nombre'},
-                    {data: 'created_at'},
-                    {data: 'updated_at'},
-                    {data: 'btn'},
-                ] : [
-                    {data: 'id'},
-                    {data: 'nombre'},
-                    {data: 'created_at'},
-                    {data: 'updated_at'},
-                    {data: 'deleted_at'},
-                    {data: 'btn'}
-                ];
                 $('#especie-data-table').DataTable({
                     "serverSide": true,
                     "order": [[ 0, "desc" ]],
@@ -130,9 +101,15 @@
                             "orderable": false
                         }
                     ],
-                    "ajax": url,
+                    "ajax": "{{ url('api/especie') }}",
                     "lengthMenu": [4, 5, 10, 30, 100],
-                    "columns": columns,
+                    "columns": [
+                        {data: 'id'},
+                        {data: 'nombre'},
+                        {data: 'created_at'},
+                        {data: 'updated_at'},
+                        {data: 'btn'},
+                    ],
                     "language": {
                         "info": "_TOTAL_ registros",
                         "search": "Buscar...",

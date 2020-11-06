@@ -6,8 +6,17 @@ Route::resources([
 ]);
 
 Route::get('api/especie', function() {
+    $params = request()->input('bin');
+    if($params)
+    {
+        return datatables()
+            ->eloquent(App\Models\Especie::onlyTrashed())
+            ->addColumn('btn', 'parametro.especie.actionsBin')
+            ->rawColumns(['btn'])
+            ->toJson();
+    }
     return datatables()
-        ->eloquent(App\Models\Especie::query()->orderBy('id', 'desc'))
+        ->eloquent(App\Models\Especie::query())
         ->addColumn('btn', 'parametro.especie.actions')
         ->rawColumns(['btn'])
         ->toJson();

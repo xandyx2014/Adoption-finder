@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Especie;
 use Illuminate\Http\Request;
+use Symfony\Component\Console\Input\Input;
 
 class EspecieController extends Controller
 {
@@ -18,7 +19,9 @@ class EspecieController extends Controller
      */
     public function index()
     {
-        return view('parametro.especie.index');
+        $params = request()->input('bin');
+        if ($params) return view('parametro.especie.index', [ 'bin' => true ]);
+        return view('parametro.especie.index', [ 'bin' => false]);
     }
 
     /**
@@ -56,9 +59,10 @@ class EspecieController extends Controller
      * @param  \App\Models\Especie  $especie
      * @return \Illuminate\Http\Response
      */
-    public function show(Especie $especie)
+    public function show($id)
     {
-        return view('parametro.especie.show');
+        $especie = Especie::withTrashed()->find($id);
+        return view('parametro.especie.show', compact('especie'));
     }
 
     /**
@@ -67,9 +71,10 @@ class EspecieController extends Controller
      * @param  \App\Models\Especie  $especie
      * @return \Illuminate\Http\Response
      */
-    public function edit(Especie $especie)
+    public function edit($id)
     {
-        return view('parametro.especie.edit');
+        $especie = Especie::withTrashed()->find($id);
+        return view('parametro.especie.edit', compact('especie'));
     }
 
     /**
@@ -79,9 +84,19 @@ class EspecieController extends Controller
      * @param  \App\Models\Especie  $especie
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Especie $especie)
+    public function update(Request $request, $id)
     {
-        //
+        if ($request->input('restore')) {
+            $especie = Especie::withTrashed()->find($id)->restore();
+            return back();
+        }
+        $validateData = $request->validate([
+            'nombre' => ['required', 'max:255'],
+            'descripcion' => ['required', 'max:255'],
+        ]);
+        $especie = Especie::withTrashed()->find($id);
+        $especie->update($validateData);
+        return redirect()->route('especie.index');
     }
 
     /**
@@ -90,8 +105,15 @@ class EspecieController extends Controller
      * @param  \App\Models\Especie  $especie
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Especie $especie)
+    public function destroy($id)
     {
-
+        $especie = Especie::withTrashed()->find($id);
+        $bin = request()->input('bin');
+        if ($bin) {
+            // verificar las dependencias y force delete
+            return $bin;
+        }
+        $especie->delete();
+        return redirect()->route('especie.index');
     }
 }

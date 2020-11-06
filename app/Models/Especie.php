@@ -17,10 +17,14 @@ class Especie extends Model
     {
         return Carbon::parse($value)->format('d-M-Y');
     }
-    public function getDescripcionAttribute($value)
+    public function getDeletedAtAttribute($value)
+    {
+        return Carbon::parse($value)->format('d-M-Y');
+    }
+/*    public function getDescripcionAttribute($value)
     {
         return Str::limit($value, 20);
-    }
+    }*/
     public function getUpdatedAtAttribute($value)
     {
         return Carbon::parse($value)->format('d-M-Y');
