@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Especie;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class EspecieFactory extends Factory
 {
@@ -22,7 +23,8 @@ class EspecieFactory extends Factory
     public function definition()
     {
         return [
-            'nombre' => $this->faker->firstName
+            'nombre' => Str::random(10),
+            'descripcion' => $this->faker->text(200),
         ];
     }
 }

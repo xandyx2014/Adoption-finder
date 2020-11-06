@@ -39,7 +39,15 @@ class EspecieController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validateData = $request->validate([
+            'nombre' => ['required', 'unique:especies', 'max:255'],
+            'descripcion' => ['required'],
+        ]);
+        $especie = new Especie();
+        $especie->nombre = $validateData['nombre'];
+        $especie->descripcion = $validateData['descripcion'];
+        $especie->save();
+        return back()->with('success', 'Se ha creado correctamente');
     }
 
     /**

@@ -7,7 +7,7 @@ Route::resources([
 
 Route::get('api/especie', function() {
     return datatables()
-        ->eloquent(App\Models\Especie::query())
+        ->eloquent(App\Models\Especie::query()->orderBy('id', 'desc'))
         ->addColumn('btn', 'parametro.especie.actions')
         ->rawColumns(['btn'])
         ->toJson();
