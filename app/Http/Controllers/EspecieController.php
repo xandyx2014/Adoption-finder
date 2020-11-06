@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class EspecieController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +18,7 @@ class EspecieController extends Controller
      */
     public function index()
     {
-        //
+        return view('parametro.especie.index');
     }
 
     /**
@@ -24,7 +28,7 @@ class EspecieController extends Controller
      */
     public function create()
     {
-        //
+        return view('parametro.especie.create');
     }
 
     /**
@@ -46,7 +50,7 @@ class EspecieController extends Controller
      */
     public function show(Especie $especie)
     {
-        //
+        return view('parametro.especie.show');
     }
 
     /**
@@ -57,7 +61,7 @@ class EspecieController extends Controller
      */
     public function edit(Especie $especie)
     {
-        //
+        return view('parametro.especie.edit');
     }
 
     /**
@@ -80,6 +84,6 @@ class EspecieController extends Controller
      */
     public function destroy(Especie $especie)
     {
-        //
+
     }
 }

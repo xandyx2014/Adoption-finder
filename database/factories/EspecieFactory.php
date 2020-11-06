@@ -22,7 +22,7 @@ class EspecieFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'nombre' => $this->faker->firstName
         ];
     }
 }
