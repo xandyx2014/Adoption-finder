@@ -15,3 +15,40 @@
         <i class="fa fa-trash" aria-hidden="true"></i>
     </button>
 </form>
+<button id="especie-delete-{{$id}}" class="btn btn-danger">
+    <i class="fa fa-trash" aria-hidden="true"></i>
+</button>
+<script>
+    $(document).ready(function () {
+        $("#especie-delete-{{$id}}").click(async function (e) {
+            Swal.fire({
+                title: '¿Estas seguro de eliminaro?',
+                text: "Esta accion lo eliminara permanentemente.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, borrar!'
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    const {data} = await axios.delete("{{ route('especie.destroy', $id) }}?bin=true");
+                    if (typeof data.message === 'undefined') {
+                        Swal.fire(
+                            'Deleted!',
+                            data.error,
+                            'error'
+                        )
+                    } else {
+                        Swal.fire(
+                            'Deleted!',
+                            data.message,
+                            'success'
+                        );
+                        location.reload();
+                    }
+                    console.log(data);
+                }
+            })
+        });
+    });
+</script>

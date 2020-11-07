@@ -46,10 +46,7 @@ class EspecieController extends Controller
             'nombre' => ['required', 'unique:especies', 'max:255'],
             'descripcion' => ['required'],
         ]);
-        $especie = new Especie();
-        $especie->nombre = $validateData['nombre'];
-        $especie->descripcion = $validateData['descripcion'];
-        $especie->save();
+        Especie::created($request->all());
         return back()->with('success', 'Se ha creado correctamente');
     }
 
@@ -109,11 +106,34 @@ class EspecieController extends Controller
     {
         $especie = Especie::withTrashed()->find($id);
         $bin = request()->input('bin');
-        if ($bin) {
+        if ($bin)
+        {
             // verificar las dependencias y force delete
-            return $bin;
+            if ($especie->mascotas()->get()->count() == 0) {
+                $especie->forceDelete();
+                if (request()->ajax())
+                {
+                    return response()->json([
+                        "message" => 'Borrado correctamente'
+                    ]);
+                }
+                return back();
+            }
+            if (request()->ajax())
+            {
+                return response()->json([
+                    "error" => "Especie $especie->nombre tiene dependencias"
+                ]);
+            }
+            return back()->withErrors(['errorDependencia' => "Especie $especie->nombre tiene dependencias"]);
         }
         $especie->delete();
+        if (request()->ajax())
+        {
+            return response()->json([
+                "message" => 'Borrado correctamente'
+            ]);
+        }
         return redirect()->route('especie.index');
     }
 }
