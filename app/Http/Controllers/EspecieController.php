@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Especie;
+use Barryvdh\DomPDF\Facade as PDF;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Symfony\Component\Console\Input\Input;
 
@@ -17,13 +19,48 @@ class EspecieController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function indexApi()
+    {
+        $params = request()->input('bin');
+        if($params)
+        {
+            return datatables()
+                ->eloquent(Especie::onlyTrashed())
+                ->addColumn('btn', 'parametro.especie.actionsBin')
+                ->rawColumns(['btn'])
+                ->toJson();
+        }
+        return datatables()
+            ->eloquent(Especie::query())
+            ->addColumn('btn', 'parametro.especie.actions')
+            ->rawColumns(['btn'])
+            ->toJson();
+    }
     public function index()
     {
         $params = request()->input('bin');
         if ($params) return view('parametro.especie.index', [ 'bin' => true ]);
         return view('parametro.especie.index', [ 'bin' => false]);
     }
-
+    public function report(Request $request)
+    {
+        $inicio = Carbon::parse($request->get('inicio'))->subDays(1);
+        $final = Carbon::parse($request->get('final'))->addDays(1);
+        $estado = $request->get('estado');
+        $especies;
+        if ($estado == "1")
+        {
+            $especies = Especie::betweenDate($inicio, $final)->get();
+        }
+        else
+        {
+            $especies = Especie::onlyTrashed()->betweenDate($inicio, $final)->get();
+        }
+        $pdf = PDF::loadView('parametro.especie.pdf', compact('especies'));
+        $pdf->setPaper('a4', 'portrait');
+        $pdf->setOptions(["isPhpEnabled" => true]);
+        return $pdf->stream();
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -46,7 +83,10 @@ class EspecieController extends Controller
             'nombre' => ['required', 'unique:especies', 'max:255'],
             'descripcion' => ['required'],
         ]);
-        Especie::created($request->all());
+        $especie = new Especie();
+        $especie->nombre = $validateData['nombre'];
+        $especie->descripcion = $validateData['descripcion'];
+        $especie->save();
         return back()->with('success', 'Se ha creado correctamente');
     }
 
@@ -109,7 +149,8 @@ class EspecieController extends Controller
         if ($bin)
         {
             // verificar las dependencias y force delete
-            if ($especie->mascotas()->get()->count() == 0) {
+            $countTotal = $especie->mascotas()->get()->count();
+            if ($countTotal == 0) {
                 $especie->forceDelete();
                 if (request()->ajax())
                 {
@@ -122,7 +163,7 @@ class EspecieController extends Controller
             if (request()->ajax())
             {
                 return response()->json([
-                    "error" => "Especie $especie->nombre tiene dependencias"
+                    "error" => "$especie->nombre tiene dependencias Total: $countTotal"
                 ]);
             }
             return back()->withErrors(['errorDependencia' => "Especie $especie->nombre tiene dependencias"]);

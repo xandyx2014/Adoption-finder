@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-8">
                 <div class="card">
-                    <div class="card-header">{{ __('Dashboard') }}</div>
+                    <div class="card-header">Formulacion de edicion</div>
 
                     <div class="card-body">
                         <form class="p-2 pr-0" action="{{ route('especie.update', $especie) }}" method="POST">

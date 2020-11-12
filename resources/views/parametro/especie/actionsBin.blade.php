@@ -8,13 +8,13 @@
         <i class="fa fa-recycle" aria-hidden="true"></i>
     </button>
 </form>
-<form method="POST" action="{{ route('especie.destroy', $id) }}?bin=true" style="display: inline">
+{{--<form method="POST" action="{{ route('especie.destroy', $id) }}?bin=true" style="display: inline">
     @csrf
     @method('DELETE')
     <button type="submit" class="btn btn-danger">
         <i class="fa fa-trash" aria-hidden="true"></i>
     </button>
-</form>
+</form>--}}
 <button id="especie-delete-{{$id}}" class="btn btn-danger">
     <i class="fa fa-trash" aria-hidden="true"></i>
 </button>
@@ -22,7 +22,7 @@
     $(document).ready(function () {
         $("#especie-delete-{{$id}}").click(async function (e) {
             Swal.fire({
-                title: '¿Estas seguro de eliminaro?',
+                title: '¿Estas seguro de eliminarlo?',
                 text: "Esta accion lo eliminara permanentemente.",
                 icon: 'warning',
                 showCancelButton: true,
@@ -34,19 +34,18 @@
                     const {data} = await axios.delete("{{ route('especie.destroy', $id) }}?bin=true");
                     if (typeof data.message === 'undefined') {
                         Swal.fire(
-                            'Deleted!',
+                            'Borrar!',
                             data.error,
                             'error'
                         )
                     } else {
                         Swal.fire(
-                            'Deleted!',
+                            'Borrar!',
                             data.message,
                             'success'
                         );
                         location.reload();
                     }
-                    console.log(data);
                 }
             })
         });

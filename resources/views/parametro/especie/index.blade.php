@@ -12,9 +12,16 @@
                     <div class="card-header">
                         Especie
                         @unless($bin)
-                        <a href="{{ route('especie.index', [ 'bin' => true]) }}" class="btn btn-sm btn-outline-danger">
-                            Papelera <i class="fa fa-recycle" aria-hidden="true"></i>
-                        </a>
+                            <button
+                                data-toggle="modal" data-target="#reportModal"
+                               class="btn btn-sm btn-outline-secondary">
+                                Reporte <i class="fa fa-file" aria-hidden="true"></i>
+                            </button>
+                            <a href="{{ route('especie.index', [ 'bin' => true]) }}"
+                               class="btn btn-sm btn-outline-danger">
+                                Papelera <i class="fa fa-recycle" aria-hidden="true"></i>
+                            </a>
+                            @include('parametro.especie.report')
                         @endunless
                         @if($bin)
                             <a href="{{ route('especie.index') }}" class="btn btn-sm btn-outline-success">
@@ -33,54 +40,9 @@
                     @enderror
                     <div class="row">
                         @unless($bin)
-                        <div class="col-3">
-                            <form class="p-2 pr-0" action="{{ route('especie.store') }}" method="POST">
-                                @csrf
-                                @method('POST')
-                                {{--@if (session('success'))
-                                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                        <strong>Exito</strong> se ha creado exitosamente
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                @endif--}}
-                                <div class="form-group">
-                                    <label for="inputAddress">Nombre</label>
-                                    <input id="nombre" name="nombre" type="text" class="form-control form-control-sm @error('nombre') is-invalid @enderror"
-                                           placeholder="nombre de la especie">
-                                    @error('nombre')
-                                    <div class="error invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                    @enderror
-                                    <small id="nombre" class="form-text text-muted">
-                                        Este nombre sera para identificar el Especie.
-                                    </small>
-
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputAddress2">Descripcion</label>
-                                    <input type="text" name="descripcion" class="form-control form-control-sm @error('descripcion') is-invalid @enderror"
-                                           id="descripcion" placeholder="Descripcion de la especie">
-                                    @error('descripcion')
-                                    <div class="error invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                    @enderror
-                                    <small id="descripcion" class="form-text text-muted">
-                                        Esto describira las caracteristicas y propiedades.
-                                    </small>
-
-                                </div>
-
-                                <div class="form-group row">
-                                    <div class="col-sm-10">
-                                        <button type="submit" class="btn btn-sm btn-outline-primary">Crear</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
+                            <div class="col-3">
+                                @include('parametro.especie.create')
+                            </div>
                         @endunless
                         <div class="@if($bin) col @else col-9 @endif">
                             <div class="card-body pt-2">
@@ -93,7 +55,7 @@
                                         <th>Creado en</th>
                                         <th>Actualizado en</th>
                                         @if($bin)
-                                        <th>Eliminado en</th>
+                                            <th>Eliminado en</th>
                                         @endif
                                         <th>Acciones</th>
                                     </tr>
@@ -114,7 +76,7 @@
 
         <script>
             $(document).ready(function () {
-                const url = '{{ $bin }}' == '1' ? '{{ url('api/especie') }}' + '?bin=1': '{{ url('api/especie') }}';
+                const url = '{{ $bin }}' == '1' ? '{{ url('api/especie') }}' + '?bin=1' : '{{ url('api/especie') }}';
                 const columns = '{{ $bin }}' != '1' ? [
                     {data: 'id'},
                     {data: 'nombre'},
@@ -131,7 +93,7 @@
                 ];
                 $('#especie-data-table').DataTable({
                     "serverSide": true,
-                    "order": [[ 0, "desc" ]],
+                    "order": [[0, "desc"]],
                     "columnDefs": [
                         {
                             "targets": 4,

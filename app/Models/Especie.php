@@ -29,4 +29,8 @@ class Especie extends Model
     {
         return $this->hasMany(Mascota::class);
     }
+    public function scopeBetweenDate($query, $primero, $final)
+    {
+        return $query->whereBetween('created_at', [$primero, $final]);
+    }
 }
