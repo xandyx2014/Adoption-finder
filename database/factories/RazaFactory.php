@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Raza;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class RazaFactory extends Factory
 {
@@ -22,7 +23,8 @@ class RazaFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'nombre' => Str::random(10),
+            'descripcion' => $this->faker->text(200),
         ];
     }
 }

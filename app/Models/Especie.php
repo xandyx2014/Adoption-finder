@@ -25,12 +25,13 @@ class Especie extends Model
     {
         return Carbon::parse($value)->format('d-M-Y');
     }
-    public function mascotas()
-    {
-        return $this->hasMany(Mascota::class);
-    }
     public function scopeBetweenDate($query, $primero, $final)
     {
         return $query->whereBetween('created_at', [$primero, $final]);
     }
+    public function mascotas()
+    {
+        return $this->hasMany(Mascota::class);
+    }
+
 }

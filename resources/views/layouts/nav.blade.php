@@ -78,6 +78,11 @@
                     <i class="fa fa-book" aria-hidden="true"></i>
                     Especie
                 </a>
+            </li><li class="nav-item">
+                <a class="nav-link" href="{{ route('raza.index') }}">
+                    <i class="fa fa-book" aria-hidden="true"></i>
+                    Raza
+                </a>
             </li>
         </ul>
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-1 text-muted">
