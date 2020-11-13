@@ -16,5 +16,6 @@ class DatabaseSeeder extends Seeder
     {
         \App\Models\Especie::factory(20)->create();
         \App\Models\Raza::factory(20)->create();
+        \App\Models\Etiqueta::factory(20)->create();
     }
 }

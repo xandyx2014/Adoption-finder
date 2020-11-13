@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Etiqueta;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class EtiquetaFactory extends Factory
 {
@@ -22,7 +23,7 @@ class EtiquetaFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'nombre' => Str::random(10),
         ];
     }
 }

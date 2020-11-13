@@ -3,10 +3,34 @@
 namespace App\Http\Controllers;
 
 use App\Models\Etiqueta;
+use Barryvdh\DomPDF\Facade as PDF;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class EtiquetaController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    public function indexApi()
+    {
+        $params = request()->input('bin');
+        if($params)
+        {
+            return datatables()
+                ->eloquent(Etiqueta::onlyTrashed())
+                ->addColumn('btn', 'parametro.etiqueta.actionsBin')
+                ->rawColumns(['btn'])
+                ->toJson();
+        }
+        return datatables()
+            ->eloquent(Etiqueta::query())
+            ->addColumn('btn', 'parametro.etiqueta.actions')
+            ->rawColumns(['btn'])
+            ->toJson();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,9 +38,51 @@ class EtiquetaController extends Controller
      */
     public function index()
     {
-        //
+        $params = request()->input('bin');
+        if ($params) return view('parametro.etiqueta.index', [ 'bin' => true ]);
+        return view('parametro.etiqueta.index', [ 'bin' => false]);
     }
-
+    public function report(Request $request)
+    {
+        $inicio = Carbon::parse($request->get('inicio'))->subDays(1);
+        $final = Carbon::parse($request->get('final'))->addDays(1);
+        $estado = $request->get('estado');
+        $especies;
+        if ($estado == "1")
+        {
+            $especies = Etiqueta::betweenDate($inicio, $final)->get();
+        }
+        else
+        {
+            $especies = Etiqueta::onlyTrashed()->betweenDate($inicio, $final)->get();
+        }
+        /**/
+        return view('parametro.etiqueta.report', [
+            'especies' => $especies,
+            'inicio' => $inicio,
+            'final' => $final,
+            'estado' => $estado
+        ]);
+    }
+    function generatePdf(Request $request)
+    {
+        $inicio = Carbon::parse($request->get('inicio'))->subDays(1);
+        $final = Carbon::parse($request->get('final'))->addDays(1);
+        $estado = $request->get('estado');
+        $especies;
+        if ($estado == "1")
+        {
+            $especies = Etiqueta::betweenDate($inicio, $final)->get();
+        }
+        else
+        {
+            $especies = Etiqueta::onlyTrashed()->betweenDate($inicio, $final)->get();
+        }
+        $pdf = PDF::loadView('parametro.etiqueta.pdf', compact('especies'));
+        $pdf->setPaper('a4', 'portrait');
+        $pdf->setOptions(["isPhpEnabled" => true]);
+        return $pdf->stream();
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -24,7 +90,7 @@ class EtiquetaController extends Controller
      */
     public function create()
     {
-        //
+        return view('parametro.etiqueta.create');
     }
 
     /**
@@ -35,7 +101,13 @@ class EtiquetaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validateData = $request->validate([
+            'nombre' => ['required', 'unique:especies', 'max:255'],
+        ]);
+        $especie = new Etiqueta();
+        $especie->nombre = $validateData['nombre'];
+        $especie->save();
+        return back()->with('success', 'Se ha creado correctamente');
     }
 
     /**
@@ -44,9 +116,10 @@ class EtiquetaController extends Controller
      * @param  \App\Models\Etiqueta  $etiqueta
      * @return \Illuminate\Http\Response
      */
-    public function show(Etiqueta $etiqueta)
+    public function show($id)
     {
-        //
+        $especie = Etiqueta::withTrashed()->find($id);
+        return view('parametro.etiqueta.show', compact('especie'));
     }
 
     /**
@@ -55,9 +128,10 @@ class EtiquetaController extends Controller
      * @param  \App\Models\Etiqueta  $etiqueta
      * @return \Illuminate\Http\Response
      */
-    public function edit(Etiqueta $etiqueta)
+    public function edit($id)
     {
-        //
+        $especie = Etiqueta::withTrashed()->find($id);
+        return view('parametro.etiqueta.edit', compact('especie'));
     }
 
     /**
@@ -67,9 +141,18 @@ class EtiquetaController extends Controller
      * @param  \App\Models\Etiqueta  $etiqueta
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Etiqueta $etiqueta)
+    public function update(Request $request, $id)
     {
-        //
+        if ($request->input('restore')) {
+            $especie = Etiqueta::withTrashed()->find($id)->restore();
+            return back();
+        }
+        $validateData = $request->validate([
+            'nombre' => ['required', 'max:15'],
+        ]);
+        $especie = Etiqueta::withTrashed()->find($id);
+        $especie->update($validateData);
+        return redirect()->route('etiqueta.index');
     }
 
     /**
@@ -78,8 +161,39 @@ class EtiquetaController extends Controller
      * @param  \App\Models\Etiqueta  $etiqueta
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Etiqueta $etiqueta)
+    public function destroy($id)
     {
-        //
+        $especie = Etiqueta::withTrashed()->find($id);
+        $bin = request()->input('bin');
+        if ($bin)
+        {
+            // verificar las dependencias y force delete
+            $countTotal = $especie->mascotas()->get()->count();
+            if ($countTotal == 0) {
+                $especie->forceDelete();
+                if (request()->ajax())
+                {
+                    return response()->json([
+                        "message" => 'Borrado correctamente'
+                    ]);
+                }
+                return back();
+            }
+            if (request()->ajax())
+            {
+                return response()->json([
+                    "error" => "$especie->nombre tiene dependencias Total: $countTotal"
+                ]);
+            }
+            return back()->withErrors(['errorDependencia' => "Especie $especie->nombre tiene dependencias"]);
+        }
+        $especie->delete();
+        if (request()->ajax())
+        {
+            return response()->json([
+                "message" => 'Borrado correctamente'
+            ]);
+        }
+        return redirect()->route('etiqueta.index');
     }
 }

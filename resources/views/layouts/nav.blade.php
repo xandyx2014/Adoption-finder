@@ -78,10 +78,17 @@
                     <i class="fa fa-book" aria-hidden="true"></i>
                     Especie
                 </a>
-            </li><li class="nav-item">
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="{{ route('raza.index') }}">
                     <i class="fa fa-book" aria-hidden="true"></i>
                     Raza
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('etiqueta.index') }}">
+                    <i class="fa fa-tags" aria-hidden="true"></i>
+                    Etiqueta
                 </a>
             </li>
         </ul>
