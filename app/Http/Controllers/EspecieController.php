@@ -56,6 +56,28 @@ class EspecieController extends Controller
         {
             $especies = Especie::onlyTrashed()->betweenDate($inicio, $final)->get();
         }
+        /**/
+        return view('parametro.especie.report', [
+            'especies' => $especies,
+            'inicio' => $inicio,
+            'final' => $final,
+            'estado' => $estado
+        ]);
+    }
+    function generatePdf(Request $request)
+    {
+        $inicio = Carbon::parse($request->get('inicio'))->subDays(1);
+        $final = Carbon::parse($request->get('final'))->addDays(1);
+        $estado = $request->get('estado');
+        $especies;
+        if ($estado == "1")
+        {
+            $especies = Especie::betweenDate($inicio, $final)->get();
+        }
+        else
+        {
+            $especies = Especie::onlyTrashed()->betweenDate($inicio, $final)->get();
+        }
         $pdf = PDF::loadView('parametro.especie.pdf', compact('especies'));
         $pdf->setPaper('a4', 'portrait');
         $pdf->setOptions(["isPhpEnabled" => true]);

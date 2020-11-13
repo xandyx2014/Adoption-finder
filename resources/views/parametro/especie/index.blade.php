@@ -21,7 +21,7 @@
                                class="btn btn-sm btn-outline-danger">
                                 Papelera <i class="fa fa-recycle" aria-hidden="true"></i>
                             </a>
-                            @include('parametro.especie.report')
+                            @include('parametro.especie.select')
                         @endunless
                         @if($bin)
                             <a href="{{ route('especie.index') }}" class="btn btn-sm btn-outline-success">
