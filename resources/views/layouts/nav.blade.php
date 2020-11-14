@@ -59,9 +59,9 @@
         </h6>
         <ul class="nav flex-column collapse" id="denuncia">
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fa fa-book" aria-hidden="true"></i>
-                    Current month
+                <a class="nav-link" href="{{ route('tipodenuncia.index') }}">
+                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                    Tipo de denuncia
                 </a>
             </li>
         </ul>

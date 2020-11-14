@@ -102,7 +102,7 @@ class EtiquetaController extends Controller
     public function store(Request $request)
     {
         $validateData = $request->validate([
-            'nombre' => ['required', 'unique:especies', 'max:255'],
+            'nombre' => ['required', 'unique:etiquetas', 'max:255'],
         ]);
         $especie = new Etiqueta();
         $especie->nombre = $validateData['nombre'];

@@ -102,7 +102,7 @@ class RazaController extends Controller
     public function store(Request $request)
     {
         $validateData = $request->validate([
-            'nombre' => ['required', 'unique:especies', 'max:255'],
+            'nombre' => ['required', 'unique:razas', 'max:255'],
             'descripcion' => ['required'],
         ]);
         $especie = new Raza();
