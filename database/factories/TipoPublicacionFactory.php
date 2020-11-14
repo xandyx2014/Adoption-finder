@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\TipoPublicacion;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class TipoPublicacionFactory extends Factory
 {
@@ -22,7 +23,7 @@ class TipoPublicacionFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'tipo' => Str::random(10),
         ];
     }
 }

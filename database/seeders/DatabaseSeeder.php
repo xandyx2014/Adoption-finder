@@ -19,5 +19,6 @@ class DatabaseSeeder extends Seeder
         \App\Models\Raza::factory(20)->create();
         \App\Models\Etiqueta::factory(20)->create();
         \App\Models\TipoDenuncia::factory(20)->create();
+        \App\Models\TipoPublicacion::factory(20)->create();
     }
 }

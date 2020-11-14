@@ -1,24 +1,24 @@
 
-<form class="p-2 pr-0" action="{{ route('etiqueta.store') }}" method="POST">
+<form class="p-2 pr-0" action="{{ route('tipopublicacion.store') }}" method="POST">
     @csrf
     @method('POST')
     <div class="form-group">
         <label for="inputAddress">Nombre</label>
-        <input id="nombre" name="nombre" type="text" class="form-control form-control-sm @error('nombre') is-invalid @enderror"
-               placeholder="nombre de la etiqueta">
-        @error('nombre')
+        <input id="nombre" name="tipo" type="text" class="form-control form-control-sm @error('tipo') is-invalid @enderror"
+               placeholder="tipo de la publicacion">
+        @error('tipo')
         <div class="error invalid-feedback">
             {{ $message }}
         </div>
         @enderror
         <small id="nombre" class="form-text text-muted">
-            Este nombre sera para identificar el Etiqueta.
+            Esta sera el tipo de la publicacion
         </small>
     </div>
     {{--<div class="form-group">
         <label for="inputAddress2">Descripcion</label>
         <input type="text" name="descripcion" class="form-control form-control-sm @error('descripcion') is-invalid @enderror"
-               id="descripcion" placeholder="Descripcion de la etiqueta">
+               id="descripcion" placeholder="Descripcion de la especie">
         @error('descripcion')
         <div class="error invalid-feedback">
             {{ $message }}

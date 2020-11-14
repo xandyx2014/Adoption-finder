@@ -2,14 +2,14 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Reporte</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Reporte especie</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
 
-                <form class="p-0 pr-0" action="{{ route('raza.report') }}" method="POST">
+                <form class="p-0 pr-0" action="{{ route('tipopublicacion.report') }}" method="POST">
                     @csrf
                     @method('POST')
                     <div class="form-group">

@@ -44,9 +44,9 @@
         </h6>
         <ul class="nav flex-column collapse" id="publicacion">
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ route('tipopublicacion.index') }}">
                     <i class="fa fa-book" aria-hidden="true"></i>
-                    Current month
+                    Tipo de publicacion
                 </a>
             </li>
         </ul>
