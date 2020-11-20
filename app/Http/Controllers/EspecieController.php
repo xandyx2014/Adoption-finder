@@ -43,23 +43,19 @@ class EspecieController extends Controller
     }
     public function report(Request $request)
     {
-        $inicio = Carbon::parse($request->get('inicio'))->subDays(1);
-        $final = Carbon::parse($request->get('final'))->addDays(1);
         $estado = $request->get('estado');
         $especies;
         if ($estado == "1")
         {
-            $especies = Especie::betweenDate($inicio, $final)->get();
+            $especies = Especie::all();
         }
         else
         {
-            $especies = Especie::onlyTrashed()->betweenDate($inicio, $final)->get();
+            $especies = Especie::onlyTrashed()->get();
         }
         /**/
         return view('parametro.especie.report', [
             'especies' => $especies,
-            'inicio' => $inicio,
-            'final' => $final,
             'estado' => $estado
         ]);
     }

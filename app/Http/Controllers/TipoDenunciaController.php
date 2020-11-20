@@ -43,39 +43,33 @@ class TipoDenunciaController extends Controller
     }
     public function report(Request $request)
     {
-        $inicio = Carbon::parse($request->get('inicio'))->subDays(1);
-        $final = Carbon::parse($request->get('final'))->addDays(1);
         $estado = $request->get('estado');
         $especies;
         if ($estado == "1")
         {
-            $especies = TipoDenuncia::betweenDate($inicio, $final)->get();
+            $especies = TipoDenuncia::all();
         }
         else
         {
-            $especies = TipoDenuncia::onlyTrashed()->betweenDate($inicio, $final)->get();
+            $especies = TipoDenuncia::onlyTrashed()->get();
         }
         /**/
         return view('denuncia.tipoDenuncia.report', [
             'especies' => $especies,
-            'inicio' => $inicio,
-            'final' => $final,
             'estado' => $estado
         ]);
     }
     function generatePdf(Request $request)
     {
-        $inicio = Carbon::parse($request->get('inicio'))->subDays(1);
-        $final = Carbon::parse($request->get('final'))->addDays(1);
         $estado = $request->get('estado');
         $especies;
         if ($estado == "1")
         {
-            $especies = TipoDenuncia::betweenDate($inicio, $final)->get();
+            $especies = TipoDenuncia::all();
         }
         else
         {
-            $especies = TipoDenuncia::onlyTrashed()->betweenDate($inicio, $final)->get();
+            $especies = TipoDenuncia::onlyTrashed()->get();
         }
         $pdf = PDF::loadView('denuncia.tipoDenuncia.pdf', compact('especies'));
         $pdf->setPaper('a4', 'portrait');
@@ -150,8 +144,8 @@ class TipoDenunciaController extends Controller
             return back();
         }
         $validateData = $request->validate([
-            'tipo' => ['required', 'max:255'],
-            'descripcion' => ['required', 'max:255'],
+            'tipo' => ['required', 'max:100'],
+            'descripcion' => ['required', 'max:200'],
         ]);
         $especie = TipoDenuncia::withTrashed()->find($id);
         $especie->update($validateData);

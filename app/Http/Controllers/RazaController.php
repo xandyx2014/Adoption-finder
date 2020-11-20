@@ -50,11 +50,11 @@ class RazaController extends Controller
         $especies;
         if ($estado == "1")
         {
-            $especies = Raza::betweenDate($inicio, $final)->get();
+            $especies = Raza::all();
         }
         else
         {
-            $especies = Raza::onlyTrashed()->betweenDate($inicio, $final)->get();
+            $especies = Raza::onlyTrashed()->get();
         }
         /**/
         return view('parametro.raza.report', [
@@ -66,17 +66,15 @@ class RazaController extends Controller
     }
     function generatePdf(Request $request)
     {
-        $inicio = Carbon::parse($request->get('inicio'))->subDays(1);
-        $final = Carbon::parse($request->get('final'))->addDays(1);
         $estado = $request->get('estado');
         $especies;
         if ($estado == "1")
         {
-            $especies = Raza::betweenDate($inicio, $final)->get();
+            $especies = Raza::all();
         }
         else
         {
-            $especies = Raza::onlyTrashed()->betweenDate($inicio, $final)->get();
+            $especies = Raza::onlyTrashed()->get();
         }
         $pdf = PDF::loadView('parametro.raza.pdf', compact('especies'));
         $pdf->setPaper('a4', 'portrait');
@@ -102,7 +100,7 @@ class RazaController extends Controller
     public function store(Request $request)
     {
         $validateData = $request->validate([
-            'nombre' => ['required', 'unique:razas', 'max:255'],
+            'nombre' => ['required', 'unique:razas', 'max:15'],
             'descripcion' => ['required'],
         ]);
         $especie = new Raza();
@@ -150,7 +148,7 @@ class RazaController extends Controller
             return back();
         }
         $validateData = $request->validate([
-            'nombre' => ['required', 'max:255'],
+            'nombre' => ['required', 'max:15'],
             'descripcion' => ['required', 'max:255'],
         ]);
         $especie = Raza::withTrashed()->find($id);

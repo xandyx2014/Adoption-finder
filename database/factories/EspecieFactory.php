@@ -23,7 +23,7 @@ class EspecieFactory extends Factory
     public function definition()
     {
         return [
-            'nombre' => Str::random(10),
+            'nombre' => Str::substr( $this->faker->firstName, 0 , 10),
             'descripcion' => $this->faker->text(200),
         ];
     }

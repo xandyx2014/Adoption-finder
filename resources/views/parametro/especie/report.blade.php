@@ -8,8 +8,6 @@
                     <div class="card-header">Listado de especies
                         <form action="{{ route('especie.pdf') }}" method="post">
                             @csrf
-                            <input type="text" name="inicio" value="{{ old('inicio', $inicio) }}" hidden>
-                            <input type="text" name="final" value="{{ old('final', $final) }}" hidden>
                             <input type="text" name="estado" value="{{ old('estado', $estado) }}" hidden>
                             <button
                                 type="submit"

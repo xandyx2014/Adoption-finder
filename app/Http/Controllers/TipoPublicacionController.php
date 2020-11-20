@@ -44,39 +44,33 @@ class TipoPublicacionController extends Controller
     }
     public function report(Request $request)
     {
-        $inicio = Carbon::parse($request->get('inicio'))->subDays(1);
-        $final = Carbon::parse($request->get('final'))->addDays(1);
         $estado = $request->get('estado');
         $especies;
         if ($estado == "1")
         {
-            $especies = TipoPublicacion::betweenDate($inicio, $final)->get();
+            $especies = TipoPublicacion::all();
         }
         else
         {
-            $especies = TipoPublicacion::onlyTrashed()->betweenDate($inicio, $final)->get();
+            $especies = TipoPublicacion::onlyTrashed()->get();
         }
         /**/
         return view('publicacion.tipoPublicacion.report', [
             'especies' => $especies,
-            'inicio' => $inicio,
-            'final' => $final,
             'estado' => $estado
         ]);
     }
     function generatePdf(Request $request)
     {
-        $inicio = Carbon::parse($request->get('inicio'))->subDays(1);
-        $final = Carbon::parse($request->get('final'))->addDays(1);
         $estado = $request->get('estado');
         $especies;
         if ($estado == "1")
         {
-            $especies = TipoPublicacion::betweenDate($inicio, $final)->get();
+            $especies = TipoPublicacion::all();
         }
         else
         {
-            $especies = TipoPublicacion::onlyTrashed()->betweenDate($inicio, $final)->get();
+            $especies = TipoPublicacion::onlyTrashed()->get();
         }
         $pdf = PDF::loadView('publicacion.tipoPublicacion.pdf', compact('especies'));
         $pdf->setPaper('a4', 'portrait');

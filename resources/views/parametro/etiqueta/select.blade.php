@@ -13,37 +13,6 @@
                     @csrf
                     @method('POST')
                     <div class="form-group">
-                        <label for="inputAddress">Fecha inicio</label>
-                        <input id="inicio" name="inicio" type="date"
-                               class="form-control form-control-sm @error('inicio') is-invalid @enderror"
-                               placeholder="inicio de la especie"
-                               required
-                        >
-                        @error('nombre')
-                        <div class="error invalid-feedback">
-                            {{ $message }}
-                        </div>
-                        @enderror
-                        <small id="nombre" class="form-text text-muted">
-                            Indique la fecha inicial de la busqueda.
-                        </small>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputAddress2">Fecha final</label>
-                        <input type="date" name="final"
-                               class="form-control form-control-sm @error('final') is-invalid @enderror"
-                               required
-                               id="final" placeholder="Descripcion de la especie">
-                        @error('final')
-                        <div class="error invalid-feedback">
-                            {{ $message }}
-                        </div>
-                        @enderror
-                        <small id="final" class="form-text text-muted">
-                            Indique la fecha final de la busqueda.
-                        </small>
-                    </div>
-                    <div class="form-group">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <label class="input-group-text" for="inputGroupSelect01">Estado</label>

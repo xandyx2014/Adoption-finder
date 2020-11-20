@@ -13,6 +13,6 @@ class PublicacionInformativaSeeder extends Seeder
      */
     public function run()
     {
-        //
+
     }
 }

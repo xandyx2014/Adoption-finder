@@ -44,39 +44,33 @@ class EtiquetaController extends Controller
     }
     public function report(Request $request)
     {
-        $inicio = Carbon::parse($request->get('inicio'))->subDays(1);
-        $final = Carbon::parse($request->get('final'))->addDays(1);
         $estado = $request->get('estado');
         $especies;
         if ($estado == "1")
         {
-            $especies = Etiqueta::betweenDate($inicio, $final)->get();
+            $especies = Etiqueta::all();
         }
         else
         {
-            $especies = Etiqueta::onlyTrashed()->betweenDate($inicio, $final)->get();
+            $especies = Etiqueta::onlyTrashed()->get();
         }
         /**/
         return view('parametro.etiqueta.report', [
             'especies' => $especies,
-            'inicio' => $inicio,
-            'final' => $final,
             'estado' => $estado
         ]);
     }
     function generatePdf(Request $request)
     {
-        $inicio = Carbon::parse($request->get('inicio'))->subDays(1);
-        $final = Carbon::parse($request->get('final'))->addDays(1);
         $estado = $request->get('estado');
         $especies;
         if ($estado == "1")
         {
-            $especies = Etiqueta::betweenDate($inicio, $final)->get();
+            $especies = Etiqueta::all();
         }
         else
         {
-            $especies = Etiqueta::onlyTrashed()->betweenDate($inicio, $final)->get();
+            $especies = Etiqueta::onlyTrashed()->get();
         }
         $pdf = PDF::loadView('parametro.etiqueta.pdf', compact('especies'));
         $pdf->setPaper('a4', 'portrait');

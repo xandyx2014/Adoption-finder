@@ -7,6 +7,27 @@ use Illuminate\Http\Request;
 
 class PublicacionInformativaController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index', 'show', 'indexApi']);
+    }
+    public function indexApi()
+    {
+        $params = request()->input('bin');
+        if($params)
+        {
+            return datatables()
+                ->eloquent(PublicacionInformativa::onlyTrashed())
+                ->addColumn('btn', 'publicacion.publicacion.actionsBin')
+                ->rawColumns(['btn'])
+                ->toJson();
+        }
+        return datatables()
+            ->eloquent(PublicacionInformativa::query())
+            ->addColumn('btn', 'publicacion.publicacion.actions')
+            ->rawColumns(['btn'])
+            ->toJson();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +35,9 @@ class PublicacionInformativaController extends Controller
      */
     public function index()
     {
-        //
+        $params = request()->input('bin');
+        if ($params) return view('publicacion.publicacion.index', [ 'bin' => true ]);
+        return view('publicacion.publicacion.index', [ 'bin' => false]);
     }
 
     /**
@@ -24,7 +47,7 @@ class PublicacionInformativaController extends Controller
      */
     public function create()
     {
-        //
+        return view('publicacion.publicacion.create');
     }
 
     /**
@@ -44,9 +67,13 @@ class PublicacionInformativaController extends Controller
      * @param  \App\Models\PublicacionInformativa  $publicacionInformativa
      * @return \Illuminate\Http\Response
      */
-    public function show(PublicacionInformativa $publicacionInformativa)
+    public function show($id)
     {
-        //
+       $especie = PublicacionInformativa::withTrashed()
+            ->where('id', $id)
+            ->with(['denuncias', 'user'])
+            ->first();
+        return view('publicacion.publicacion.show', compact('especie'));
     }
 
     /**
@@ -55,7 +82,7 @@ class PublicacionInformativaController extends Controller
      * @param  \App\Models\PublicacionInformativa  $publicacionInformativa
      * @return \Illuminate\Http\Response
      */
-    public function edit(PublicacionInformativa $publicacionInformativa)
+    public function edit($id)
     {
         //
     }
@@ -67,7 +94,7 @@ class PublicacionInformativaController extends Controller
      * @param  \App\Models\PublicacionInformativa  $publicacionInformativa
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, PublicacionInformativa $publicacionInformativa)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -78,7 +105,7 @@ class PublicacionInformativaController extends Controller
      * @param  \App\Models\PublicacionInformativa  $publicacionInformativa
      * @return \Illuminate\Http\Response
      */
-    public function destroy(PublicacionInformativa $publicacionInformativa)
+    public function destroy($id)
     {
         //
     }
