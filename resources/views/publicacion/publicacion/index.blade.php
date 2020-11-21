@@ -2,8 +2,10 @@
 @section('title', 'Especie')
 @section('content')
     @push('css')
-
-        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.css" integrity="sha512-CbQfNVBSMAYmnzP3IC+mZZmYMP2HUnVkV4+PwuhpiMUmITtSpS7Prr3fNncV1RBOnWxzz4pYQ5EAGG4ck46Oig==" crossorigin="anonymous" />
     @endpush
     <div class="container">
         <div class="row justify-content-center">
@@ -12,6 +14,16 @@
                     <div class="card-header">
                         Tipo de publicacion
                         @unless($bin)
+                            <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#searchModal">
+                                Busqueda
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </button>
+                            <a
+                                href="{{ route('publicacion.index') }}"
+                                class="btn btn-sm btn-outline-secondary">
+                                Limpiar busqueda
+                                <i class="fa fa-ban" aria-hidden="true"></i>
+                            </a>
                             <a
                                 href="{{ route('publicacion.create') }}"
                                 class="btn btn-sm btn-secondary">
@@ -22,14 +34,16 @@
                                class="btn btn-sm btn-outline-secondary">
                                 Reporte <i class="fa fa-file" aria-hidden="true"></i>
                             </button>
-                            <a href="{{ route('tipopublicacion.index', [ 'bin' => true]) }}"
+                            <a href="{{ route('publicacion.index', [ 'bin' => true]) }}"
                                class="btn btn-sm btn-outline-danger">
                                 Papelera <i class="fa fa-recycle" aria-hidden="true"></i>
                             </a>
-                            @include('publicacion.tipoPublicacion.select')
+                            @include('publicacion.publicacion.select')
+                            @include('publicacion.publicacion.search')
+
                         @endunless
                         @if($bin)
-                            <a href="{{ route('tipopublicacion.index') }}" class="btn btn-sm btn-outline-success">
+                            <a href="{{ route('publicacion.index') }}" class="btn btn-sm btn-outline-success">
                                 Lista <i class="fa fa-list" aria-hidden="true"></i>
                             </a>
                         @endif
@@ -63,7 +77,27 @@
                                         <th>Acciones</th>
                                     </tr>
                                     </thead>
+                                    <tbody>
+                                    @foreach($publicaciones as $publicacion)
+                                        <tr>
+                                            <td>{{ $publicacion->id }}</td>
+                                            <td style="width: 35%;">{{ $publicacion->titulo }}</td>
+                                            <td>{{ $publicacion->created_at }}</td>
+                                            <td>{{ $publicacion->updated_at }}</td>
+                                            @if($bin)
+                                                <td>{{ $publicacion->deleted_at }}</td>
+                                            @endif
+                                            <td>
+                                                @include('publicacion.publicacion.actions', [ 'data' => $publicacion ] )
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
                                 </table>
+                                <div class="pull-right mt-4">
+                                    {{ $publicaciones->links() }}
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -74,60 +108,12 @@
 
     </div>
     @push('js')
-        <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
-        <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous"></script>
         <script>
-            $(document).ready(function () {
-                const url = '{{ $bin }}' == '1' ? '{{ url('api/publicacion') }}' + '?bin=1' : '{{ url('api/publicacion') }}';
-                const columns = '{{ $bin }}' != '1' ? [
-                    {data: 'id'},
-                    {data: 'titulo'},
-                    {data: 'created_at'},
-                    {data: 'updated_at'},
-                    {data: 'btn'},
-                ] : [
-                    {data: 'id'},
-                    {data: 'tipo'},
-                    {data: 'created_at'},
-                    {data: 'updated_at'},
-                    {data: 'deleted_at'},
-                    {data: 'btn'}
-                ];
-                const table = $('#especie-data-table').DataTable({
-                    "serverSide": true,
-                    "order": [[0, "desc"]],
-                    "columnDefs": [
-                        {
-                            "targets": 4,
-                            "orderable": false
-                        }
-                    ],
-                    "ajax": url,
-                    "lengthMenu": [4, 5, 10, 30, 100],
-                    "columns": columns,
-                    "language": {
-                        "info": "_TOTAL_ registros",
-                        "search": "Buscar...",
-                        "paginate": {
-                            "next": "Siguiente",
-                            "previous": "Anterior",
-                        },
-                        "lengthMenu": 'Mostrar <select >' +
-                            '<option value="4">4</option>' +
-                            '<option value="5">5</option>' +
-                            '<option value="10">10</option>' +
-                            '<option value="30">30</option>' +
-                            '<option value="100">100</option>' +
-                            '</select> registros',
-                        "loadingRecords": "Cargando...",
-                        "processing": "Procesando...",
-                        "emptyTable": "No hay datos",
-                        "zeroRecords": "No hay coincidencias",
-                        "infoEmpty": "",
-                        "infoFiltered": ""
-                    }
-                });
+            $(document).ready(function() {
+                $('#js-example-basic-single').select2();
+                $('#js-example-basic-single2').select2();
             });
         </script>
     @endpush

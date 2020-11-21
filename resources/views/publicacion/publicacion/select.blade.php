@@ -9,7 +9,7 @@
             </div>
             <div class="modal-body">
 
-                <form class="p-0 pr-0" action="{{ route('tipopublicacion.report') }}" method="POST">
+                <form class="p-0 pr-0" action="{{ route('publicacion.report') }}" method="POST">
                     @csrf
                     @method('POST')
                     <div class="form-group">

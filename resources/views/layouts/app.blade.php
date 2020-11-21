@@ -24,7 +24,7 @@
                 @include('layouts.nav')
             @endguest
 
-            <main role="main" class="{{ auth()->user() != null ? 'col-9': 'col-12' }} pt-3 px-4">
+            <main role="main" class="{{ auth()->user() != null ? 'col-10': 'col-12' }} pt-3 px-4">
                 @yield('content')
             </main>
         </div>

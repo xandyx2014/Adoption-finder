@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('title', 'Hogar')
 @section('content')
-    <div class="container">
-        <div class="row justify-content-center">
+    <div class="container-fluid">
+        <div class="row">
             <div class="col-8 p-0" >
                 <div class="card">
                     <div
@@ -29,7 +29,6 @@
                             <dd class="col-sm-8">{{ $especie->id }}</dd>
                             <dt class="col-sm-4">Titulo</dt>
                             <dd class="col-sm-8">{{ $especie->titulo }}.</dd>
-                            <dd class="col-sm-8 offset-sm-4">Donec id elit non mi porta gravida at eget metus.</dd>
                             <dt class="col-sm-4">Subtitulo</dt>
                             <dd class="col-sm-8">{{ $especie->subtitulo }}</dd>
                             <dt class="col-sm-4">Denuncias</dt>
@@ -50,9 +49,7 @@
 
                             <div class="card-body">
                                 @foreach($especie->imagens as $imagen)
-                                    <a href="{{ asset("$imagen->url") }}" data-toggle="lightbox">
                                         <img src="{{ asset("$imagen->url") }}" class="img-fluid">
-                                    </a>
                                 @endforeach
                             </div>
                             <!-- /.card-header -->

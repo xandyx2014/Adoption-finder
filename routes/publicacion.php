@@ -14,3 +14,6 @@ Route::post('tipopublicacion/report/pdf', [TipoPublicacionController::class, 'ge
 // Publicacion
 Route::get('api/publicacion', [PublicacionInformativaController::class, 'indexApi']);
 Route::delete('photopublicacion/photo/{id}', [PublicacionInformativaController::class, 'imagenDelete'])->name('publicacion.photo.delete');
+Route::post('publicacion/report', [PublicacionInformativaController::class, 'report'])->name('publicacion.report');
+Route::post('publicacion/report/pdf', [PublicacionInformativaController::class, 'generatePdf'])->name('publicacion.pdf');
+Route::post('publicacion/search', [PublicacionInformativaController::class, 'search'])->name('publicacion.search');

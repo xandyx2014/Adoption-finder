@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Imagen;
 use App\Models\PublicacionInformativa;
 use App\Models\TipoPublicacion;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class PublicacionInformativaController extends Controller
 {
@@ -39,11 +42,85 @@ class PublicacionInformativaController extends Controller
      */
     public function index()
     {
+        $users = User::all();
+        $tipos = TipoPublicacion::all();
         $params = request()->input('bin');
-        if ($params) return view('publicacion.publicacion.index', [ 'bin' => true ]);
-        return view('publicacion.publicacion.index', [ 'bin' => false]);
-    }
+        // reciclaje
+        if ($params) {
+            $publicaciones = PublicacionInformativa::onlyTrashed()
+                ->orderBy('id', 'desc')->paginate(5);
 
+            return view('publicacion.publicacion.index', [
+                'bin' => true,
+                'publicaciones' => $publicaciones
+            ]);
+        }
+        $query = PublicacionInformativa::orderBy('id', 'desc');
+        if (request()->has('usuario'))
+        {
+            if (request()->get('usuario') != "x")
+            {
+                $query = $query->where('user_id', request()->get('usuario'));
+            }
+        }
+        if (request()->has('tipo'))
+        {
+            if (request()->get('tipo') != "x")
+            {
+                $query = $query->where('tipo_publicacion_id', request()->get('tipo'));
+            }
+        }
+        if (request()->has('desde'))
+        {
+            if (request()->get('desde') != null)
+            {
+                $query = $query->whereBetween('created_at', [request()->get('desde'), Carbon::now()]);
+            }
+        }
+        $query = $query->paginate(5);
+        return view('publicacion.publicacion.index', [
+            'bin' => false,
+            'users' => $users,
+            'publicaciones' => $query,
+            'tipos' => $tipos
+        ]);
+    }
+    public function report(Request $request)
+    {
+
+        $estado = $request->get('estado');
+        $especies;
+        if ($estado == "1")
+        {
+            $especies = PublicacionInformativa::all();
+        }
+        else
+        {
+            $especies = PublicacionInformativa::onlyTrashed()->get();
+        }
+        /**/
+        return view('publicacion.publicacion.report', [
+            'especies' => $especies,
+            'estado' => $estado
+        ]);
+    }
+    function generatePdf(Request $request)
+    {
+        $estado = $request->get('estado');
+        $especies;
+        if ($estado == "1")
+        {
+            $especies = PublicacionInformativa::all();
+        }
+        else
+        {
+            $especies = PublicacionInformativa::onlyTrashed()->get();
+        }
+        $pdf = PDF::loadView('publicacion.publicacion.pdf', compact('especies'));
+        $pdf->setPaper('a4', 'portrait');
+        $pdf->setOptions(["isPhpEnabled" => true]);
+        return $pdf->stream();
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -144,7 +221,6 @@ class PublicacionInformativaController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         if ($request->input('restore')) {
             $especie = PublicacionInformativa::withTrashed()->find($id)->restore();
             return back();
@@ -157,6 +233,24 @@ class PublicacionInformativaController extends Controller
             'tipo_publicacion_id' => 'required'
         ]);
         $especie = PublicacionInformativa::withTrashed()->find($id);
+        if ($request->hasFile('image')) {
+            // borrar imagen
+            $especieImagen = $especie->imagens()->first();
+            if (! empty( $especieImagen))
+            {
+                $imagen = Imagen::withTrashed()->where('id', $especieImagen->id)->first();
+                Storage::disk('public')->delete($imagen->url);
+                $imagen->delete();
+            }
+
+            // agregar imagen
+            $newImage = $request->file('image');
+            $url =  Storage::disk('public')->put('public', $newImage);
+            $newImage = new Imagen;
+            $newImage->url = $url;
+            $especie->imagens()->save($newImage);
+        }
+
         $especie->update($request->all());
         return redirect()->route('publicacion.index');
     }
@@ -169,6 +263,38 @@ class PublicacionInformativaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $especie = PublicacionInformativa::withTrashed()->find($id);
+        $bin = request()->input('bin');
+        if ($bin)
+        {
+            // verificar las dependencias y force delete
+            $countTotal = $especie->denuncias()->get()->count();
+            $countTotalImagen = $especie->imagens()->get()->count();
+            if ($countTotal == 0 || $countTotalImagen == 0) {
+                $especie->forceDelete();
+                if (request()->ajax())
+                {
+                    return response()->json([
+                        "message" => 'Borrado correctamente'
+                    ]);
+                }
+                return back();
+            }
+            if (request()->ajax())
+            {
+                return response()->json([
+                    "error" => "$especie->nombre tiene dependencias Total: $countTotal"
+                ]);
+            }
+            return back()->withErrors(['errorDependencia' => "Especie $especie->nombre tiene dependencias"]);
+        }
+        $especie->delete();
+        if (request()->ajax())
+        {
+            return response()->json([
+                "message" => 'Borrado correctamente'
+            ]);
+        }
+        return redirect()->route('publicacion.index');
     }
 }

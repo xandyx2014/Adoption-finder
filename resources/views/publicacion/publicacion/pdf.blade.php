@@ -128,7 +128,7 @@
 <body>
 <div>
     <div class="titulo">
-        <h4>Tipo Publicacion</h4>
+        <h4>Publicacion</h4>
     </div>
     {{--<div>
         <p>
@@ -151,7 +151,7 @@
     <thead>
     <tr>
         <th>ID</th>
-        <th>Tipo</th>
+        <th style="width: 35%">Titulo</th>
         <th style="width: 18%">Creado en</th>
         <th>Actualizado</th>
     </tr>
@@ -161,7 +161,7 @@
     @forelse ($especies as $especie)
         <tr>
             <td>{{ $especie->id }}</td>
-            <td>{{ $especie->tipo }}</td>
+            <td>{{ $especie->titulo }}</td>
             <td>{{ $especie->created_at }}</td>
             <td>{{ $especie->updated_at }}</td>
         </tr>
@@ -192,7 +192,7 @@
             $x = 280;
             $pdf->text($x, $y, $pageText, $font, $size);
             $pdf->text(470, 800, auth()->user()->name , $font, $size);
-            $pdf->text(470, 15, "{{ \Carbon\Carbon::now()->format('d-M-Y')  }}" , $font, $size);
+            $pdf->text(460, 15, "Creado en:{{ \Carbon\Carbon::now()->format('d-M-Y')  }}" , $font, $size);
 
            ');
         }
