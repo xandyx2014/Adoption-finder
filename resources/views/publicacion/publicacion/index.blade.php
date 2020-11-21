@@ -94,7 +94,7 @@
                     {data: 'deleted_at'},
                     {data: 'btn'}
                 ];
-                $('#especie-data-table').DataTable({
+                const table = $('#especie-data-table').DataTable({
                     "serverSide": true,
                     "order": [[0, "desc"]],
                     "columnDefs": [

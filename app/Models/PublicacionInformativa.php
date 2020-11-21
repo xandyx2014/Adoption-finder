@@ -34,6 +34,10 @@ class PublicacionInformativa extends Model
     {
         return $this->belongsTo(TipoPublicacion::class);
     }
+    public function imagens()
+    {
+        return $this->morphMany(Imagen::class, 'imagenable');
+    }
     public function user()
     {
         return $this->belongsTo(User::class);

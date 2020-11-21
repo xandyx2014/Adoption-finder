@@ -25,6 +25,8 @@ class DatabaseSeeder extends Seeder
         \App\Models\Etiqueta::factory(20)->create();
         \App\Models\TipoDenuncia::factory(20)->create();
         \App\Models\TipoPublicacion::factory(20)->create();
-        \App\Models\PublicacionInformativa::factory(20)->hasDenuncias(5)->create();
+        \App\Models\PublicacionInformativa::factory(20)
+            ->hasImagens(1)
+            ->hasDenuncias(5)->create();
     }
 }

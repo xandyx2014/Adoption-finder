@@ -20,19 +20,48 @@
                                 <i class="fa fa-tags" aria-hidden="true"></i>
                                 Tipo publicacion: <b>{{ $especie->tipoPublicacion->tipo }}</b>
                             </a>
-                            <button class="btn btn-sm btn-warning mt-1" disabled>
-                                <i class="fa fa-exclamation" aria-hidden="true"></i>
-                                Denuncias: <b><span class="badge badge-dark">{{ $especie->denuncias->count()}} </span> </b>
-                            </button>
+
                         </div>
                     </div>
                     <div class="card-body pt-0">
-                        <h1 class="h6"> <i class="fa fa-address-book" aria-hidden="true"></i> <b>ID: </b> <br> {{ $especie->id }}</h1>
-                        <h1 class="h6"> <i class="fa fa-address-book" aria-hidden="true"></i>  <b>Titulo:</b> <br> {{ $especie->titulo }}</h1>
-                        <h1 class="h6"> <i class="fa fa-address-book" aria-hidden="true"></i>  <b>Subtitulo:</b> <br> {{ $especie->subtitulo }}</h1>
-                        <p>
-                            <b>Contendio : </b> <br> {{ $especie->cuerpo }}
-                        </p>
+                        <dl class="row">
+                            <dt class="col-sm-4">Id</dt>
+                            <dd class="col-sm-8">{{ $especie->id }}</dd>
+                            <dt class="col-sm-4">Titulo</dt>
+                            <dd class="col-sm-8">{{ $especie->titulo }}.</dd>
+                            <dd class="col-sm-8 offset-sm-4">Donec id elit non mi porta gravida at eget metus.</dd>
+                            <dt class="col-sm-4">Subtitulo</dt>
+                            <dd class="col-sm-8">{{ $especie->subtitulo }}</dd>
+                            <dt class="col-sm-4">Denuncias</dt>
+                            <dd class="col-sm-8">
+                                <button class="btn btn-sm btn-warning mt-1" disabled>
+                                    <i class="fa fa-exclamation" aria-hidden="true"></i>
+                                    Denuncias: <b><span class="badge badge-dark">{{ $especie->denuncias->count()}} </span> </b>
+                                </button>
+                            </dd>
+                        </dl>
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="fa fa-book"></i>
+                                    Contenido
+                                </h3>
+                            </div>
+
+                            <div class="card-body">
+                                @foreach($especie->imagens as $imagen)
+                                    <a href="{{ asset("$imagen->url") }}" data-toggle="lightbox">
+                                        <img src="{{ asset("$imagen->url") }}" class="img-fluid">
+                                    </a>
+                                @endforeach
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <div>{!! $especie->cuerpo  !!}</div>
+                            </div>
+
+                            <!-- /.card-body -->
+                        </div>
                         {{--<h3 class="h6"> <i class="fa fa-address-book" aria-hidden="true"></i>  Descripcion: </h3>
                         <p>{{ $especie->descripcion }}</p>--}}
 
@@ -43,11 +72,11 @@
             <div class="col-4 p-0">
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
-                        <h5 class="card-title">Usuario</h5>
+                        <h5 class="card-title p-0">Creador :</h5> <br>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item"><b>Nombre: </b> {{ $especie->user->name }}</li>
-                            <li class="list-group-item"><b>Email: </b> {{ $especie->user->email }}</li>
-                            <li class="list-group-item"><b>Rol: </b><span class="badge badge-primary">Etc</span> </li>
+                            <li class="list-group-item p-0"><b>Nombre: </b> {{ $especie->user->name }}</li>
+                            <li class="list-group-item p-0"><b>Email: </b> {{ $especie->user->email }}</li>
+                            <li class="list-group-item p-0"><b>Rol: </b><span class="badge badge-primary">ROL USER</span> </li>
 
                         </ul>
                     </div>
@@ -55,4 +84,16 @@
             </div>
         </div>
     </div>
+    @push('js')
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"
+            integrity="sha512-Y2IiVZeaBwXG1wSV7f13plqlmFOx8MdjuHyYFVoYzhyRr3nH/NMDjTBSswijzADdNzMyWNetbLMfOpIPl6Cv9g=="
+            crossorigin="anonymous"></script>
+        <script>
+            $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+                event.preventDefault();
+                $(this).ekkoLightbox();
+            });
+        </script>
+    @endpush
 @endsection

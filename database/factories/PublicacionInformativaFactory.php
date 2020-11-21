@@ -27,8 +27,9 @@ class PublicacionInformativaFactory extends Factory
         return [
             'titulo' => Str::substr($this->faker->paragraph, 0, 200),
             'subtitulo' => Str::substr($this->faker->paragraph, 0, 150),
-            'cuerpo' => $this->faker->paragraph(3),
+            'cuerpo' => $this->faker->realText(1000),
             'user_id' => User::factory(),
+            'estado' => $this->faker->randomElement([0 , 1]),
             'tipo_publicacion_id' => TipoPublicacion::factory(),
         ];
     }

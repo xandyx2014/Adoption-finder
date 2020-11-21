@@ -17,7 +17,8 @@ class CreatePublicacionInformativasTable extends Migration
             $table->id();
             $table->string('titulo', 200);
             $table->string('subtitulo', 150);
-            $table->string('cuerpo');
+            $table->mediumText('cuerpo');
+            $table->boolean('estado')->default(0);
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('tipo_publicacion_id')->constrained('tipo_publicacions');
             $table->softDeletes();

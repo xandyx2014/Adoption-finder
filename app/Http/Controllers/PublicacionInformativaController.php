@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Imagen;
 use App\Models\PublicacionInformativa;
+use App\Models\TipoPublicacion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class PublicacionInformativaController extends Controller
 {
@@ -47,7 +51,10 @@ class PublicacionInformativaController extends Controller
      */
     public function create()
     {
-        return view('publicacion.publicacion.create');
+        $tipoPublicacion = TipoPublicacion::all();
+        return view('publicacion.publicacion.create', [
+            'tipos' => $tipoPublicacion
+        ]);
     }
 
     /**
@@ -58,7 +65,32 @@ class PublicacionInformativaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'titulo' => 'required|min:0|max:200',
+            'subtitulo' => 'required|min:0|max:150',
+            'tipoPublicacion' => 'required'
+        ]);
+        $publicacion = new PublicacionInformativa;
+        $publicacion->titulo = $request->get('titulo');
+        $publicacion->subtitulo = $request->get('subtitulo');
+        $publicacion->cuerpo = $request->get('cuerpo');
+        $publicacion->user_id = auth()->user()->id;
+        $publicacion->tipo_publicacion_id = $request->get('tipoPublicacion');
+        $publicacion->save();
+        $imagen = $request->file('image');
+        $url =  Storage::disk('public')->put('public', $imagen);
+        $imagen = new Imagen;
+        $imagen->url = $url;
+        $publicacion->imagens()->save($imagen);
+        return back();
+    }
+    public function photo($id)
+    {
+        $imagen = request()->file('photo');
+        $url =  Storage::disk('public')->put('public', $imagen);
+        $imagen = new Imagen;
+        $imagen->url = $url;
     }
 
     /**
@@ -69,9 +101,10 @@ class PublicacionInformativaController extends Controller
      */
     public function show($id)
     {
-       $especie = PublicacionInformativa::withTrashed()
+
+        $especie = PublicacionInformativa::withTrashed()
             ->where('id', $id)
-            ->with(['denuncias', 'user'])
+            ->with(['denuncias', 'user', 'imagens'])
             ->first();
         return view('publicacion.publicacion.show', compact('especie'));
     }
@@ -84,7 +117,22 @@ class PublicacionInformativaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $tipoPublicacion = TipoPublicacion::all();
+        $especie = PublicacionInformativa::withTrashed()
+            ->where('id', $id)
+            ->with(['denuncias', 'user', 'imagens', 'tipoPublicacion'])
+            ->first();
+        return view('publicacion.publicacion.edit', [
+            'especie' => $especie,
+            'tipos' => $tipoPublicacion
+        ]);
+    }
+    public function imagenDelete(Request $request, $id)
+    {
+        $imagen = Imagen::withTrashed()->where('id', $id)->first();
+        Storage::disk('public')->delete($imagen->url);
+        $imagen->delete();
+        return back();
     }
 
     /**
@@ -96,7 +144,21 @@ class PublicacionInformativaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        if ($request->input('restore')) {
+            $especie = PublicacionInformativa::withTrashed()->find($id)->restore();
+            return back();
+        }
+        $validateData = $request->validate([
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'titulo' => 'required|min:0|max:200',
+            'subtitulo' => 'required|min:0|max:150',
+            'cuerpo' => 'required',
+            'tipo_publicacion_id' => 'required'
+        ]);
+        $especie = PublicacionInformativa::withTrashed()->find($id);
+        $especie->update($request->all());
+        return redirect()->route('publicacion.index');
     }
 
     /**
