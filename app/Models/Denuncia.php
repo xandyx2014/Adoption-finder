@@ -28,6 +28,10 @@ class Denuncia extends Model
     }
     public function denuncias()
     {
-        $this->morphTo();
+        return $this->morphTo();
+    }
+    public function tipoDenuncia()
+    {
+        return $this->belongsTo(TipoDenuncia::class);
     }
 }

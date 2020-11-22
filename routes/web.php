@@ -10,7 +10,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::resource('blog', App\Http\Controllers\BlogController::class)->only(['index', 'show']);
 
 Auth::routes();
 

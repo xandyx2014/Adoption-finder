@@ -17,3 +17,4 @@ Route::delete('photopublicacion/photo/{id}', [PublicacionInformativaController::
 Route::post('publicacion/report', [PublicacionInformativaController::class, 'report'])->name('publicacion.report');
 Route::post('publicacion/report/pdf', [PublicacionInformativaController::class, 'generatePdf'])->name('publicacion.pdf');
 Route::post('publicacion/search', [PublicacionInformativaController::class, 'search'])->name('publicacion.search');
+Route::get('publicacion/{id}/denuncia', [PublicacionInformativaController::class, 'denuncia'])->name('publicacion.denuncia');

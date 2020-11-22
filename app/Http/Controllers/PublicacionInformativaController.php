@@ -77,6 +77,8 @@ class PublicacionInformativaController extends Controller
                 $query = $query->whereBetween('created_at', [request()->get('desde'), Carbon::now()]);
             }
         }
+        $q = request()->get('search');
+        $query = $query->where('titulo', 'LIKE', "%$q%");
         $query = $query->paginate(5);
         return view('publicacion.publicacion.index', [
             'bin' => false,
@@ -130,7 +132,7 @@ class PublicacionInformativaController extends Controller
     {
         $tipoPublicacion = TipoPublicacion::all();
         return view('publicacion.publicacion.create', [
-            'tipos' => $tipoPublicacion
+            'tipos' => $tipoPublicacion,
         ]);
     }
 
@@ -184,6 +186,18 @@ class PublicacionInformativaController extends Controller
             ->with(['denuncias', 'user', 'imagens'])
             ->first();
         return view('publicacion.publicacion.show', compact('especie'));
+    }
+    public function denuncia($id)
+    {
+        $denuncias =  PublicacionInformativa::withTrashed()
+                        ->where('id', $id)
+                        ->first()
+                        ->denuncias()
+                        ->with('tipoDenuncia')->paginate(4);
+        return view('publicacion.publicacion.denuncia', [
+            'denuncias' => $denuncias,
+            'id' => $id
+        ]);
     }
 
     /**

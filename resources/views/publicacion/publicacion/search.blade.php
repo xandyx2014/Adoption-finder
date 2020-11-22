@@ -36,6 +36,14 @@
                         <input type="date" name="desde" class="form-control">
 
                     </div>
+                    <div class="form-group">
+                        <label>Estado de aprobacion</label>
+                        <select name="estado" class="form-control">
+                            <option value="1">Aceptado</option>
+                            <option value="0">Pendiente</option>
+
+                        </select>
+                    </div>
                     <button type="submit" class="btn btn-outline-primary">Buscar</button>
                 </form>
             </div>

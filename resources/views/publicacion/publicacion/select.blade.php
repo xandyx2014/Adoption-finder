@@ -20,10 +20,10 @@
                             <select class="custom-select" id="estado" name="estado" required>
                                 <option value="1" selected>Habilitado</option>
                                 <option value="0">Deshabilitado</option>
-
                             </select>
                         </div>
                     </div>
+
                     <button type="submit" class="btn btn-sm btn-outline-primary">Preparar <i class="fa fa-file-pdf-o"
                                                                                              aria-hidden="true"></i>
                     </button>

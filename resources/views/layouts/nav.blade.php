@@ -8,7 +8,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" href="{{ route('init') }}" target="_blank">
+                <a class="nav-link active" href="{{ route('blog.index') }}" target="_blank">
                     <i class="fa fa-newspaper-o" aria-hidden="true"></i>
                     Ver Blog
                 </a>
