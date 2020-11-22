@@ -63,12 +63,13 @@
                     </div>
                     @enderror
                     <div class="row">
-                        @unless($bin)
 
-                        @endunless
+
+
                         <div class="col">
                             <div class="card-body pt-2">
                                 <div>
+                                    @unless($bin)
                                     <form action="{{ route('publicacion.index') }}" method="POST"
                                           class="input-group input-group-sm m-2">
                                         @csrf
@@ -81,6 +82,7 @@
                                             </button>
                                         </div>
                                     </form>
+                                    @endunless
                                 </div>
                                 <table id="especie-data-table" class="table table-striped table-bordered table-sm"
                                        style="width:100%">
@@ -107,7 +109,12 @@
                                                 <td>{{ $publicacion->deleted_at }}</td>
                                             @endif
                                             <td>
-                                                @include('publicacion.publicacion.actions', [ 'data' => $publicacion ] )
+                                                @if($bin)
+                                                @include('publicacion.publicacion.actionsBin', [ 'data' => $publicacion ])
+                                                @else
+                                                    @include('publicacion.publicacion.actions', [ 'data' => $publicacion ] )
+                                                @endif
+
                                             </td>
                                         </tr>
                                     @endforeach

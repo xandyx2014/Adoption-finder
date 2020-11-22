@@ -3,10 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TipoPublicacionController;
 use App\Http\Controllers\PublicacionInformativaController;
+use App\Http\Controllers\AprobarRechazarPublicacionController;
 Route::resources([
     'tipopublicacion' => TipoPublicacionController::class,
     'publicacion' => PublicacionInformativaController::class
 ]);
+Route::resource('aprobar', AprobarRechazarPublicacionController::class)->only(['index', 'show', 'update']);
 // TipoPublicacion
 Route::get('api/tipopublicacion', [TipoPublicacionController::class, 'indexApi']);
 Route::post('tipopublicacion/report', [TipoPublicacionController::class, 'report'])->name('tipopublicacion.report');

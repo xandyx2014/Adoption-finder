@@ -12,17 +12,7 @@
                 <form class="p-0 pr-0" action="{{ route('publicacion.report') }}" method="POST">
                     @csrf
                     @method('POST')
-                    <div class="form-group">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <label class="input-group-text" for="inputGroupSelect01">Estado</label>
-                            </div>
-                            <select class="custom-select" id="estado" name="estado" required>
-                                <option value="1" selected>Habilitado</option>
-                                <option value="0">Deshabilitado</option>
-                            </select>
-                        </div>
-                    </div>
+
 
                     <button type="submit" class="btn btn-sm btn-outline-primary">Preparar <i class="fa fa-file-pdf-o"
                                                                                              aria-hidden="true"></i>

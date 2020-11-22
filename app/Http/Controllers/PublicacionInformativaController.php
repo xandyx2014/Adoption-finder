@@ -77,9 +77,18 @@ class PublicacionInformativaController extends Controller
                 $query = $query->whereBetween('created_at', [request()->get('desde'), Carbon::now()]);
             }
         }
-        $q = request()->get('search');
-        $query = $query->where('titulo', 'LIKE', "%$q%");
-        $query = $query->paginate(5);
+
+        if (request()->has('search'))
+        {
+            if (request()->get('search') != null)
+            {
+                $q = request()->get('search');
+                $query = $query->where('titulo', 'LIKE', "%$q%");
+            }
+        }
+
+
+        $query = $query->paginate(4);
         return view('publicacion.publicacion.index', [
             'bin' => false,
             'users' => $users,
