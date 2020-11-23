@@ -19,7 +19,7 @@
             @csrf
             @method('PUT')
             <div class="row justify-content-left">
-                <div class="col-7">
+                <div class="col-8">
                     <div class="card">
                         <div class="card-body">
                             <div class="card card-primary">
@@ -69,9 +69,21 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Imagen destacada</label>
+                                        @if(empty($especie['imagens'][0]['url']))
+                                            <img id="blah" style="max-width: 159px" class="img-thumbnail"
+                                                 src='{{ asset('storage/default.jpg') }}' alt="" srcset="">
+                                        @else
+                                            @if(Illuminate\Support\Str::contains($especie['imagens'][0]['url'], 'http'))
+                                                <img  id="blah" class="img-thumbnail" src='{{ asset( $especie['imagens'][0]['url'] ) }}'>
+                                            @else
+                                                <img id="blah"  style="width: 50%" class="img-thumbnail" src='{{ asset( "storage/" . $especie['imagens'][0]['url'] ) }}'>
+                                            @endif
+                                        @endif
+                                        {{--<img id="blah" style="max-width: 159px" class="img-thumbnail"
+                                             src='{{ asset('storage/default.jpg') }}' alt="" srcset="">--}}
                                     </div>
                                     <div class="form-group">
-                                        <label for="exampleInputFile">Seleciona una imagen</label>
+
                                         <div class="input-group">
                                             <div class="custom-file">
                                                 <input type="file"
@@ -79,10 +91,9 @@
                                                        name="image"
                                                        class="custom-file-input @error('image') is-invalid @enderror"
                                                        id="exampleInputFile">
-                                                <label class="custom-file-label" for="exampleInputFile">Img</label>
                                             </div>
                                             <div class="input-group-append">
-                                                <span class="input-group-text" id="">Imagen</span>
+                                                <span class="input-group-text" id="">Seleciona Imagen</span>
                                             </div>
                                             @error('image')
                                             <div class="error invalid-feedback">
@@ -134,8 +145,11 @@
                         <button type="submit" class="btn btn-danger" style="position: absolute;"><i
                                 class="fa fa-remove"></i></button>
                     </form>
-                    <img class="img-fluid" src="{{ asset($photo->url) }}"
-                         alt="First slide">
+                    @if(Illuminate\Support\Str::contains($photo->url, 'https'))
+                        <img src='{{ asset( $photo->url ) }}' class="img-fluid" alt="" srcset="">
+                    @else
+                        <img src='{{ asset( "storage/" . $photo->url ) }}' class="img-fluid" alt="" srcset="">
+                    @endif
 
                 </div>
             @endforeach
@@ -145,7 +159,23 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
         <script>
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        $('#blah').attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(input.files[0]); // convert to base64 string
+                }
+            }
+
+            $("#exampleInputFile").change(function () {
+
+                readURL(this);
+            });
             (function($) {
+
                 $.extend($.summernote.lang, {
                     'es-ES': {
                         font: {

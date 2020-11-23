@@ -18,7 +18,7 @@
               enctype="multipart/form-data">
             @csrf
             <div class="row justify-content-left">
-                <div class="col-7">
+                <div class="col-8">
                     <div class="card">
                         <div class="card-body">
                            <div class="card card-primary">
@@ -68,21 +68,22 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Imagen destacada</label>
-
+                                        <img id="blah" style="max-width: 159px" class="img-thumbnail"
+                                             src='{{ asset('storage/default.jpg') }}' alt="" srcset="">
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputFile">Seleciona una imagen</label>
-                                        <div class="input-group">
+                                        <div class="input-group input-group-sm">
                                             <div class="custom-file">
                                                 <input type="file"
                                                        accept="image/x-png,image/gif,image/jpeg"
                                                        name="image"
                                                        class="custom-file-input @error('image') is-invalid @enderror"
                                                        id="exampleInputFile">
-                                                <label class="custom-file-label" for="exampleInputFile">Img</label>
+
                                             </div>
                                             <div class="input-group-append">
-                                                <span class="input-group-text" id="">Imagen</span>
+                                                <span class="input-group-text" id="">Selecionar Imagen Destacada <i class="fa ml-2 fa-picture-o" aria-hidden="true"></i></span>
                                             </div>
                                             @error('image')
                                             <div class="error invalid-feedback">
@@ -120,7 +121,21 @@
         <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
         <script>
             $(document).ready(function() {
+                function readURL(input) {
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
 
+                        reader.onload = function (e) {
+                            $('#blah').attr('src', e.target.result);
+                        }
+
+                        reader.readAsDataURL(input.files[0]); // convert to base64 string
+                    }
+                }
+
+                $("#exampleInputFile").change(function () {
+                    readURL(this);
+                });
                 /*let myDropzone = new Dropzone('#dropzone', {
                     url: '/admin/posts/5/photos',
                     acceptedFiles: 'image/!*',
@@ -143,7 +158,7 @@
                         ['color', ['color']],
                         ['para', ['ul', 'ol', 'paragraph']],
                         ['table', ['table']],
-                        ['insert', ['link']],
+                        ['insert', ['link', 'picture']],
                         ['view', ['codeview', 'help']]
                     ]
                 });

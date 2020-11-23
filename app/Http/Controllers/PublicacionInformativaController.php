@@ -100,32 +100,35 @@ class PublicacionInformativaController extends Controller
     {
 
         $estado = $request->get('estado');
+        $estadoPublicacion = $request->get('estadoPublicacion');
         $especies;
         if ($estado == "1")
         {
-            $especies = PublicacionInformativa::all();
+            $especies = PublicacionInformativa::all()->where('estado', $estadoPublicacion);
         }
         else
         {
-            $especies = PublicacionInformativa::onlyTrashed()->get();
+            $especies = PublicacionInformativa::onlyTrashed()->where('estado', $estadoPublicacion)->get();
         }
         /**/
         return view('publicacion.publicacion.report', [
             'especies' => $especies,
-            'estado' => $estado
+            'estado' => $estado,
+            'estadoPublicacion' => $estadoPublicacion
         ]);
     }
     function generatePdf(Request $request)
     {
         $estado = $request->get('estado');
+        $estadoPublicacion = $request->get('estadoPublicacion');
         $especies;
         if ($estado == "1")
         {
-            $especies = PublicacionInformativa::all();
+            $especies = PublicacionInformativa::all()->where('estado', $estadoPublicacion);
         }
         else
         {
-            $especies = PublicacionInformativa::onlyTrashed()->get();
+            $especies = PublicacionInformativa::onlyTrashed()->where('estado', $estadoPublicacion)->get();
         }
         $pdf = PDF::loadView('publicacion.publicacion.pdf', compact('especies'));
         $pdf->setPaper('a4', 'portrait');
@@ -167,16 +170,16 @@ class PublicacionInformativaController extends Controller
         $publicacion->tipo_publicacion_id = $request->get('tipoPublicacion');
         $publicacion->save();
         $imagen = $request->file('image');
-        $url =  Storage::disk('public')->put('public', $imagen);
+        $url =  Storage::disk('public')->put('', $imagen);
         $imagen = new Imagen;
         $imagen->url = $url;
         $publicacion->imagens()->save($imagen);
-        return back();
+        return redirect()->route('publicacion.index');
     }
     public function photo($id)
     {
         $imagen = request()->file('photo');
-        $url =  Storage::disk('public')->put('public', $imagen);
+        $url =  Storage::disk('public')->put('', $imagen);
         $imagen = new Imagen;
         $imagen->url = $url;
     }
@@ -268,7 +271,7 @@ class PublicacionInformativaController extends Controller
 
             // agregar imagen
             $newImage = $request->file('image');
-            $url =  Storage::disk('public')->put('public', $newImage);
+            $url =  Storage::disk('public')->put('', $newImage);
             $newImage = new Imagen;
             $newImage->url = $url;
             $especie->imagens()->save($newImage);

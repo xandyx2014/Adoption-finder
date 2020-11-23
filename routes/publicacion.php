@@ -4,11 +4,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TipoPublicacionController;
 use App\Http\Controllers\PublicacionInformativaController;
 use App\Http\Controllers\AprobarRechazarPublicacionController;
+use App\Http\Controllers\ImagenPublicacionController;
 Route::resources([
     'tipopublicacion' => TipoPublicacionController::class,
     'publicacion' => PublicacionInformativaController::class
 ]);
 Route::resource('aprobar', AprobarRechazarPublicacionController::class)->only(['index', 'show', 'update']);
+Route::resource('imagenPublicacion', ImagenPublicacionController::class);
 // TipoPublicacion
 Route::get('api/tipopublicacion', [TipoPublicacionController::class, 'indexApi']);
 Route::post('tipopublicacion/report', [TipoPublicacionController::class, 'report'])->name('tipopublicacion.report');

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Imagen;
 use App\Models\PublicacionInformativa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
-class BlogController extends Controller
+class ImagenPublicacionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,10 +16,11 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $publicaciones = PublicacionInformativa::where('estado', 1)
-            ->orderBy('created_at', 'desc')
-            ->paginate(3);
-        return view('blog.index', compact('publicaciones'));
+        $publicaciones = PublicacionInformativa::with('imagens')
+            ->where('estado', request()->input('estado') ?? 1)
+            ->paginate(3)
+            ->appends(request()->query());
+        return view('publicacion.imagenPublicacion.index', compact('publicaciones'));
     }
 
     /**
@@ -27,7 +30,7 @@ class BlogController extends Controller
      */
     public function create()
     {
-        return "";
+        //
     }
 
     /**
@@ -49,12 +52,7 @@ class BlogController extends Controller
      */
     public function show($id)
     {
-        $publicacion =  PublicacionInformativa::findOrFail($id);
-        if ($publicacion->estado == 0)
-        {
-            abort(404);
-        }
-        return view('blog.show', compact('publicacion'));
+        //
     }
 
     /**
@@ -65,7 +63,8 @@ class BlogController extends Controller
      */
     public function edit($id)
     {
-        //
+        $publicacion = PublicacionInformativa::findOrFail($id);
+        return view('publicacion.imagenPublicacion.edit', compact('publicacion'));
     }
 
     /**
@@ -77,7 +76,17 @@ class BlogController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+        $file = $request->file('file');
+        $imagen = Imagen::findOrFail($id);
+        Storage::disk('public')->delete($imagen->url);
+        $url =  Storage::disk('public')->put('', $file);
+        $imagen->update([
+            'url' => $url
+        ]);
+        return redirect()->route('imagenPublicacion.index');
     }
 
     /**
@@ -88,6 +97,10 @@ class BlogController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $imagen = Imagen::findOrFail($id);
+        $imagen->update([
+            'url' => 'default.jpg'
+        ]);
+        return back();
     }
 }

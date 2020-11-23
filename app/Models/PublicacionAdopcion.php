@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class PublicacionAdopcion extends Model
 {
     use HasFactory, SoftDeletes;
+    public function denuncias()
+    {
+        return $this->morphMany(Denuncia::class, 'denunciable');
+    }
 }

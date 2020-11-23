@@ -61,6 +61,12 @@
                     Aprobar | Reachazar publicacion
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('imagenPublicacion.index') }}">
+                    <i class="fa fa-picture-o" aria-hidden="true"></i>
+                    Galeria de fotos
+                </a>
+            </li>
         </ul>
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-1 text-muted">
             <span>Gestion de denuncias</span>
@@ -74,6 +80,12 @@
                 <a class="nav-link" href="{{ route('tipodenuncia.index') }}">
                     <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                     Tipo de denuncia
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('denuncia.index') }}">
+                    <i class="fa fa-bell" aria-hidden="true"></i>
+                    Denuncias
                 </a>
             </li>
         </ul>

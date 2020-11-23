@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Mascota extends Model
 {
     use HasFactory, SoftDeletes;
+
 }

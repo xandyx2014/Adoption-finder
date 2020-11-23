@@ -5,11 +5,10 @@
         <div class="row justify-content-center">
             <div class="col">
                 <div class="card">
-                    <div class="card-header">Listado de etiquetas
-                        <form action="{{ route('publicacion.pdf') }}" method="post">
+                    <div class="card-header">Listado de denuncias
+                        <form action="{{ route('denuncia.pdf') }}" method="post">
                             @csrf
                             <input type="text" name="estado" value="{{ old('estado', $estado) }}" hidden>
-                            <input type="text" name="estadoPublicacion" value="{{ old('estadoPublicacion', $estadoPublicacion) }}" hidden>
                             <button
                                 type="submit"
                                 class="btn btn-sm btn-outline-secondary">
@@ -24,7 +23,7 @@
                                     <b>Generado en:</b>{{  \Carbon\Carbon::now()->format('d-M-Y') }}
                                 </p>
                                 <p>
-                                    <b>Modelo: </b>Publicacion
+                                    <b>Modelo: </b>Denuncias
                                 </p>
                                 <p>
                                     <b>Generado por:</b> {{ auth()->user()->name }}
@@ -38,19 +37,17 @@
                         <table class="table table-sm">
                             <thead>
                             <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col" style="width: 35%">Titulo</th>
+                                <th scope="col" style="width: 10%">ID</th>
+                                <th scope="col" style="width: 35%">Descripcion</th>
                                 <th scope="col">Creado</th>
-                                <th scope="col">Actualizado</th>
                             </tr>
                             </thead>
                             <tbody>
                             @forelse ($especies as $especie)
                                 <tr>
                                     <td>{{ $especie->id }}</td>
-                                    <td>{{ $especie->titulo }}</td>
+                                    <td>{{ $especie->descripcion }}</td>
                                     <td>{{ $especie->created_at }}</td>
-                                    <td>{{ $especie->updated_at }}</td>
                                 </tr>
                             @empty
                                 <tr style="text-align: center">

@@ -3,6 +3,7 @@
 @section('content')
     <div class="container-fluid" xmlns="http://www.w3.org/1999/html">
         <div class="row">
+
             <div class="col-8 p-0" >
                 <div class="card">
                     <div
@@ -51,9 +52,19 @@
                             </div>
 
                             <div class="card-body">
+                                <div class="row">
                                 @foreach($especie->imagens as $imagen)
-                                        <img src="{{ asset("$imagen->url") }}" class="img-fluid">
+                                    @if(Illuminate\Support\Str::contains($imagen['url'], 'https'))
+                                        <div class="col">
+                                        <img src='{{ asset( $imagen['url'] ) }}' alt="" srcset="">
+                                        </div>
+                                    @else
+                                        <div class="col">
+                                        <img style="max-width: 250px" src='{{ asset( "storage/" . $imagen['url'] ) }}' alt="" srcset="">
+                                        </div>
+                                    @endif
                                 @endforeach
+                                </div>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
@@ -72,6 +83,7 @@
             <div class="col-4">
                 <div class="row">
                     <div class="card" style="width: 18rem;">
+
                         <div class="card-body">
                             <h5 class="card-title p-0">Creador :</h5> <br>
                             <ul class="list-group list-group-flush">
