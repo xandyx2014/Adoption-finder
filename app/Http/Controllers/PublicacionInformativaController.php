@@ -18,11 +18,11 @@ class PublicacionInformativaController extends Controller
     {
         $this->middleware('auth')->except(['index', 'show', 'indexApi']);
     }
+
     public function indexApi()
     {
         $params = request()->input('bin');
-        if($params)
-        {
+        if ($params) {
             return datatables()
                 ->eloquent(PublicacionInformativa::onlyTrashed())
                 ->addColumn('btn', 'publicacion.publicacion.actionsBin')
@@ -35,6 +35,7 @@ class PublicacionInformativaController extends Controller
             ->rawColumns(['btn'])
             ->toJson();
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -56,32 +57,24 @@ class PublicacionInformativaController extends Controller
             ]);
         }
         $query = PublicacionInformativa::orderBy('id', 'desc');
-        if (request()->has('usuario'))
-        {
-            if (request()->get('usuario') != "x")
-            {
+        if (request()->has('usuario')) {
+            if (request()->get('usuario') != "x") {
                 $query = $query->where('user_id', request()->get('usuario'));
             }
         }
-        if (request()->has('tipo'))
-        {
-            if (request()->get('tipo') != "x")
-            {
+        if (request()->has('tipo')) {
+            if (request()->get('tipo') != "x") {
                 $query = $query->where('tipo_publicacion_id', request()->get('tipo'));
             }
         }
-        if (request()->has('desde'))
-        {
-            if (request()->get('desde') != null)
-            {
+        if (request()->has('desde')) {
+            if (request()->get('desde') != null) {
                 $query = $query->whereBetween('created_at', [request()->get('desde'), Carbon::now()]);
             }
         }
 
-        if (request()->has('search'))
-        {
-            if (request()->get('search') != null)
-            {
+        if (request()->has('search')) {
+            if (request()->get('search') != null) {
                 $q = request()->get('search');
                 $query = $query->where('titulo', 'LIKE', "%$q%");
             }
@@ -96,18 +89,16 @@ class PublicacionInformativaController extends Controller
             'tipos' => $tipos
         ]);
     }
+
     public function report(Request $request)
     {
 
         $estado = $request->get('estado');
         $estadoPublicacion = $request->get('estadoPublicacion');
         $especies;
-        if ($estado == "1")
-        {
+        if ($estado == "1") {
             $especies = PublicacionInformativa::all()->where('estado', $estadoPublicacion);
-        }
-        else
-        {
+        } else {
             $especies = PublicacionInformativa::onlyTrashed()->where('estado', $estadoPublicacion)->get();
         }
         /**/
@@ -117,17 +108,15 @@ class PublicacionInformativaController extends Controller
             'estadoPublicacion' => $estadoPublicacion
         ]);
     }
+
     function generatePdf(Request $request)
     {
         $estado = $request->get('estado');
         $estadoPublicacion = $request->get('estadoPublicacion');
         $especies;
-        if ($estado == "1")
-        {
+        if ($estado == "1") {
             $especies = PublicacionInformativa::all()->where('estado', $estadoPublicacion);
-        }
-        else
-        {
+        } else {
             $especies = PublicacionInformativa::onlyTrashed()->where('estado', $estadoPublicacion)->get();
         }
         $pdf = PDF::loadView('publicacion.publicacion.pdf', compact('especies'));
@@ -135,6 +124,7 @@ class PublicacionInformativaController extends Controller
         $pdf->setOptions(["isPhpEnabled" => true]);
         return $pdf->stream();
     }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -151,7 +141,7 @@ class PublicacionInformativaController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -170,16 +160,17 @@ class PublicacionInformativaController extends Controller
         $publicacion->tipo_publicacion_id = $request->get('tipoPublicacion');
         $publicacion->save();
         $imagen = $request->file('image');
-        $url =  Storage::disk('public')->put('', $imagen);
+        $url = Storage::disk('public')->put('', $imagen);
         $imagen = new Imagen;
         $imagen->url = $url;
         $publicacion->imagens()->save($imagen);
         return redirect()->route('publicacion.index');
     }
+
     public function photo($id)
     {
         $imagen = request()->file('photo');
-        $url =  Storage::disk('public')->put('', $imagen);
+        $url = Storage::disk('public')->put('', $imagen);
         $imagen = new Imagen;
         $imagen->url = $url;
     }
@@ -187,7 +178,7 @@ class PublicacionInformativaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\PublicacionInformativa  $publicacionInformativa
+     * @param \App\Models\PublicacionInformativa $publicacionInformativa
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -199,13 +190,14 @@ class PublicacionInformativaController extends Controller
             ->first();
         return view('publicacion.publicacion.show', compact('especie'));
     }
+
     public function denuncia($id)
     {
-        $denuncias =  PublicacionInformativa::withTrashed()
-                        ->where('id', $id)
-                        ->first()
-                        ->denuncias()
-                        ->with('tipoDenuncia')->paginate(4);
+        $denuncias = PublicacionInformativa::withTrashed()
+            ->where('id', $id)
+            ->first()
+            ->denuncias()
+            ->with('tipoDenuncia')->paginate(4);
         return view('publicacion.publicacion.denuncia', [
             'denuncias' => $denuncias,
             'id' => $id
@@ -215,7 +207,7 @@ class PublicacionInformativaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\PublicacionInformativa  $publicacionInformativa
+     * @param \App\Models\PublicacionInformativa $publicacionInformativa
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -230,10 +222,15 @@ class PublicacionInformativaController extends Controller
             'tipos' => $tipoPublicacion
         ]);
     }
+
     public function imagenDelete(Request $request, $id)
     {
         $imagen = Imagen::withTrashed()->where('id', $id)->first();
-        Storage::disk('public')->delete($imagen->url);
+        if ($imagen->url != 'default.jpg')
+        {
+            Storage::disk('public')->delete($imagen->url);
+        }
+
         $imagen->delete();
         return back();
     }
@@ -241,8 +238,8 @@ class PublicacionInformativaController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\PublicacionInformativa  $publicacionInformativa
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\PublicacionInformativa $publicacionInformativa
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -262,16 +259,19 @@ class PublicacionInformativaController extends Controller
         if ($request->hasFile('image')) {
             // borrar imagen
             $especieImagen = $especie->imagens()->first();
-            if (! empty( $especieImagen))
-            {
+            if (!empty($especieImagen)) {
                 $imagen = Imagen::withTrashed()->where('id', $especieImagen->id)->first();
-                Storage::disk('public')->delete($imagen->url);
+                return $imagen->url;
+                if ($especieImagen->url != 'default.jpg') {
+                    Storage::disk('public')->delete($imagen->url);
+                }
+
                 $imagen->delete();
             }
 
             // agregar imagen
             $newImage = $request->file('image');
-            $url =  Storage::disk('public')->put('', $newImage);
+            $url = Storage::disk('public')->put('', $newImage);
             $newImage = new Imagen;
             $newImage->url = $url;
             $especie->imagens()->save($newImage);
@@ -284,30 +284,27 @@ class PublicacionInformativaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\PublicacionInformativa  $publicacionInformativa
+     * @param \App\Models\PublicacionInformativa $publicacionInformativa
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         $especie = PublicacionInformativa::withTrashed()->find($id);
         $bin = request()->input('bin');
-        if ($bin)
-        {
+        if ($bin) {
             // verificar las dependencias y force delete
             $countTotal = $especie->denuncias()->get()->count();
             $countTotalImagen = $especie->imagens()->get()->count();
             if ($countTotal == 0 || $countTotalImagen == 0) {
                 $especie->forceDelete();
-                if (request()->ajax())
-                {
+                if (request()->ajax()) {
                     return response()->json([
                         "message" => 'Borrado correctamente'
                     ]);
                 }
                 return back();
             }
-            if (request()->ajax())
-            {
+            if (request()->ajax()) {
                 return response()->json([
                     "error" => "$especie->nombre tiene dependencias Total: $countTotal"
                 ]);
@@ -315,8 +312,7 @@ class PublicacionInformativaController extends Controller
             return back()->withErrors(['errorDependencia' => "Especie $especie->nombre tiene dependencias"]);
         }
         $especie->delete();
-        if (request()->ajax())
-        {
+        if (request()->ajax()) {
             return response()->json([
                 "message" => 'Borrado correctamente'
             ]);

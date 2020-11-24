@@ -47,6 +47,10 @@ class Mascota extends Model
     {
         return $this->morphMany(Imagen::class, 'imagenable');
     }
+    public function seguimientos()
+    {
+        return $this->hasMany(Seguimiento::class);
+    }
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Imagen;
+use App\Models\Mascota;
 use App\Models\PublicacionInformativa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class ImagenPublicacionController extends Controller
+class ImagenMascotaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,11 +17,11 @@ class ImagenPublicacionController extends Controller
      */
     public function index()
     {
-        $publicaciones = PublicacionInformativa::with('imagens')
-            ->where('estado', request()->input('estado') ?? 1)
+        $publicaciones = Mascota::with('imagens')
+            ->where('adoptado', request()->input('adoptado') ?? 1)
             ->paginate(3)
             ->appends(request()->query());
-        return view('publicacion.imagenPublicacion.index', compact('publicaciones'));
+        return view('adopcion.imagenMascota.index', compact('publicaciones'));
     }
 
     /**
@@ -36,7 +37,7 @@ class ImagenPublicacionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -47,7 +48,7 @@ class ImagenPublicacionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -58,50 +59,49 @@ class ImagenPublicacionController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        $publicacion = PublicacionInformativa::findOrFail($id);
-        return view('publicacion.imagenPublicacion.edit', compact('publicacion'));
+        $publicacion = Mascota::findOrFail($id);
+        return view('adopcion.imagenMascota.edit', compact('publicacion'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        $validateData = $request->validate([
+            'file' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
+        $mascota = Mascota::findOrFail($id);
         $file = $request->file('file');
-        $imagen = Imagen::findOrFail($id);
-        Storage::disk('public')->delete($imagen->url);
         $url =  Storage::disk('public')->put('', $file);
-        $imagen->update([
-            'url' => $url
-        ]);
-        return redirect()->route('imagenPublicacion.index');
+        $image = new Imagen;
+        $image->url = $url;
+        $mascota->imagens()->save($image);
+        return back();
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $imagen = Imagen::findOrFail($id);
-        $url =  Storage::disk('public')->put('', $imagen->url);
-        $imagen->update([
-            'url' => 'default.jpg'
-        ]);
+        $imagen = Imagen::withTrashed()->where('id', $id)->first();
+        if ($imagen->url != 'default.jpg') {
+            Storage::disk('public')->delete($imagen->url);
+        }
+        $imagen->delete();
         return back();
     }
 }

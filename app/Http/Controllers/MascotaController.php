@@ -7,6 +7,7 @@ use App\Models\Etiqueta;
 use App\Models\Imagen;
 use App\Models\Mascota;
 use App\Models\Raza;
+use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -24,13 +25,70 @@ class MascotaController extends Controller
     public function index()
     {
         $query = Mascota::orderBy('created_at', 'desc');
+        $razas = Raza::all();
+        $especies = Especie::all();
         if (request()->input('bin'))
         {
             $query = $query->onlyTrashed();
         }
+        if (request()->has('adoptado') && request()->input('adoptado') != "")
+        {
+            $query = $query->where('adoptado', request()->input('adoptado'));
+        }
+        /*if (request()->has('raza') && request()->input('raza') != "")
+        {
+            $query = $query->where('raza_id', request()->input('raza'));
+        }
+        if (request()->has('especie') && request()->input('especie') != "")
+        {
+            $query = $query->where('especie_id', request()->input('raza'));
+        }*/
+        if (request()->has('search'))
+        {
+            $nombre = request()->input('search');
+            $query = $query->where('nombre', 'LIKE', "%$nombre%");
+        }
         $mascotas = $query->paginate(3)
             ->appends(request()->query());
-        return view('adopcion.mascota.index', compact('mascotas'));
+        return view('adopcion.mascota.index', compact('mascotas', 'razas', 'especies'));
+    }
+    public function report(Request $request)
+    {
+        $estado = $request->get('estado');
+        $adoptado = $request->get('adoptado');
+        $especies;
+        if ($estado == "1")
+        {
+            $especies = Mascota::where('adoptado', $adoptado)->get();
+        }
+        else
+        {
+            $especies = Mascota::onlyTrashed()->where('adoptado', $adoptado)->get();
+        }
+        /**/
+        return view('adopcion.mascota.report', [
+            'especies' => $especies,
+            'estado' => $estado,
+            'adoptado' => $adoptado
+        ]);
+    }
+    function generatePdf(Request $request)
+    {
+        $estado = $request->get('estado');
+        $adoptado = $request->get('adoptado');
+        $especies;
+        if ($estado == "1")
+        {
+            $especies = Mascota::where('adoptado', $adoptado)->get();
+        }
+        else
+        {
+            $especies = Mascota::onlyTrashed()->where('adoptado', $adoptado)->get();
+        }
+        $pdf = PDF::loadView('adopcion.mascota.pdf', compact('especies'));
+        $pdf->setPaper('a4', 'portrait');
+        $pdf->setOptions(["isPhpEnabled" => true]);
+        return $pdf->stream();
     }
 
     /**
@@ -81,13 +139,16 @@ class MascotaController extends Controller
         $mascota->save();
         $mascota->etiquetas()->sync($request->get('etiquetas'));
         $imagenes = $request->file('file.*');
-        foreach ($imagenes as $img)
-        {
-            $url =  Storage::disk('public')->put('', $img);
-            $imagen = new Imagen;
-            $imagen->url = $url;
-            $mascota->imagens()->save($imagen);
+        if ($imagenes != null){
+            foreach ($imagenes as $img)
+            {
+                $url =  Storage::disk('public')->put('', $img);
+                $imagen = new Imagen;
+                $imagen->url = $url;
+                $mascota->imagens()->save($imagen);
+            }
         }
+
 
         return redirect()->route('mascota.index');
     }
@@ -129,7 +190,10 @@ class MascotaController extends Controller
     public function imageDelete($id)
     {
         $imagen = Imagen::withTrashed()->where('id', $id)->first();
-        Storage::disk('public')->delete($imagen->url);
+        if ($imagen->url != 'default.jpg')
+        {
+            Storage::disk('public')->delete($imagen->url);
+        }
         $imagen->delete();
         return back();
     }
@@ -144,6 +208,13 @@ class MascotaController extends Controller
     public function update(Request $request, $id)
     {
 
+
+        if ($request->has('restore'))
+        {
+            Mascota::withTrashed()->find($id)->restore();
+            return back();
+
+        }
         $mascota = Mascota::findOrFail($id);
         $request->validate([
             'nombre' => 'required|min:0|max:200',
@@ -192,9 +263,18 @@ class MascotaController extends Controller
         if ($bin)
         {
             // verificar las dependencias y force delete
-            $countTotal = $especie->denuncias()->get()->count();
-            $countTotalImagen = $especie->imagens()->get()->count();
-            if ($countTotal == 0 || $countTotalImagen == 0) {
+            // $countTotal = $especie->denuncias()->get()->count();
+            $countSeguimiento = $especie->seguimientos()->get()->count();
+            $countTotal = 0;
+            $countTotalImagen = $especie->imagens()->get()->count();;
+            if ($especie->adoptado == "1")
+            {
+                return response()->json([
+                    "error" => "$especie->nombre ya ha sido adoptado no se puede eliminar"
+                ]);
+            }
+            if ($countSeguimiento == 0 && $countTotalImagen == 0) {
+                $especie->etiquetas()->detach();
                 $especie->forceDelete();
                 if (request()->ajax())
                 {
@@ -206,8 +286,9 @@ class MascotaController extends Controller
             }
             if (request()->ajax())
             {
+                $total = $countTotal + $countTotalImagen + $countSeguimiento;
                 return response()->json([
-                    "error" => "$especie->nombre tiene dependencias Total: $countTotal"
+                    "error" => "$especie->nombre tiene dependencias Total: $total Imagenes: $countTotalImagen, Seguimientos: $countSeguimiento"
                 ]);
             }
             return back()->withErrors(['errorDependencia' => "Especie $especie->nombre tiene dependencias"]);

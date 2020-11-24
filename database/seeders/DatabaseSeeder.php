@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -20,8 +21,9 @@ class DatabaseSeeder extends Seeder
                 'email' => 'xandyx2014@gmail.com'
             ]
         );
-        \App\Models\Especie::factory(20)->create();
-        \App\Models\Raza::factory(20)->create();
+        \App\Models\Especie::factory(5)->create();
+        \App\Models\Raza::factory(5)
+            ->create();
         \App\Models\Etiqueta::factory(20)->create();
         \App\Models\TipoDenuncia::factory(20)->create();
         \App\Models\TipoPublicacion::factory(20)->create();

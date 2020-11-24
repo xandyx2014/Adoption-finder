@@ -34,6 +34,10 @@
                     Mascotas
                 </a>
             </li>
+            <a class="nav-link" href="{{ route('imagenMascota.index') }}">
+                <i class="fa fa-picture-o" aria-hidden="true"></i>
+                Galeria de fotos de mascota
+            </a>
         </ul>
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-1 text-muted">
             <span>Gestion publicaciones informativas</span>
