@@ -19,7 +19,7 @@
             @csrf
             <div class="row justify-content-left">
                 <div class="col-8">
-                    <div class="card">
+                    <div class="card elevation-4">
                         <div class="card-body">
                            <div class="card card-primary">
                                <div class="card-header">
@@ -31,7 +31,7 @@
                     </div>
                 </div>
                 <div class="col">
-                    <div class="card">
+                    <div class="card elevation-4">
                         <div class="card-body">
                             <div class="card card-primary">
                                 <div class="card-header">

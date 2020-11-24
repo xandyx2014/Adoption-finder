@@ -22,7 +22,7 @@ class ImagenFactory extends Factory
     public function definition()
     {
         return [
-            'url' => $this->faker->imageUrl(250, 250)
+            'url' => 'default.jpg'
         ];
     }
 }

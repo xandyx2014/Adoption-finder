@@ -1,10 +1,10 @@
-<a class="btn btn-success" href="{{ route('etiqueta.show', $id) }}">
+<a class="btn btn-success elevation-2" href="{{ route('etiqueta.show', $id) }}">
     <i class="fa fa-eye" aria-hidden="true"></i>
 </a>
 <form method="POST" action="{{ route('etiqueta.update', $id) }}?restore=true" style="display: inline">
     @csrf
     @method('PUT')
-    <button type="submit" class="btn btn-success">
+    <button type="submit" class="btn btn-success elevation-2">
         <i class="fa fa-recycle" aria-hidden="true"></i>
     </button>
 </form>
@@ -15,7 +15,7 @@
         <i class="fa fa-trash" aria-hidden="true"></i>
     </button>
 </form>--}}
-<button id="especie-delete-{{$id}}" class="btn btn-danger">
+<button id="especie-delete-{{$id}}" class="btn btn-danger elevation-2">
     <i class="fa fa-trash" aria-hidden="true"></i>
 </button>
 <script>

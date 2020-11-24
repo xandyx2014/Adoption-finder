@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-8">
-                <div class="card">
+                <div class="card elevation-4">
                     <div class="card-header">Formulacion de edicion</div>
 
                     <div class="card-body">

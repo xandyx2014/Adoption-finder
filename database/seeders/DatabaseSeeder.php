@@ -28,5 +28,9 @@ class DatabaseSeeder extends Seeder
         \App\Models\PublicacionInformativa::factory(20)
             ->hasImagens(1)
             ->hasDenuncias(5)->create();
+        \App\Models\Mascota::factory(20)
+            ->hasImagens(3)
+            ->hasEtiquetas(3)
+            ->create();
     }
 }

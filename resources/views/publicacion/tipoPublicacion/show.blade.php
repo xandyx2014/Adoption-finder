@@ -4,16 +4,16 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-8">
-                <div class="card">
+                <div class="card elevation-2">
                     <div
                         class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2  border-bottom m-2">
 
                         <div class="btn-toolbar mb-2 mb-md-0">
-                            <button class="btn btn-sm btn-outline-secondary" disabled>
+                            <button class="btn btn-sm btn-outline-secondary elevation-1" disabled>
                                 <i class="fa fa-calendar-o" aria-hidden="true"></i>
                                 Creado {{ $especie->created_at }}
                             </button>
-                            <button class="btn btn-sm btn-outline-secondary ml-1" disabled>
+                            <button class="btn btn-sm btn-outline-secondary ml-1 elevation-1" disabled>
                                 <i class="fa fa-calendar-o" aria-hidden="true"></i>
                                 Actualizado {{ $especie->updated_at }}
                             </button>

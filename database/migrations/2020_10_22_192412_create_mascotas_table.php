@@ -21,7 +21,7 @@ class CreateMascotasTable extends Migration
             $table->string('tamagno', 10);
             $table->string('salud', 15);
             $table->string('about');
-            $table->boolean('adoptado');
+            $table->boolean('adoptado')->default(0);
             $table->foreignId('raza_id')->constrained('razas');
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('especie_id')->constrained('especies');

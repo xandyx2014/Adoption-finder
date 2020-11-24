@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Hogar')
 @section('content')
-    <div class="container">
+    <div class="container elevation-4">
         <div class="row justify-content-center">
             <div class="col">
                 <div class="card">
@@ -12,7 +12,7 @@
                             <input type="text" name="estadoPublicacion" value="{{ old('estadoPublicacion', $estadoPublicacion) }}" hidden>
                             <button
                                 type="submit"
-                                class="btn btn-sm btn-outline-secondary">
+                                class="btn btn-sm btn-outline-secondary elevation-2">
                                 Generar PDF <i class="fa fa-file" aria-hidden="true"></i>
                             </button>
                         </form>

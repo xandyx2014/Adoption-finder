@@ -5,7 +5,7 @@
 
         <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
     @endpush
-    <div class="container">
+    <div class="container elevation-4">
         <div class="row justify-content-center">
             <div class="col">
                 <div class="card">
@@ -14,11 +14,11 @@
                         @unless($bin)
                             <button
                                 data-toggle="modal" data-target="#reportModal"
-                               class="btn btn-sm btn-outline-secondary">
+                               class="btn btn-sm btn-outline-secondary elevation-2">
                                 Reporte <i class="fa fa-file" aria-hidden="true"></i>
                             </button>
                             <a href="{{ route('tipopublicacion.index', [ 'bin' => true]) }}"
-                               class="btn btn-sm btn-outline-danger">
+                               class="btn btn-sm btn-outline-danger elevation-2">
                                 Papelera <i class="fa fa-recycle" aria-hidden="true"></i>
                             </a>
                             @include('publicacion.tipoPublicacion.select')

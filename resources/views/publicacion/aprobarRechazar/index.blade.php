@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Especie')
 @section('content')
-    <div class="container">
+    <div class="container elevation-4">
         <div class="card">
             <div class="card-header">
 
@@ -9,12 +9,12 @@
                 <b>Total Pendientes :</b> <span class="badge badge-warning mr-2">{{ $publicaciones->total() }}</span>
                 <div class="d-flex">
                     <a href="{{ route('aprobar.index', [ 'estado' => 1]) }}" type="submit"
-                       class="btn btn-sm mr-2 btn-success">
+                       class="btn btn-sm mr-2 btn-success elevation-2">
                         Aprobados
                         <i class="fa fa-check" aria-hidden="true"></i>
                     </a>
                     <a href="{{ route('aprobar.index', [ 'estado' => 0]) }}" type="submit"
-                       class="btn btn-sm btn-danger">
+                       class="btn btn-sm btn-danger elevation-2">
                         Pendiestes
                         <i class="fa fa-ban" aria-hidden="true"></i>
                     </a>

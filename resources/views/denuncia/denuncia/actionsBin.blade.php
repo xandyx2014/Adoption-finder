@@ -2,7 +2,7 @@
 <form method="POST" action="{{ route('denuncia.update', $data->id) }}" style="display: inline">
     @csrf
     @method('PUT')
-    <button type="submit" class="btn btn-success">
+    <button type="submit" class="btn btn-success elevation-2">
         <i class="fa fa-recycle" aria-hidden="true"></i>
     </button>
 </form>
@@ -13,7 +13,7 @@
         <i class="fa fa-trash" aria-hidden="true"></i>
     </button>
 </form>--}}
-<button id="especie-delete-{{$data->id}}" class="btn btn-danger">
+<button id="especie-delete-{{$data->id}}" class="btn btn-danger elevation-2">
     <i class="fa fa-trash" aria-hidden="true"></i>
 </button>
 <script type="application/javascript">

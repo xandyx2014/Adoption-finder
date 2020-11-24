@@ -20,7 +20,7 @@
             @method('PUT')
             <div class="row justify-content-left">
                 <div class="col-8">
-                    <div class="card">
+                    <div class="card elevation-2">
                         <div class="card-body">
                             <div class="card card-primary">
                                 <div class="card-header">
@@ -34,7 +34,7 @@
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
-                            <div class="card card-primary">
+                            <div class="card card-primary elevation-2">
                                 <div class="card-header">
                                     <h3 class="card-title">Propiedades</h3>
                                 </div>

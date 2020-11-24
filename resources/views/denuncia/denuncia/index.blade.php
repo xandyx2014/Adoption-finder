@@ -1,38 +1,38 @@
 @extends('layouts.app')
 @section('title', 'Imagen Publicacion')
 @section('content')
-    <div class="container">
+    <div class="container elevation-4">
         <div class="card">
             <div class="card-header b-flex">
                 Denuncias | Total :
                 <span class="badge badge-secondary">{{ $denuncias->total() }}</span>
                 @unless(request()->has('bin'))
                 |
-                <a href="{{ route('denuncia.index') }}?tipo=1" class="btn btn-sm btn-primary">
+                <a href="{{ route('denuncia.index') }}?tipo=1" class="btn btn-sm btn-primary elevation-2 elevation-2">
                     <div class="text-light">Publicacion Informativa</div>
                 </a>
                 |
-                <a href="{{ route('denuncia.index') }}?tipo=0" class="btn btn-sm btn-warning">
+                <a href="{{ route('denuncia.index') }}?tipo=0" class="btn btn-sm btn-warning elevation-2 elevation-2">
                     <div class="text-light">Publicacion Mascotas</div>
                 </a>
 
                 |
                 <button
                     data-toggle="modal" data-target="#reportModal"
-                    class="btn btn-sm btn-outline-secondary">
+                    class="btn btn-sm btn-outline-secondary elevation-2">
                     Reporte <i class="fa fa-file" aria-hidden="true"></i>
                 </button>
                 @include('denuncia.denuncia.select')
 
                     |
                 <a href="{{ route('denuncia.index', [ 'bin' => true]) }}"
-                   class="btn btn-sm btn-outline-danger">
+                   class="btn btn-sm btn-outline-danger elevation-2">
                     Papelera <i class="fa fa-recycle" aria-hidden="true"></i>
                 </a>
                 @endunless
                 |
                 @if(request()->has('bin'))
-                    <a href="{{ route('denuncia.index') }}?tipo=1" class="btn btn-sm btn-outline-success">
+                    <a href="{{ route('denuncia.index') }}?tipo=1" class="btn btn-sm btn-outline-success elevation-2">
                         Lista <i class="fa fa-list" aria-hidden="true"></i>
                     </a>
                 @endif
@@ -54,7 +54,7 @@
                             <th>{{ $denuncia->descripcion }}</th>
                             <td>{{ $denuncia->created_at }}</td>
                             <td>
-                                <a class="btn btn-success" href="{{ route('denuncia.show', $denuncia->id) }}" >
+                                <a class="btn btn-success elevation-2" href="{{ route('denuncia.show', $denuncia->id) }}" >
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                 </a>
                                 @unless(request()->has('bin'))
@@ -62,7 +62,7 @@
                                     @csrf
                                     @method('DELETE')
                                     <meta name="csrf-token" content="{{ csrf_token() }}">
-                                    <button type="submit" class="btn btn-danger">
+                                    <button type="submit" class="btn btn-danger elevation-2">
                                         <i class="fa fa-recycle" aria-hidden="true"></i>
                                     </button>
                                 </form>

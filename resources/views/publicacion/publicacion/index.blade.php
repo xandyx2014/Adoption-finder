@@ -11,36 +11,36 @@
             integrity="sha512-CbQfNVBSMAYmnzP3IC+mZZmYMP2HUnVkV4+PwuhpiMUmITtSpS7Prr3fNncV1RBOnWxzz4pYQ5EAGG4ck46Oig=="
             crossorigin="anonymous"/>
     @endpush
-    <div class="container">
+    <div class="container elevation-4">
         <div class="row justify-content-center">
             <div class="col">
                 <div class="card">
                     <div class="card-header">
                         Tipo de publicacion
                         @unless($bin)
-                            <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal"
+                            <button type="button" class="btn btn-sm btn-secondary elevation-2" data-toggle="modal"
                                     data-target="#searchModal">
                                 Busqueda
                                 <i class="fa fa-search" aria-hidden="true"></i>
                             </button>
                             <a
                                 href="{{ route('publicacion.index') }}"
-                                class="btn btn-sm btn-outline-secondary">
+                                class="btn btn-sm btn-outline-secondary elevation-2">
                                 Limpiar busqueda
                                 <i class="fa fa-ban" aria-hidden="true"></i>
                             </a>
                             <a
                                 href="{{ route('publicacion.create') }}"
-                                class="btn btn-sm btn-secondary">
+                                class="btn btn-sm btn-secondary elevation-2">
                                 Crear <i class="fa fa-book" aria-hidden="true"></i>
                             </a>
                             <button
                                 data-toggle="modal" data-target="#reportModal"
-                                class="btn btn-sm btn-outline-secondary">
+                                class="btn btn-sm btn-outline-secondary elevation-2">
                                 Reporte <i class="fa fa-file" aria-hidden="true"></i>
                             </button>
                             <a href="{{ route('publicacion.index', [ 'bin' => true]) }}"
-                               class="btn btn-sm btn-outline-danger">
+                               class="btn btn-sm btn-outline-danger elevation-2">
                                 Papelera <i class="fa fa-recycle" aria-hidden="true"></i>
                             </a>
                             @include('publicacion.publicacion.select')
@@ -48,7 +48,7 @@
 
                         @endunless
                         @if($bin)
-                            <a href="{{ route('publicacion.index') }}" class="btn btn-sm btn-outline-success">
+                            <a href="{{ route('publicacion.index') }}" class="btn btn-sm btn-outline-success elevation-2">
                                 Lista <i class="fa fa-list" aria-hidden="true"></i>
                             </a>
                         @endif

@@ -1,4 +1,4 @@
-<nav class="col-md-2 d-none d-md-block bg-white sidebar">
+<nav class="col-md-2 d-none d-md-block bg-white">
     <div class="sidebar-sticky">
         <ul class="nav flex-column">
             <li class="nav-item">
@@ -29,9 +29,9 @@
         </h6>
         <ul class="nav flex-column collapse" id="adopcion">
             <li class="nav-item">
-                <a class="nav-link active" href="#">
-                    <i class="fa fa-book" aria-hidden="true"></i>
-                    Dashboard
+                <a class="nav-link active" href="{{ route('mascota.index') }}">
+                    <i class="fa fa-paw" aria-hidden="true"></i>
+                    Mascotas
                 </a>
             </li>
         </ul>
@@ -146,5 +146,6 @@
                 </a>
             </li>
         </ul>
+
     </div>
 </nav>

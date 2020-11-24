@@ -5,22 +5,22 @@
         <div class="row">
 
             <div class="col-8 p-0" >
-                <div class="card">
+                <div class="card elevation-4">
                     <div
                         class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2  border-bottom m-2">
                         <div class="btn-toolbar mb-2 mb-md-0">
-                            <a href="{{ route('publicacion.index') }}" class="btn btn-sm btn-primary mr-1">
+                            <a href="{{ route('publicacion.index') }}" class="btn btn-sm btn-primary mr-1 elevation-2">
                                 <i class="fa fa-chevron-left" aria-hidden="true"></i>
                             </a>
-                            <button class="btn btn-sm btn-outline-secondary" disabled>
+                            <button class="btn btn-sm btn-outline-secondary elevation-2" disabled>
                                 <i class="fa fa-calendar-o" aria-hidden="true"></i>
                                 Creado {{ $especie->created_at }}
                             </button>
-                            <button class="btn btn-sm btn-outline-secondary ml-1" disabled>
+                            <button class="btn btn-sm btn-outline-secondary ml-1 elevation-2" disabled>
                                 <i class="fa fa-calendar-o" aria-hidden="true"></i>
                                 Actualizado {{ $especie->updated_at }}
                             </button>
-                            <a href="{{ route('tipopublicacion.show', $especie->tipoPublicacion->id) }}" class="btn btn-sm btn-outline-primary ml-1" disabled>
+                            <a href="{{ route('tipopublicacion.show', $especie->tipoPublicacion->id) }}" class="btn btn-sm btn-outline-primary ml-1 elevation-2" disabled>
                                 <i class="fa fa-tags" aria-hidden="true"></i>
                                 Tipo publicacion: <b>{{ $especie->tipoPublicacion->tipo }}</b>
                             </a>
@@ -37,7 +37,7 @@
                             <dd class="col-sm-8">{{ $especie->subtitulo }}</dd>
                             <dt class="col-sm-4">Denuncias</dt>
                             <dd class="col-sm-8">
-                                <a href="{{ route('publicacion.denuncia',  $especie->id) }}" class="btn btn-sm btn-warning mt-1" disabled>
+                                <a href="{{ route('publicacion.denuncia',  $especie->id) }}" class="btn btn-sm btn-warning mt-1 elevation-2" disabled>
                                     <i class="fa fa-exclamation" aria-hidden="true"></i>
                                     Denuncias: <b><span class="badge badge-dark">{{ $especie->denuncias->count()}} </span> </b>
                                 </a >
@@ -82,7 +82,7 @@
             </div>
             <div class="col-4">
                 <div class="row">
-                    <div class="card" style="width: 18rem;">
+                    <div class="card elevation-2" style="width: 18rem;">
 
                         <div class="card-body">
                             <h5 class="card-title p-0">Creador :</h5> <br>

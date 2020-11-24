@@ -32,7 +32,7 @@
 
     <div class="form-group row">
         <div class="col">
-            <button type="submit" class="btn  btn-outline-primary">Crear</button>
+            <button type="submit" class="btn  btn-outline-primary elevation-2">Crear</button>
         </div>
     </div>
 </form>

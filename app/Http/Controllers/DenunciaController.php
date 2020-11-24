@@ -17,8 +17,9 @@ class DenunciaController extends Controller
      */
     public function index()
     {
+        $tipo = request()->input('tipo') ?? 1;
         $alias = PublicacionInformativa::class;
-        if (request()->input('tipo') != 1) {
+        if ($tipo != 1) {
             $alias = PublicacionAdopcion::class;
         }
         $query = Denuncia::where('denunciable_type', $alias)
