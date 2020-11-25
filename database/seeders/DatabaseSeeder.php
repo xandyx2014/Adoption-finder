@@ -37,6 +37,7 @@ class DatabaseSeeder extends Seeder
             ->create();
         \App\Models\PublicacionAdopcion::factory(10)
             ->hasDenuncias(4)
+            ->hasSolicitudAdopcions(3)
             ->create();
     }
 }

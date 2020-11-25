@@ -46,6 +46,10 @@
                 <i class="fa fa-history" aria-hidden="true"></i>
                 Seguimiento de mascota
             </a>
+            <a class="nav-link" href="{{ route('solicitud.index') }}">
+                <i class="fa fa-question" aria-hidden="true"></i>
+                Solicitud de adopcion
+            </a>
 
         </ul>
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-1 text-muted">
