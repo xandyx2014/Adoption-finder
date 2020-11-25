@@ -70,7 +70,7 @@
         <nav class="nav d-flex justify-content-between">
             <a class="p-2 text-muted" href="/">Inicio</a>
             <a class="p-2 text-muted" href="{{ route('blog.index') }}">Blog</a>
-            <a class="p-2 text-muted" href="#">Nuestras mascotas</a>
+            <a class="p-2 text-muted" href="#">Busca una mascota</a>
             <a class="p-2 text-muted" href="#">¿Como adoptar?</a>
             <a class="p-2 text-muted" href="#">Acerca de nosotros</a>
         </nav>

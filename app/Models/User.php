@@ -62,4 +62,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(PublicacionInformativa::class);
     }
+    public function publicacionAdopcions()
+    {
+        return $this->hasMany(PublicacionAdopcion::class);
+    }
 }

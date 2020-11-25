@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Mascota;
 use App\Models\Seguimiento;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -22,7 +23,10 @@ class SeguimientoFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'descripcion' => $this->faker->text,
+            'calidad' => $this->faker->randomElement(['Buena', 'Mala', 'Normal', 'Decepcionante', 'Regular', 'Medio', 'Satisfactorio']),
+            'puntuacion' => $this->faker->randomNumber(2),
+            'mascota_id' => Mascota::factory()
         ];
     }
 }

@@ -33,6 +33,10 @@ class DatabaseSeeder extends Seeder
         \App\Models\Mascota::factory(20)
             ->hasImagens(3)
             ->hasEtiquetas(3)
+            ->hasSeguimientos(5)
+            ->create();
+        \App\Models\PublicacionAdopcion::factory(10)
+            ->hasDenuncias(4)
             ->create();
     }
 }

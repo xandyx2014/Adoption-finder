@@ -51,6 +51,10 @@ class Mascota extends Model
     {
         return $this->hasMany(Seguimiento::class);
     }
+    public function publicacionAdopcions()
+    {
+        return $this->hasMany(PublicacionAdopcion::class);
+    }
     public function user()
     {
         return $this->belongsTo(User::class);

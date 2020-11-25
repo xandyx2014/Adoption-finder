@@ -119,6 +119,7 @@
     @push('js')
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-es-ES.min.js" integrity="sha512-L2aDRReu0LLrPXjoBozyyZeoPDr4l2xI5+H6cpAyU+bOlnQWEht8rbLn2SAVBTq/x9iPfoKOyuPDC0rdPQuymg==" crossorigin="anonymous"></script>
         <script>
             $(document).ready(function() {
                 function readURL(input) {
@@ -152,15 +153,27 @@
                 const sum = $('#summernote').summernote({
                     height: 220,
                     lang: 'es-ES',
+                    maximumImageFileSize: 1024*1024,
+                    lineHeights: ['0.2', '0.3', '0.4', '0.5', '0.6', '0.8', '1.0', '1.2', '1.4', '1.5', '2.0', '3.0'],
                     toolbar: [
                         ['style', ['style']],
-                        ['font', ['bold', 'underline', 'clear']],
+                        ['font', ['bold', 'underline', 'clear', 'fontsize', 'fontsizeunit']],
                         ['color', ['color']],
-                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['para', ['ul', 'ol', 'paragraph', 'height']],
                         ['table', ['table']],
                         ['insert', ['link', 'picture']],
-                        ['view', ['codeview', 'help']]
-                    ]
+                        ['view', ['help']],
+                    ],
+                    callbacks:{
+                        onImageUploadError: function(msg){
+                            console.log(msg + ' (1 MB)');
+                            Swal.fire(
+                                'Error al subir imagen',
+                                msg,
+                                'error'
+                            )
+                        }
+                    }
                 });
                 sum.summernote('code', "{!! old('cuerpo') !!}");
 

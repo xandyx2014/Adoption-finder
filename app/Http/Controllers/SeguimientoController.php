@@ -14,7 +14,10 @@ class SeguimientoController extends Controller
      */
     public function index()
     {
-        //
+        $seguimientos = Seguimiento::orderBy('id', 'desc')
+            ->paginate(4)
+            ->appends(request()->query());
+        return view('adopcion.seguimiento.index', compact('seguimientos'));
     }
 
     /**
