@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Mascota;
+use App\Models\SolicitudAdopcion;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AprobarRechazarSolicitudController extends Controller
@@ -13,7 +16,10 @@ class AprobarRechazarSolicitudController extends Controller
      */
     public function index()
     {
-        //
+        $query = SolicitudAdopcion::orderBy('id', 'desc')->paginate(4);
+        $query = $query;
+        $solicitudes = $query;
+        return view('adopcion.aprobarSolicitud.index', compact('solicitudes'));
     }
 
     /**
@@ -29,7 +35,7 @@ class AprobarRechazarSolicitudController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -40,7 +46,7 @@ class AprobarRechazarSolicitudController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -51,30 +57,84 @@ class AprobarRechazarSolicitudController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
-        //
+    {   // Publicacion Publicacion.mascota User
+        $solicitud = SolicitudAdopcion::where('id', $id)
+            ->with([
+                'publicacion_adopcion' => function($query) {
+                    $query->withTrashed();
+                },
+                'publicacion_adopcion.mascota' => function($query) {
+                    $query->withTrashed();
+                },
+                'publicacion_adopcion.mascota.etiquetas' => function($query) {
+                    $query->withTrashed();
+                },
+                'publicacion_adopcion.mascota.especie' => function($query) {
+                    $query->withTrashed();
+                },
+                'publicacion_adopcion.mascota.raza' => function($query) {
+                    $query->withTrashed();
+                },
+                'publicacion_adopcion.mascota.imagens' => function($query) {
+                    $query->withTrashed();
+                },
+                'user' => function($query) {
+                    $query->withTrashed();
+                }
+                ]
+            )
+            ->first();
+        if ($solicitud == null)
+        {
+            abort(404);
+        }
+        $solicitudVerificado = optional($solicitud)->publicacion_adopcion;
+        $mascotaVerificado = optional( $solicitudVerificado )->mascota;
+        $usuarioVerificado = optional( $solicitud )->user;
+        return view('adopcion.aprobarSolicitud.aprobar', compact('solicitud'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        //
+        $adoptar = $request->get('adoptar');
+        $solicitud = SolicitudAdopcion::where('id', $id)->with('publicacion_adopcion.mascota')->first();
+        $usuarioInteresado = User::findOrFail($solicitud->user_id);
+        $mascotaId = $solicitud->publicacion_adopcion->mascota->id;
+        $mascota = Mascota::findOrFail($mascotaId);
+        $propetario = $mascota->propetario;
+
+        if ($propetario != null) {
+            return back()->withErrors(['igual' => 'La mascota tiene ya un propetario']);
+        }
+        if ($usuarioInteresado->id == auth()->user()->id) {
+            return back()->withErrors(['igual' => 'Persona adoptante es la misma persona']);
+        }
+        $solicitud->update([
+            'estado' => 1
+        ]);
+        $mascota->update([
+            'adoptado' => 1,
+            'propetario_id' => $usuarioInteresado->id
+        ]);
+        return redirect()->route('aprobarSolicitud.index')
+            ->with('success', 'Has aceptado a la mascota' . $mascota->nombre);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
