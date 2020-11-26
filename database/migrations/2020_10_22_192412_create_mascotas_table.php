@@ -35,6 +35,9 @@ class CreateMascotasTable extends Migration
             $table->softDeletes();
             $table->timestamps();
         });
+        Schema::table('users', function (Blueprint $table) {
+            $table->foreignId('mascota_id')->nullable()->constrained('mascotas');
+        });
     }
 
     /**

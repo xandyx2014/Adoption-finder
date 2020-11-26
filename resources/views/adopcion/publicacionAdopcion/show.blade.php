@@ -70,6 +70,12 @@
                    </div>
                    <div class="media text-muted pt-1">
                        <p class="media-body pb-1 mb-0 small lh-125 border-bottom">
+                           <strong class="d-block text-gray-dark">Total solicitudes</strong>
+                           {{ count($publicacion->solicitudAdopcions ?? []) }}
+                       </p>
+                   </div>
+                   <div class="media text-muted pt-1">
+                       <p class="media-body pb-1 mb-0 small lh-125 border-bottom">
                            <strong class="d-block text-gray-dark">Etiquetas</strong>
                            @forelse($publicacion->mascota->etiquetas as $item)
                                <span class="badge badge-primary p-1">{{ $item->nombre }}</span>

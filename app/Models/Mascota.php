@@ -59,5 +59,9 @@ class Mascota extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function adoptador()
+    {
+        return $this->hasOne(User::class);
+    }
 
 }

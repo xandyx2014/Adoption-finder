@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Denuncia;
 use App\Models\PublicacionAdopcion;
 use App\Models\PublicacionInformativa;
+use App\Models\TipoDenuncia;
+use App\Models\TipoPublicacion;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 
@@ -17,22 +19,22 @@ class DenunciaController extends Controller
      */
     public function index()
     {
+        $tipoPublicacion = TipoDenuncia::all();
         $tipo = request()->input('tipo') ?? 1;
         $alias = PublicacionInformativa::class;
         if ($tipo != 1) {
             $alias = PublicacionAdopcion::class;
         }
-        $query = Denuncia::where('denunciable_type', $alias)
-            ->paginate(4)
-            ->appends(request()->query());
-        if (request()->has('bin'))
-        {
-            $query = Denuncia::onlyTrashed()
-                ->paginate(4)
-                ->appends(request()->query());
+        $query = Denuncia::where('denunciable_type', $alias);
+        if (request()->has('bin')) {
+            $query = Denuncia::onlyTrashed();
         }
+
+            $query = $query->paginate(4)
+            ->appends(request()->query());
         return view('denuncia.denuncia.index', [
-            'denuncias' => $query
+            'denuncias' => $query,
+            'tipoPublicacion' => $tipoPublicacion
         ]);
     }
 
@@ -49,7 +51,7 @@ class DenunciaController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -60,14 +62,13 @@ class DenunciaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Denuncia  $denuncia
+     * @param \App\Models\Denuncia $denuncia
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         $denuncia = Denuncia::withTrashed()->where('id', $id)->first();
-        if ($denuncia->denunciable_type == PublicacionInformativa::class)
-        {
+        if ($denuncia->denunciable_type == PublicacionInformativa::class) {
             return redirect()->route('publicacion.show', $denuncia->denunciable_id);
         }
         // retorna a la mascota
@@ -78,12 +79,9 @@ class DenunciaController extends Controller
     {
         $estado = $request->get('estado');
         $especies;
-        if ($estado == "1")
-        {
+        if ($estado == "1") {
             $especies = Denuncia::all();
-        }
-        else
-        {
+        } else {
             $especies = Denuncia::onlyTrashed()->get();
         }
 
@@ -92,16 +90,14 @@ class DenunciaController extends Controller
             'estado' => $estado
         ]);
     }
+
     function generatePdf(Request $request)
     {
         $estado = $request->get('estado');
         $especies;
-        if ($estado == "1")
-        {
+        if ($estado == "1") {
             $especies = Denuncia::all();
-        }
-        else
-        {
+        } else {
             $especies = Denuncia::onlyTrashed()->get();
         }
         $pdf = PDF::loadView('denuncia.denuncia.pdf', compact('especies'));
@@ -109,53 +105,65 @@ class DenunciaController extends Controller
         $pdf->setOptions(["isPhpEnabled" => true]);
         return $pdf->stream();
     }
+
     public function edit($id)
     {
-        //
+        $denuncia = Denuncia::findOrFail($id);
+        $tipo = TipoDenuncia::all();
+        return view('denuncia.denuncia.edit', compact('denuncia', 'tipo'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Denuncia  $denuncia
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Denuncia $denuncia
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        Denuncia::withTrashed()->find($id)->restore();
-        return redirect()->route('denuncia.index', [
-            'bin' => 1
+
+        if ($request->has('restore')) {
+            Denuncia::withTrashed()->find($id)->restore();
+            return redirect()->route('denuncia.index', [
+                'bin' => 1
+            ]);
+        }
+        $request->validate([
+            'descripcion' => ['required' ,'min:15', 'max:200'],
+            'tipo_denuncia_id' => ['required'],
         ]);
+        $denuncia =  Denuncia::withTrashed()->find($id)->update([
+            'descripcion' => $request->get('descripcion'),
+            'tipo_denuncia_id' => $request->get('tipo_denuncia_id')
+        ]);
+        return redirect()->route('denuncia.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Denuncia  $denuncia
+     * @param \App\Models\Denuncia $denuncia
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         $especie = Denuncia::withTrashed()->find($id);
         $bin = request()->input('bin');
-        if ($bin)
-        {
+        if ($bin) {
             // verificar las dependencias y force delete
             $countTotal = 0;
             $countTotalImagen = 0;
             if ($countTotal == 0 || $countTotalImagen == 0) {
                 $especie->forceDelete();
-                if (request()->ajax())
-                {
+                if (request()->ajax()) {
                     return response()->json([
                         "message" => 'Borrado correctamente'
                     ]);
                 }
                 return back();
             }
-            if (request()->ajax())
-            {
+            if (request()->ajax()) {
                 return response()->json([
                     "error" => "$especie->nombre tiene dependencias Total: $countTotal"
                 ]);
@@ -163,8 +171,7 @@ class DenunciaController extends Controller
             return back()->withErrors(['errorDependencia' => "Especie $especie->nombre tiene dependencias"]);
         }
         $especie->delete();
-        if (request()->ajax())
-        {
+        if (request()->ajax()) {
             return response()->json([
                 "message" => 'Borrado correctamente'
             ]);

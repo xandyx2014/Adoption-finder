@@ -1,17 +1,18 @@
 @extends('layouts.app')
 @section('title', 'Hogar')
 @section('content')
-    <div class="container elevation-4">
+    <div class="container">
         <div class="row justify-content-center">
             <div class="col">
                 <div class="card">
-                    <div class="card-header">Listado de publicacion de adopcion
-                        <form action="{{ route('publicacionAdopcion.pdf') }}" method="post">
+                    <div class="card-header">Listado
+                        <form action="{{ route('solicitud.pdf') }}" method="post">
                             @csrf
                             <input type="text" name="estado" value="{{ old('estado', $estado) }}" hidden>
+                            <input type="text" name="solicitud" value="{{ old('solicitud', $solicitud) }}" hidden>
                             <button
                                 type="submit"
-                                class="btn btn-sm btn-outline-secondary elevation-2">
+                                class="btn btn-sm btn-outline-secondary">
                                 Generar PDF <i class="fa fa-file" aria-hidden="true"></i>
                             </button>
                         </form>
@@ -23,7 +24,7 @@
                                     <b>Generado en:</b>{{  \Carbon\Carbon::now()->format('d-M-Y') }}
                                 </p>
                                 <p>
-                                    <b>Modelo: </b>Publicacion
+                                    <b>Modelo: </b>Solicitud de adopcion
                                 </p>
                                 <p>
                                     <b>Generado por:</b> {{ auth()->user()->name }}
@@ -38,11 +39,9 @@
                             <thead>
                             <tr>
                                 <th scope="col">ID</th>
-                                <th scope="col" style="width: 20%">Titulo</th>
-                                <th scope="col">Nombre Mascota</th>
-                                <th scope="col">Adoptado</th>
-                                <th scope="col">Solicitudes adopcion</th>
-                                <th scope="col">Total denuncias</th>
+                                <th scope="col" style="width: 20%">Descripcion</th>
+                                <th scope="col" style="width: 15%">Usuario</th>
+                                <th scope="col" style="width: 10%">Correo</th>
                                 <th scope="col">Creado</th>
                                 <th scope="col">Actualizado</th>
                             </tr>
@@ -51,15 +50,9 @@
                             @forelse ($especies as $especie)
                                 <tr>
                                     <td>{{ $especie->id }}</td>
-                                    <td>{{ $especie->titulo }}</td>
-                                    <td>{{ $especie->mascota->nombre }}</td>
-                                    @if($especie->mascota->adoptado == 1)
-                                        <td>Si</td>
-                                        @else
-                                        <td>No</td>
-                                    @endif
-                                    <td>{{ count( $especie->solicitud_adopcions ?? []) }}</td>
-                                    <td>{{ count( $especie->denuncias ?? []) }}</td>
+                                    <td>{{ $especie->descripcion }}</td>
+                                    <td>{{ $especie->user->name }}</td>
+                                    <td>{{ $especie->user->email }}</td>
                                     <td>{{ $especie->created_at }}</td>
                                     <td>{{ $especie->updated_at }}</td>
                                 </tr>

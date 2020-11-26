@@ -1,0 +1,155 @@
+[33mcommit 6cb11dc7f6b04e919c1d7d0474fbb565a2bada0b[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: xandyx2014 <xandyx2014@gmail.com>
+Date:   Wed Nov 25 16:10:46 2020 -0400
+
+    Gestionar seguimiento de mascota
+
+[33mcommit 356ddfcf508f7aa9941d8f770f8d8b6dc3c4b45f[m
+Author: xandyx2014 <xandyx2014@gmail.com>
+Date:   Wed Nov 25 03:25:30 2020 -0400
+
+    Agregado gestionar mascota y administrar galeria de mascota
+
+[33mcommit c7bd6fdcb40ef43e5dadac084b70f443b3ab6f6b[m
+Author: xandyx2014 <xandyx2014@gmail.com>
+Date:   Tue Nov 24 16:07:44 2020 -0400
+
+    Agregado gestionar mascota y administrar galeria de mascota
+
+[33mcommit a152dae6ca06e7839f1ab6ecb5e0927b8628d3d4[m
+Author: xandyx2014 <xandyx2014@gmail.com>
+Date:   Tue Nov 24 01:28:51 2020 -0400
+
+    alñadido la mascoita
+
+[33mcommit 5d52023c151cbbf406b33708e450c0d77f634059[m
+Author: xandyx2014 <xandyx2014@gmail.com>
+Date:   Mon Nov 23 02:56:16 2020 -0400
+
+    Frontend Blog añadido
+
+[33mcommit fa8d62c3a7e71242f3aafbd6aab94a62ab9d2ebf[m
+Author: xandyx2014 <xandyx2014@gmail.com>
+Date:   Sun Nov 22 03:21:44 2020 -0400
+
+    Frontend Blog añadido
+
+[33mcommit 3aee86d922c0580ca9299318db19171ff17d2e8e[m
+Author: xandyx2014 <xandyx2014@gmail.com>
+Date:   Sun Nov 22 00:25:40 2020 -0400
+
+    Frontend Blog añadido
+
+[33mcommit d3f898d1634c59ecc9f0093964d9a36c8df34173[m
+Author: xandyx2014 <xandyx2014@gmail.com>
+Date:   Sat Nov 21 19:52:11 2020 -0400
+
+    Realizado la busqueda cnompleja
+
+[33mcommit 0362e830657f2b79a5d31339298631ce0dc1e06d[m
+Author: xandyx2014 <xandyx2014@gmail.com>
+Date:   Sat Nov 21 01:21:32 2020 -0400
+
+    Editicion de publicaicon informativa
+
+[33mcommit d3ee227ba2305094db99fb1beb898394ad9df4a2[m
+Author: xandyx2014 <xandyx2014@gmail.com>
+Date:   Fri Nov 20 02:05:18 2020 -0400
+
+    Generado TipoPublicacion, Publicacion
+
+[33mcommit 1d4f40880da013d9ba34812461beaf677cca93ed[m
+Author: xandyx2014 <xandyx2014@gmail.com>
+Date:   Sat Nov 14 16:27:07 2020 -0400
+
+    Se agrego lel abm de Tipo de publicacion
+
+[33mcommit cbada8194712f7f9b4b2aad477b3718e24876c6c[m
+Author: xandyx2014 <xandyx2014@gmail.com>
+Date:   Sat Nov 14 14:54:48 2020 -0400
+
+    Generado CRUD de modelo Tipo de denuncia incluido el reporte
+
+[33mcommit cff237265dcd6f4291e66eb014ff24ff0b203b47[m
+Author: xandyx2014 <xandyx2014@gmail.com>
+Date:   Fri Nov 13 14:10:33 2020 -0400
+
+    Generado CRUD de modelo Etiqueta incluido el reporte
+
+[33mcommit a95ff02a1382fcb11225a955c71fa6e87ba29d6a[m
+Author: xandyx2014 <xandyx2014@gmail.com>
+Date:   Fri Nov 13 11:18:14 2020 -0400
+
+    Generado CRUD de modelo raza incluido el reporte
+
+[33mcommit 27c27164398660403aa1042e908ae93e565b9507[m
+Author: xandyx2014 <xandyx2014@gmail.com>
+Date:   Thu Nov 12 23:27:54 2020 -0400
+
+    Generado el reporte de lsitado
+
+[33mcommit da9f0e52e295c97e33088920bacb13b4aecfbd5e[m
+Author: xandyx2014 <xandyx2014@gmail.com>
+Date:   Thu Nov 12 15:48:33 2020 -0400
+
+    se agrego el reporte y listado de los reportes
+
+[33mcommit 9b04818c8f9164235b6d6393c60a4092eab75f43[m
+Author: xandyx2014 <xandyx2014@gmail.com>
+Date:   Sat Nov 7 13:02:10 2020 -0400
+
+    Agregado la forceDelete y confirmacion de borrado
+
+[33mcommit 274accbeeb0335f6c1613d8f9b54d4e28d40df9d[m
+Author: xandyx2014 <xandyx2014@gmail.com>
+Date:   Fri Nov 6 17:33:29 2020 -0400
+
+    agregado la papelera de reciclaje de especie
+
+[33mcommit 8183184098d9e38c2d6fdfef2645795b89143caf[m
+Author: xandyx2014 <xandyx2014@gmail.com>
+Date:   Thu Nov 5 23:29:35 2020 -0400
+
+    Agregado el creado de especie
+
+[33mcommit 88011930916a5e96a8f694d58ceb2a7c6636e1ba[m
+Author: xandyx2014 <xandyx2014@gmail.com>
+Date:   Thu Nov 5 21:23:02 2020 -0400
+
+    Creado La vista del Modulo/Especie
+
+[33mcommit f9e293df6e09fded4fd04061b296b73fc50e01cc[m
+Author: xandyx2014 <xandyx2014@gmail.com>
+Date:   Mon Nov 2 18:18:25 2020 -0400
+
+    Modularizado las rutas, añadido los links del menu principal
+
+[33mcommit 4debb8c85b3274e4de6887601a5bc390557a9ac3[m
+Author: xandyx2014 <xandyx2014@gmail.com>
+Date:   Sun Nov 1 15:37:26 2020 -0400
+
+    Agregado las migraciones
+
+[33mcommit 46635ef39971aed4f337cf4464f4d6fb44fc85ec[m
+Author: xandyx2014 <xandyx2014@gmail.com>
+Date:   Mon Oct 26 12:22:21 2020 -0400
+
+    Agregado imagen la dashboard
+
+[33mcommit c977180d3d57502b3c7afc1c23fb0f306e905573[m
+Author: xandyx2014 <xandyx2014@gmail.com>
+Date:   Thu Oct 22 15:28:00 2020 -0400
+
+    Agregado los factories
+
+[33mcommit b9f71a188bf03e127b700f207bf54355ff5c594b[m
+Author: xandyx2014 <xandyx2014@gmail.com>
+Date:   Thu Oct 22 14:51:24 2020 -0400
+
+    Agregado y cambioado el libraria de imagenes
+
+[33mcommit 594c75686cdaa55af18cd55ab973fb25e0c38094[m
+Author: xandyx2014 <xandyx2014@gmail.com>
+Date:   Thu Oct 22 14:05:25 2020 -0400
+
+    first commit

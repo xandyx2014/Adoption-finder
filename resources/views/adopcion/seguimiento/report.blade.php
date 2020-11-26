@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col">
                 <div class="card">
-                    <div class="card-header">Listado de etiquetas
+                    <div class="card-header">Listado de Seguimiento
                         <form action="{{ route('seguimiento.pdf') }}" method="post">
                             @csrf
                             <input type="text" name="estado" value="{{ old('estado', $estado) }}" hidden>

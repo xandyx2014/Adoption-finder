@@ -28,8 +28,12 @@ class SolicitudAdopcion extends Model
     {
         return Carbon::parse($value)->format('d-M-Y');
     }
-    public function publicacionAdoptacion()
+    public function publicacion_adopcion()
     {
         return $this->belongsTo(PublicacionAdopcion::class);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

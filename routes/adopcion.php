@@ -6,13 +6,15 @@ use App\Http\Controllers\ImagenMascotaController;
 use App\Http\Controllers\PublicacionAdopcionController;
 use App\Http\Controllers\SeguimientoController;
 use App\Http\Controllers\SolicitudAdopcionController;
+use App\Http\Controllers\AprobarRechazarSolicitudController;
 Route::resources([
     'mascota' => MascotaController::class,
     'publicacionAdopcion' => PublicacionAdopcionController::class,
     'seguimiento' => SeguimientoController::class,
-    'solicitud' => SolicitudAdopcionController::class
+    'solicitud' => SolicitudAdopcionController::class,
+    'aprobarSolicitud' => AprobarRechazarSolicitudController:class
 ]);
-
+Route::get('solicituddestroy/{id}', [SolicitudAdopcionController::class, 'destroy']);
 Route::resource( 'imagenMascota', ImagenMascotaController::class);
 Route::delete('mascota/photo/{id}', [MascotaController::class, 'imageDelete'])->name('mascota.photo.delete');
 Route::post('mascota/report', [MascotaController::class, 'report'])->name('mascota.report');
@@ -22,3 +24,7 @@ Route::post('publicacionAdopcion/report/pdf', [PublicacionAdopcionController::cl
 // seguimiento
 Route::post('seguimiento/report', [SeguimientoController::class, 'report'])->name('seguimiento.report');
 Route::post('seguimiento/report/pdf', [SeguimientoController::class, 'generatePdf'])->name('seguimiento.pdf');
+// solicitud
+Route::get('api/solicitud', [SolicitudAdopcionController::class, 'indexApi']);
+Route::post('solicitud/report', [SolicitudAdopcionController::class, 'report'])->name('solicitud.report');
+Route::post('solicitud/report/pdf', [SolicitudAdopcionController::class, 'generatePdf'])->name('solicitud.pdf');

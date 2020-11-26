@@ -1,5 +1,5 @@
 
-<form method="POST" action="{{ route('denuncia.update', $data->id) }}" style="display: inline">
+<form method="POST" action="{{ route('denuncia.update', $data->id) }}?restore=true" style="display: inline">
     @csrf
     @method('PUT')
     <button type="submit" class="btn btn-success elevation-2">
