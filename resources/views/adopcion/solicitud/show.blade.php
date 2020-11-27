@@ -27,30 +27,15 @@
                                     <span class="badge badge-danger">No aceptado</span>
                                 @endif
                             </dd>
-                            <dt class="col-sm-4">Estado de la mascota</dt>
+                            <dt class="col-sm-4">Usuario</dt>
                             <dd class="col-sm-8">
-                                @if($solicitud->publicacion_adopcion->mascota->adoptado)
-                                    <span class="badge badge-success">Adoptado</span>
-                                @else
-                                    <span class="badge badge-danger">No Adoptado</span>
-                                @endif
+                                <a  href="#" class="badge badge-success">User</a>
                             </dd>
-                            <dt class="col-sm-4">Publicacion</dt>
+                            <dt class="col-sm-4">Publicacion adopcion</dt>
                             <dd class="col-sm-8">
-                                <a href="/" class="badge badge-primary">Publicacion</a>
+                                <a  target="_blank" href="{{ route('publicacionAdopcion.show', $solicitud->publicacion_adopcion_id) }}" class="badge badge-primary">Publicacion de adopcion</a>
                             </dd>
-                            <dt class="col-sm-4">Mascota</dt>
-                            <dd class="col-sm-8">
-                                <a href="/" class="badge badge-secondary">{{ $solicitud->publicacion_adopcion->mascota->nombre }}</a>
-                            </dd>
-                            <dt class="col-sm-4">Especie de la mascota</dt>
-                            <dd class="col-sm-8">
-                                <a href="/" class="badge badge-warning">{{ $solicitud->publicacion_adopcion->mascota->especie->nombre }}</a>
-                            </dd>
-                            <dt class="col-sm-4">Raza de la mascota</dt>
-                            <dd class="col-sm-8">
-                                <a href="/" class="badge badge-info">{{ $solicitud->publicacion_adopcion->mascota->raza->nombre }}</a>
-                            </dd>
+
                         </dl>
                     </div>
                     <!-- /.card-body -->

@@ -56,12 +56,12 @@
                                 <select style="width: 100%" id="especie" name="especie">
                                     @foreach($especies as $especie)
 
-                                            <option value="{{ $especie->id }}"
+                                        <option value="{{ $especie->id }}"
                                                 @if($mascota->especie_id == $especie->id)
-                                                    selected
-                                                @endif
+                                                selected
+                                            @endif
 
-                                            >{{ $especie->nombre }}</option>
+                                        >{{ $especie->nombre }}</option>
 
 
 
@@ -70,6 +70,31 @@
                             </div>
 
                         </li>
+                        @if($mascota->propetario != null)
+                        <li class="list-group-item d-flex justify-content-between lh-condensed">
+                            <div>
+                                <h6 class="my-0">Propetario</h6>
+                                <p class="media-body pb-1 mb-0 lh-125">
+                                    <strong class="d-block text-gray-dark">Nombre</strong>
+                                    {{ $mascota->propetario->name }}
+                                </p>
+                                <p class="media-body pb-1 mb-0 lh-125">
+                                    <strong class="d-block text-gray-dark">Email</strong>
+                                    {{ $mascota->propetario->email }}
+                                </p>
+                                <p class="media-body pb-1 mb-0 lh-125">
+                                    <strong class="d-block text-gray-dark">Usuario</strong>
+                                    <a href="#" class="badge badge-primary">User</a
+                                </p>
+                                <strong class="d-block text-gray-dark">Propetario</strong>
+                                <select name="propetario" class="custom-select w-100">
+                                    <option value="1">Aprobado</option>
+                                    <option value="0">Deshaprobado</option>
+                                </select>
+                            </div>
+                        </li>
+                        @endif
+
                         <li class="list-group-item d-flex justify-content-between bg-light">
                             <div >
                                 <h6 class="my-0">Adicionar Imagenes</h6>

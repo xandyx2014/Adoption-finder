@@ -24,6 +24,7 @@ class CreateMascotasTable extends Migration
             $table->boolean('adoptado')->default(0);
             $table->foreignId('raza_id')->constrained('razas');
             $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('propetario_id')->nullable()->constrained('users');
             $table->foreignId('especie_id')->constrained('especies');
             $table->softDeletes();
             $table->timestamps();
@@ -35,9 +36,9 @@ class CreateMascotasTable extends Migration
             $table->softDeletes();
             $table->timestamps();
         });
-        Schema::table('users', function (Blueprint $table) {
+        /*Schema::table('users', function (Blueprint $table) {
             $table->foreignId('mascota_id')->nullable()->constrained('mascotas');
-        });
+        });*/
     }
 
     /**

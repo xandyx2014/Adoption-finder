@@ -186,7 +186,15 @@ class PublicacionInformativaController extends Controller
 
         $especie = PublicacionInformativa::withTrashed()
             ->where('id', $id)
-            ->with(['denuncias', 'user', 'imagens'])
+            ->with([
+                'denuncias' => function($query) {
+                    $query->withTrashed();
+                },
+                'user' => function($query) {
+                    $query->withTrashed();
+                },
+                'imagens'
+            ])
             ->first();
         return view('publicacion.publicacion.show', compact('especie'));
     }

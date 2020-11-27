@@ -67,7 +67,7 @@
                         <tr>
                             <td>{{ $denuncia->id }}</td>
                             <th>{{ $denuncia->descripcion }}</th>
-                            <th>{{ $denuncia->tipoDenuncia->tipo }}</th>
+                            <th> {{ collect($denuncia)['tipo_denuncia']['tipo'] }}</th>
                             <td>{{ $denuncia->created_at }}</td>
                             <td>
                                 <a class="btn btn-success elevation-2" href="{{ route('denuncia.show', $denuncia->id) }}" >

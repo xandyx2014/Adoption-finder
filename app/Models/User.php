@@ -66,4 +66,16 @@ class User extends Authenticatable
     {
         return $this->hasMany(PublicacionAdopcion::class);
     }
+    public function solicitudAdopcions()
+    {
+        return $this->hasMany(SolicitudAdopcion::class);
+    }
+    public function perfil()
+    {
+        return $this->hasOne(Perfil::class);
+    }
+    public function adoptar()
+    {
+        return $this->hasMany(Mascota::class, 'propetario_id');
+    }
 }

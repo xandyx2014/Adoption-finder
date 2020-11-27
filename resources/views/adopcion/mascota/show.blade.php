@@ -55,12 +55,32 @@
                     </li>
 
                 </ul>
+                @if($mascota->propetario_id != null)
+                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="text-muted">Propetario</span>
+                        {{--<span class="badge badge-secondary badge-pill">3</span>--}}
+                    </h4>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item d-flex justify-content-between lh-condensed">
+                            <div>
+                                <h6 class="my-0">Nombre</h6>
+                            </div>
+                            <span class="text-muted">{{ $mascota->propetario->name }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between lh-condensed">
+                            <div>
+                                <h6 class="my-0">Email</h6>
+                            </div>
+                            <span class="text-muted">{{ $mascota->propetario->email }}</span>
+                        </li>
+                    </ul>
+                @endif
             </div>
             <div class="col-md-8 order-md-1">
                 <h4 class="mb-3">Nombre: {{ $mascota->nombre }}</h4>
                 <div class="row">
                     <div class="col-4">
-                        <div id="carouselExampleControls"  class="carousel slide" data-ride="carousel">
+                        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                             <div class="carousel-inner">
                                 @forelse($mascota->imagens as $item)
                                     @if ($loop->first)
@@ -70,18 +90,20 @@
                                     @endif
                                     <img class="carousel-item"
                                          src='{{ asset( "storage/" . $item->url ) }}' alt="" srcset="">
-                                    @empty
+                                @empty
                                     <img class="carousel-item active"
                                          src='{{ asset("storage/default.jpg") }}' alt=""
                                          srcset="">
                                 @endforelse
 
                             </div>
-                            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                            <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
+                               data-slide="prev">
                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                 <span class="sr-only">Anterior</span>
                             </a>
-                            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                            <a class="carousel-control-next" href="#carouselExampleControls" role="button"
+                               data-slide="next">
                                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                 <span class="sr-only">Sgte</span>
                             </a>
@@ -89,9 +111,9 @@
                     </div>
                     <div class="col">
                         <p class="font-weight-bold">Descripcion :</p>
-                            {{ $mascota->descripcion }}
+                        {{ $mascota->descripcion }}
                         <p class="font-weight-bold">Acerca de mi :</p>
-                            {{ $mascota->about }}
+                        {{ $mascota->about }}
                         <p class="font-weight-bold">Etiquetas :</p>
                         @foreach($mascota->etiquetas as $etiqueta)
                             <span class="badge badge-primary">{{ $etiqueta->nombre }}</span>

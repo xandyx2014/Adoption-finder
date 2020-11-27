@@ -144,9 +144,8 @@ class SolicitudAdopcionController extends Controller
      */
     public function show($id)
     {
-        $solicitud = SolicitudAdopcion::withTrashed()
+        return $solicitud = SolicitudAdopcion::withTrashed()
             ->where('id', $id)
-            ->with('publicacion_adopcion', 'publicacion_adopcion.mascota')
             ->first();
         return view('adopcion.solicitud.show', compact('solicitud'));
     }
@@ -201,11 +200,12 @@ class SolicitudAdopcionController extends Controller
         if ($bin)
         {
             // verificar las dependencias y force delete
-            $value =  SolicitudAdopcion::withTrashed()
+            /*$value =  SolicitudAdopcion::withTrashed()
                 ->where('id', $id )
-                ->with('publicacion_adopcion', 'publicacion_adopcion.mascota.adoptador')->first();
-            $adoptado = $value->publicacion_adopcion->mascota->adoptador;
-            if ($adoptado == null) {
+                ->with('publicacion_adopcion', 'publicacion_adopcion.mascota.adoptador')->first();*/
+            // $adoptado = $value->publicacion_adopcion->mascota->adoptador;
+            $adoptado = $especie->estado;
+            if ($adoptado == 0) {
                 $especie->forceDelete();
                 if (request()->ajax())
                 {
@@ -218,7 +218,7 @@ class SolicitudAdopcionController extends Controller
             if (request()->ajax())
             {
                 return response()->json([
-                    "error" => "Las mascota esta adoptado no se puede eliminar" . $adoptado
+                    "error" => "Las mascota esta adoptado no se puede eliminar"
                 ]);
             }
             return back()->withErrors(['errorDependencia' => "Especie $especie->nombre tiene dependencias"]);

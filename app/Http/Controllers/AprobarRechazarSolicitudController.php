@@ -3,12 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mascota;
+use App\Models\PublicacionAdopcion;
 use App\Models\SolicitudAdopcion;
 use App\Models\User;
 use Illuminate\Http\Request;
 
 class AprobarRechazarSolicitudController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,10 +21,17 @@ class AprobarRechazarSolicitudController extends Controller
      */
     public function index()
     {
-        $query = SolicitudAdopcion::orderBy('id', 'desc')->paginate(4);
-        $query = $query;
+        $mascotas = Mascota::all();
+        $query = SolicitudAdopcion::orderBy('id', 'desc')->whereHas('publicacion_adopcion.mascota', function ($query) {
+            $query->whereNull('deleted_at');
+            if (request()->has('mascota_id'))
+            {
+                $query->where('id', request()->input('mascota_id'));
+            }
+        })->paginate(4);
+        $query = $query->appends(request()->query());
         $solicitudes = $query;
-        return view('adopcion.aprobarSolicitud.index', compact('solicitudes'));
+        return view('adopcion.aprobarSolicitud.index', compact('solicitudes', 'mascotas'));
     }
 
     /**
@@ -84,7 +96,7 @@ class AprobarRechazarSolicitudController extends Controller
                 },
                 'user' => function($query) {
                     $query->withTrashed();
-                }
+                },
                 ]
             )
             ->first();
@@ -108,11 +120,12 @@ class AprobarRechazarSolicitudController extends Controller
     public function update(Request $request, $id)
     {
         $adoptar = $request->get('adoptar');
-        $solicitud = SolicitudAdopcion::where('id', $id)->with('publicacion_adopcion.mascota')->first();
+        $solicitud = SolicitudAdopcion::findOrFail($id);
+        $publicacionAdopncion = PublicacionAdopcion::findOrFail($solicitud->publicacion_adopcion_id);
         $usuarioInteresado = User::findOrFail($solicitud->user_id);
-        $mascotaId = $solicitud->publicacion_adopcion->mascota->id;
-        $mascota = Mascota::findOrFail($mascotaId);
-        $propetario = $mascota->propetario;
+        $id = $publicacionAdopncion->mascota_id;
+        $mascota = Mascota::findOrFail($id);
+        $propetario = $mascota->propetario_id;
 
         if ($propetario != null) {
             return back()->withErrors(['igual' => 'La mascota tiene ya un propetario']);

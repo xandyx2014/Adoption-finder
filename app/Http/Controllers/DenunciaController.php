@@ -30,7 +30,9 @@ class DenunciaController extends Controller
             $query = Denuncia::onlyTrashed();
         }
 
-            $query = $query->paginate(4)
+            $query = $query->with(['tipoDenuncia' => function ($query) {
+                $query->withTrashed();
+            }])->paginate(4)
             ->appends(request()->query());
         return view('denuncia.denuncia.index', [
             'denuncias' => $query,
@@ -68,11 +70,8 @@ class DenunciaController extends Controller
     public function show($id)
     {
         $denuncia = Denuncia::withTrashed()->where('id', $id)->first();
-        if ($denuncia->denunciable_type == PublicacionInformativa::class) {
-            return redirect()->route('publicacion.show', $denuncia->denunciable_id);
-        }
-        // retorna a la mascota
-        return view('denuncia.denuncia.showAdop');
+        $tipo = TipoDenuncia::withTrashed()->get();
+        return view('denuncia.denuncia.show', compact('denuncia', 'tipo'));
     }
 
     public function report(Request $request)

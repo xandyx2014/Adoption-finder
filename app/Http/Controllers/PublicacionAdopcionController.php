@@ -104,7 +104,26 @@ class PublicacionAdopcionController extends Controller
      */
     public function show($id)
     {
-        $publicacion = PublicacionAdopcion::withTrashed()->where('id', $id)->with('user', 'mascota.raza', 'mascota.especie', 'mascota.etiquetas', 'mascota.imagens')->first();
+        $publicacion = PublicacionAdopcion::withTrashed()->where('id', $id)
+            ->with([
+                'user' => function($query) {
+                    $query->withTrashed();
+                },
+                'mascota.raza' => function($query) {
+                    $query->withTrashed();
+                },
+                'mascota.especie' => function($query) {
+                    $query->withTrashed();
+                },
+                'mascota.etiquetas' => function($query) {
+                    $query->withTrashed();
+                },
+                'mascota.imagens' => function($query) {
+                    $query->withTrashed();
+                },
+                ]
+            )
+            ->first();
         return view('adopcion.publicacionAdopcion.show', compact('publicacion'));
     }
 

@@ -12,9 +12,9 @@ Route::resources([
     'publicacionAdopcion' => PublicacionAdopcionController::class,
     'seguimiento' => SeguimientoController::class,
     'solicitud' => SolicitudAdopcionController::class,
-    'aprobarSolicitud' => AprobarRechazarSolicitudController:class
+    'aprobarSolicitud' => AprobarRechazarSolicitudController::class
 ]);
-Route::get('solicituddestroy/{id}', [SolicitudAdopcionController::class, 'destroy']);
+Route::get('mascotadestroy/{id}', [MascotaController::class, 'destroy']);
 Route::resource( 'imagenMascota', ImagenMascotaController::class);
 Route::delete('mascota/photo/{id}', [MascotaController::class, 'imageDelete'])->name('mascota.photo.delete');
 Route::post('mascota/report', [MascotaController::class, 'report'])->name('mascota.report');

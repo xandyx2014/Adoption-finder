@@ -163,7 +163,22 @@ class MascotaController extends Controller
     {
         $mascota = Mascota::withTrashed()
             ->where('id', $id)
-            ->with(['user', 'imagens', 'etiquetas', 'raza', 'especie'])
+            ->with([
+                'user' => function($query) {
+                    $query->withTrashed();
+                },
+                'imagens' => function($query) {
+                    $query->withTrashed();
+                },
+                'etiquetas' => function($query) {
+                    $query->withTrashed();
+                },
+                'raza' => function($query) {
+                    $query->withTrashed();
+                },
+                'especie' => function($query) {
+                    $query->withTrashed();
+                }])
             ->first();
         return view('adopcion.mascota.show', compact('mascota'));
     }
@@ -176,7 +191,11 @@ class MascotaController extends Controller
      */
     public function edit($id)
     {
-        $mascota = Mascota::findOrFail($id);
+        $mascota = Mascota::where('id', $id)->with([
+            'propetario' => function ($query) {
+                $query->withTrashed();
+            }
+        ])->first();
         $etiquetas = Etiqueta::all();
         $razas = Raza::all();
         $especies = Especie::all();
@@ -207,7 +226,6 @@ class MascotaController extends Controller
      */
     public function update(Request $request, $id)
     {
-
 
         if ($request->has('restore'))
         {
@@ -246,6 +264,13 @@ class MascotaController extends Controller
             'especie_id' => $request->get('especie'),
             'raza_id' => $request->get('raza'),
         ]);
+        if ($request->get('propetario') == 0)
+        {
+            $mascota->update([
+                'propetario_id' => null,
+                'adoptado' => 0,
+            ]);
+        }
         $mascota->etiquetas()->sync($request->get('etiquetas'));
         return redirect()->route('mascota.index');
     }
@@ -262,18 +287,19 @@ class MascotaController extends Controller
         $bin = request()->input('bin');
         if ($bin)
         {
-            // verificar las dependencias y force delete
-            // $countTotal = $especie->denuncias()->get()->count();
+
             $countSeguimiento = $especie->seguimientos()->get()->count();
+            $adoptado = null;
             $countTotal = 0;
-            $countTotalImagen = $especie->imagens()->get()->count();;
-            if ($especie->adoptado == "1")
+            $countTotalImagen = $especie->imagens()->get()->count();
+            $counPublicaicones = count($especie->publicacionAdopcions()->withTrashed()->get() ?? []);
+            if ($especie->adoptado == "1" && $adoptado != null)
             {
                 return response()->json([
                     "error" => "$especie->nombre ya ha sido adoptado no se puede eliminar"
                 ]);
             }
-            if ($countSeguimiento == 0 && $countTotalImagen == 0) {
+            if ($countSeguimiento == 0 && $countTotalImagen == 0 && $counPublicaicones == 0) {
                 $especie->etiquetas()->detach();
                 $especie->forceDelete();
                 if (request()->ajax())
@@ -286,9 +312,10 @@ class MascotaController extends Controller
             }
             if (request()->ajax())
             {
-                $total = $countTotal + $countTotalImagen + $countSeguimiento;
+                $publicaciones = $counPublicaicones;
+                $total = $countTotal + $countTotalImagen + $countSeguimiento + $publicaciones;
                 return response()->json([
-                    "error" => "$especie->nombre tiene dependencias Total: $total Imagenes: $countTotalImagen, Seguimientos: $countSeguimiento"
+                    "error" => "$especie->nombre tiene dependencias Total: $total, Imagenes: $countTotalImagen, Seguimientos: $countSeguimiento, Publicaciones de adopcion $publicaciones"
                 ]);
             }
             return back()->withErrors(['errorDependencia' => "Especie $especie->nombre tiene dependencias"]);

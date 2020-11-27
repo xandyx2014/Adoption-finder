@@ -3,7 +3,9 @@
 namespace Database\Factories;
 
 use App\Models\Perfil;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class PerfilFactory extends Factory
 {
@@ -22,7 +24,11 @@ class PerfilFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'apellidos' => $this->faker->lastName,
+            'apodo' => Str::substr( $this->faker->userName, 0 ,15 ) ,
+            'telefono' => $this->faker->phoneNumber,
+            'about' => $this->faker->realText(),
+            'user_id' => User::factory()
         ];
     }
 }

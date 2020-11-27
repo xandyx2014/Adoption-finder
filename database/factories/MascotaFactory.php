@@ -32,7 +32,7 @@ class MascotaFactory extends Factory
             'tamagno' => $this->faker->randomElement(['Pequeño', 'Mediano', 'Grande']),
             'salud' => $this->faker->randomElement(['Mal', 'Buena', 'Malita', 'Excelente']),
             'about' => Str::substr($this->faker->realText(), 0 ,100),
-            'adoptado' => $this->faker->randomElement([0, 1]),
+            'adoptado' => 0,
             'raza_id' => Raza::factory(),
             'user_id' => User::factory(),
             'especie_id' => Especie::factory()

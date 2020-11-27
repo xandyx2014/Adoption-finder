@@ -50,6 +50,10 @@
                 <i class="fa fa-question" aria-hidden="true"></i>
                 Solicitud de adopcion
             </a>
+            <a class="nav-link" href="{{ route('aprobarSolicitud.index') }}">
+                <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                Aprobar | Rechazar solicitud de adopcion
+            </a>
 
         </ul>
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-1 text-muted">
@@ -75,7 +79,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('aprobar.index') }}">
                     <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                    Aprobar | Reachazar publicacion
+                    Aprobar | Rechazar publicacion
                 </a>
             </li>
             <li class="nav-item">
@@ -157,9 +161,9 @@
         </h6>
         <ul class="nav flex-column collapse" id="administracion">
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fa fa-book" aria-hidden="true"></i>
-                    Current month
+                <a class="nav-link" href="{{ route('user.index') }}">
+                    <i class="fa fa-users" aria-hidden="true"></i>
+                    Gestionar usuario
                 </a>
             </li>
         </ul>

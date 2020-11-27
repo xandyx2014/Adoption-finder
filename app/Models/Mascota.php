@@ -11,6 +11,7 @@ class Mascota extends Model
     use HasFactory, SoftDeletes;
     protected $fillable = [
         'nombre',
+        'adoptado',
         'color',
         'descripcion',
         'tamagno',
@@ -18,6 +19,7 @@ class Mascota extends Model
         'especie_id',
         'raza_id',
         'user_id',
+        'propetario_id',
         'about' ];
     public function getCreatedAtAttribute($value)
     {
@@ -59,9 +61,9 @@ class Mascota extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function adoptador()
+    public function propetario()
     {
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class, 'propetario_id');
     }
 
 }
