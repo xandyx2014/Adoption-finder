@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Permiso;
 use App\Models\Rol;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
@@ -93,8 +94,9 @@ class RolController extends Controller
      */
     public function show($id)
     {
-        $rol = Rol::where('id', $id)->withTrashed()->first();
-        return view('administracion.rol.show', compact('rol'));
+        $rol = Rol::where('id', $id)->withTrashed()->with('permiso')->first();
+        $permisos = Permiso::all();
+        return view('administracion.rol.show', compact('rol', 'permisos'));
     }
 
     /**

@@ -13,7 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
+    <link rel="shortcut icon" href="{{ asset('storage/paw.ico') }}">
     @stack('css')
 </head>
 <body>

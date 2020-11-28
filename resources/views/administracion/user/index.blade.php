@@ -60,7 +60,7 @@
                                 <th scope="row">{{ $user->id }}</th>
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
-                                <td><span class="badge badge-info">Nombre del rol</span></td>
+                                <td><span class="badge badge-info p-1">{{ $user->rol->nombre }}</span></td>
                                 <td>
                                     @unless(request()->has('bin'))
                                         @include('administracion.user.action', [ 'data' => $user])

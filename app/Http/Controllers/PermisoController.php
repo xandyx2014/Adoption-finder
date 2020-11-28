@@ -3,11 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Permiso;
+use App\Models\Rol;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 
 class PermisoController extends Controller
 {
+    public function __construct()
+    {
+        // $this->middleware('permiso:Ver usuario')->only(['index']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +20,14 @@ class PermisoController extends Controller
      */
     public function index()
     {
-        $query = Permiso::orderBy('id', 'desc');
+        /*if (auth()->user()->can('is-admin'))
+        {
+            return "soy admin";
+        }*/
+        // Blade
+        // @can('permmiso', 'Ver usuario')
+        // @can('is-admin') 'Super admin'
+        $query = Rol::orderBy('id', 'desc');
         if (request()->has('search'))
         {
             $q = request()->input('search');
@@ -82,9 +94,11 @@ class PermisoController extends Controller
      * @param  \App\Models\Permiso  $permiso
      * @return \Illuminate\Http\Response
      */
-    public function show(Permiso $permiso)
+    public function show($id)
     {
-        //
+        $rol =  Rol::where('id', $id)->with('permiso')->first();
+        $permisos = Permiso::orderBy('id', 'asc')->get();
+        return view('administracion.permiso.show', compact('rol', 'permisos'));
     }
 
     /**
@@ -93,7 +107,7 @@ class PermisoController extends Controller
      * @param  \App\Models\Permiso  $permiso
      * @return \Illuminate\Http\Response
      */
-    public function edit(Permiso $permiso)
+    public function edit($id)
     {
         //
     }
@@ -105,9 +119,15 @@ class PermisoController extends Controller
      * @param  \App\Models\Permiso  $permiso
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Permiso $permiso)
+    public function update(Request $request, $id)
     {
-        //
+        if ($request->has('permisos'))
+        {
+            $rol = Rol::findOrFail($id);
+            $rol->permiso()->sync($request->get('permisos'));
+        }
+
+        return redirect()->route('permiso.index');
     }
 
     /**
@@ -116,7 +136,7 @@ class PermisoController extends Controller
      * @param  \App\Models\Permiso  $permiso
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Permiso $permiso)
+    public function destroy($id)
     {
         //
     }

@@ -13,7 +13,7 @@
                     @method('GET')
                     <div class="form-group">
                         <label for="exampleInputPassword1">Nombre</label>
-                        <input type="text" name="rol" class="form-control" placeholder="Nombre">
+                        <input type="text" name="search" class="form-control" placeholder="Nombre">
                     </div>
                     <button type="submit" class="btn btn-outline-primary">Buscar</button>
                 </form>

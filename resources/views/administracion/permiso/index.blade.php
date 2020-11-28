@@ -24,25 +24,36 @@
                                 class="btn btn-sm btn-outline-secondary elevation-2">
                                 Reporte <i class="fa fa-file" aria-hidden="true"></i>
                             </button>
-                            <a href="{{ route('rol.index', [ 'bin' => true]) }}"
-                               class="btn btn-sm btn-outline-danger elevation-2">
-                                Papelera <i class="fa fa-recycle" aria-hidden="true"></i>
-                            </a>
                             @include('administracion.permiso.select')
                     </div>
+                    @can('permiso', 'Ver usuario')
+                        tengo el permiso de ver usuario
+                    @endcan
                     <div class="card-body">
                         <table class="table table-sm">
                             <thead>
                             <tr class=" bg-primary">
                                 <th scope="col" style="text-align: center">ID</th>
-                                <th scope="col" style="text-align: center">Nombre</th>
+                                <th scope="col" style="text-align: center">Rol</th>
+                                <th scope="col" style="text-align: center">Creado</th>
+                                <th scope="col" style="text-align: center">Actualizado</th>
+                                <th scope="col" style="text-align: center">Accion</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($permisos as $permiso)
                             <tr>
                                 <th scope="row" style="text-align: center">{{ $permiso->id }}</th>
-                                <td style="text-align: center">{{ $permiso->nombre }}</td>
+                                <td style="text-align: center" class="font-weight-bold">
+                                    {{ $permiso->nombre }}
+                                </td>
+                                <td style="text-align: center">{{ $permiso->created_at }}</td>
+                                <td style="text-align: center">{{ $permiso->updated_at }}</td>
+                                <td>
+                                    <a class="btn btn-info elevation-2" href="{{ route('permiso.show', $permiso->id) }}">
+                                        <i class="fa fa-shield" aria-hidden="true"></i>
+                                    </a>
+                                </td>
                             </tr>
                             @endforeach
                             </tbody>

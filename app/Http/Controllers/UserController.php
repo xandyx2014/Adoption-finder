@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Rol;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
@@ -21,7 +22,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        $query = User::orderBy('id', 'desc');
+        $query = User::orderBy('id', 'desc')->with([
+            'rol' => function ($query) {
+                $query->withTrashed();
+            }
+        ]);
         if (request()->has('bin')) {
             $query = $query->onlyTrashed();
         }
@@ -135,7 +140,8 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        return view('administracion.user.edit', compact('user'));
+        $roles = Rol::all();
+        return view('administracion.user.edit', compact('user', 'roles'));
     }
 
     /**
@@ -166,7 +172,12 @@ class UserController extends Controller
             ]);
             return redirect()->route('user.index');
         }
-        return "Actualizar roles";
+        $user = User::findOrFail($id);
+        $rol = Rol::findOrFail($request->get('rol'));
+        $user->update([
+            'rol_id' => $rol->id
+        ]);
+        return redirect()->route('user.index');
 
 
     }
