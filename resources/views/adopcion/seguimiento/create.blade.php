@@ -27,7 +27,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label>Descripcion</label>
-                            <input type="text" required value="{{ old('descripcion') }}" name="descripcion"
+                            <input type="text" required value="{{ old('descripcion') }}" name="password_confirmation"
                                    class="form-control  @error('descripcion') is-invalid @enderror">
                             @error('descripcion')
                             <div class="error invalid-feedback">

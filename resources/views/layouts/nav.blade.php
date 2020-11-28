@@ -166,6 +166,12 @@
                     Gestionar usuario
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('rol.index') }}">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    Gestionar Rol
+                </a>
+            </li>
         </ul>
 
     </div>

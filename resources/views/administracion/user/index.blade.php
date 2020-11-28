@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Especie')
+@section('title', 'Usuarios')
 @section('content')
     <div class="container p-4 rounded">
         <div class="row">
@@ -7,6 +7,41 @@
                 <div class="card">
                     <div class="card-header">
                         Gestionar usuario
+                        @unless(request()->has('bin'))
+                            <button type="button" class="btn btn-sm btn-secondary elevation-2" data-toggle="modal"
+                                    data-target="#searchModal">
+                                Busqueda
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </button>
+                            <a
+                                href="{{ route('user.index') }}"
+                                class="btn btn-sm btn-outline-secondary elevation-2">
+                                Limpiar busqueda
+                                <i class="fa fa-ban" aria-hidden="true"></i>
+                            </a>
+                            @include('administracion.user.search')
+                            <a
+                                href="{{ route('user.create') }}"
+                                class="btn btn-sm btn-secondary elevation-2">
+                                Crear <i class="fa fa-book" aria-hidden="true"></i>
+                            </a>
+                            <button
+                                data-toggle="modal" data-target="#reportModal"
+                                class="btn btn-sm btn-outline-secondary elevation-2">
+                                Reporte <i class="fa fa-file" aria-hidden="true"></i>
+                            </button>
+                            <a href="{{ route('user.index', [ 'bin' => true]) }}"
+                               class="btn btn-sm btn-outline-danger elevation-2">
+                                Papelera <i class="fa fa-recycle" aria-hidden="true"></i>
+                            </a>
+                            @include('administracion.user.select')
+                        @endunless
+                        @if(request()->has('bin'))
+                            <a href="{{ route('user.index') }}" class="btn btn-sm btn-outline-success elevation-2">
+                                Lista <i class="fa fa-list" aria-hidden="true"></i>
+                            </a>
+                        @endif
+
                     </div>
                     <div class="card-body">
                         <table class="table table-sm">
@@ -15,7 +50,7 @@
                                 <th scope="col">#</th>
                                 <th scope="col">Nombre</th>
                                 <th scope="col">Email</th>
-                                <th scope="col">Email Verificado</th>
+                                <th scope="col">Rol</th>
                                 <th scope="col">Acciones</th>
                             </tr>
                             </thead>
@@ -25,13 +60,14 @@
                                 <th scope="row">{{ $user->id }}</th>
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
-                                @if($user->email_verified_at == null)
-                                    <td><span class="badge badge-danger">No verificado</span></td>
-                                    @else
-                                    <td><span class="badge badge-success">Verificado</span></td>
-                                @endif
+                                <td><span class="badge badge-info">Nombre del rol</span></td>
                                 <td>
-                                    @include('administracion.user.action', [ 'data' => $user])
+                                    @unless(request()->has('bin'))
+                                        @include('administracion.user.action', [ 'data' => $user])
+                                        @else
+                                        @include('administracion.user.actionsBin', [ 'data' => $user])
+                                    @endunless
+
                                 </td>
                             </tr>
                             @endforeach
