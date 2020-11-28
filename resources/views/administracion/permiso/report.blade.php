@@ -5,8 +5,8 @@
         <div class="row justify-content-center">
             <div class="col">
                 <div class="card">
-                    <div class="card-header">Listado de Roles
-                        <form action="{{ route('rol.pdf') }}" method="post">
+                    <div class="card-header">Listado de Permisos
+                        <form action="{{ route('permiso.pdf') }}" method="post">
                             @csrf
                             <input type="text" name="estado" value="{{ old('estado', $estado) }}" hidden>
                             <button
@@ -23,7 +23,7 @@
                                     <b>Generado en:</b>{{  \Carbon\Carbon::now()->format('d-M-Y') }}
                                 </p>
                                 <p>
-                                    <b>Modelo: </b>Roles
+                                    <b>Modelo: </b>Permisos
                                 </p>
                                 <p>
                                     <b>Generado por:</b> {{ auth()->user()->name }}
@@ -39,8 +39,6 @@
                             <tr>
                                 <th scope="col" style="width: 10%">ID</th>
                                 <th scope="col" >Nombre</th>
-                                <th scope="col">Creado</th>
-                                <th scope="col">Actualizado</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -48,8 +46,6 @@
                                 <tr>
                                     <td>{{ $especie->id }}</td>
                                     <td>{{ $especie->nombre }}</td>
-                                    <td>{{ $especie->created_at }}</td>
-                                    <td>{{ $especie->updated_at }}</td>
                                 </tr>
                             @empty
                                 <tr style="text-align: center">

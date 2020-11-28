@@ -9,7 +9,7 @@
             </div>
             <div class="modal-body">
 
-                <form class="p-0 pr-0" action="{{ route('rol.report') }}" method="POST">
+                <form class="p-0 pr-0" action="{{ route('permiso.report') }}" method="POST">
                     @csrf
                     @method('POST')
                     <div class="form-group">
@@ -19,7 +19,6 @@
                             </div>
                             <select class="custom-select" id="estado" name="estado" required>
                                 <option value="1" selected>Habilitado</option>
-                                <option value="0">Deshabilitado</option>
                             </select>
                         </div>
                     </div>

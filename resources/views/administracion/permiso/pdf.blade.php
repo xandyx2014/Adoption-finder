@@ -128,7 +128,7 @@
 <body>
 <div>
     <div class="titulo">
-        <h4>Roles</h4>
+        <h4>Permisos</h4>
     </div>
     {{--<div>
         <p>
@@ -152,8 +152,6 @@
     <tr>
         <th scope="col" style="width: 10%">ID</th>
         <th scope="col" >Nombre</th>
-        <th scope="col">Creado</th>
-        <th scope="col">Actualizado</th>
     </tr>
     </thead>
     <tbody>
@@ -162,8 +160,6 @@
         <tr>
             <td>{{ $especie->id }}</td>
             <td>{{ $especie->nombre }}</td>
-            <td>{{ $especie->created_at }}</td>
-            <td>{{ $especie->updated_at }}</td>
         </tr>
     @empty
         <tr style="text-align: center">

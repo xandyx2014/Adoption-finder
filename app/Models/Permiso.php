@@ -5,11 +5,10 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Rol extends Model
+class Permiso extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
     protected $fillable = [
         'nombre',
     ];
@@ -25,8 +24,8 @@ class Rol extends Model
     {
         return Carbon::parse($value)->format('d-M-Y');
     }
-    public function permiso()
+    public function rol()
     {
-        return $this->belongsToMany(Permiso::class);
+        return $this->belongsToMany(Rol::class);
     }
 }

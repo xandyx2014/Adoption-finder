@@ -172,6 +172,12 @@
                     Gestionar Rol
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('permiso.index') }}">
+                    <i class="fa fa-shield" aria-hidden="true"></i>
+                    Administrar permisos
+                </a>
+            </li>
         </ul>
 
     </div>

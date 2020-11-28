@@ -150,7 +150,6 @@ class UserController extends Controller
         if ($request->has('restore')) {
             User::withTrashed()->find($id)->restore();
             return back();
-
         }
         if ($request->has('edit')) {
             $request->validate([

@@ -41,5 +41,8 @@ class DatabaseSeeder extends Seeder
             ->hasDenuncias(4)
             ->hasSolicitudAdopcions(3)
             ->create();
+        \App\Models\Permiso::factory(5)
+            ->hasRol(4)
+            ->create();
     }
 }
