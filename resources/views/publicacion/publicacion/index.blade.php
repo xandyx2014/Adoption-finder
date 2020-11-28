@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Especie')
 @section('content')
+    @once
     @push('css')
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"
               integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw=="
@@ -11,6 +12,7 @@
             integrity="sha512-CbQfNVBSMAYmnzP3IC+mZZmYMP2HUnVkV4+PwuhpiMUmITtSpS7Prr3fNncV1RBOnWxzz4pYQ5EAGG4ck46Oig=="
             crossorigin="anonymous"/>
     @endpush
+    @endonce
     <div class="container elevation-4">
         <div class="row justify-content-center">
             <div class="col">

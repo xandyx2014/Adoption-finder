@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'rol_id'
     ];
 
     /**
@@ -76,5 +77,9 @@ class User extends Authenticatable
     public function adoptar()
     {
         return $this->hasMany(Mascota::class, 'propetario_id');
+    }
+    public function rol()
+    {
+        return $this->belongsTo(Rol::class);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Rol;
 use Illuminate\Http\Request;
 
 class RolController extends Controller
@@ -13,7 +14,18 @@ class RolController extends Controller
      */
     public function index()
     {
-        return view('administracion.rol.index');
+        $query = Rol::orderBy('id', 'desc');
+        if (request()->has('bin'))
+        {
+            $query = $query->onlyTrashed();
+        }
+        if (request()->has('rol'))
+        {
+            $rol = request()->input('rol');
+            $query = $query->where('nombre', 'LIKE', "%$rol%");
+        }
+        $roles = $query->paginate(4)->appends(request()->query());
+        return view('administracion.rol.index', compact('roles'));
     }
 
     /**
@@ -23,7 +35,7 @@ class RolController extends Controller
      */
     public function create()
     {
-        //
+        return  view('administracion.rol.create');
     }
 
     /**
@@ -34,7 +46,13 @@ class RolController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'rol' => ['required', 'min:5', 'max:200']
+        ]);
+        Rol::create([
+            'nombre' => $request->get('rol')
+        ]);
+        return redirect()->route('rol.index');
     }
 
     /**
@@ -45,7 +63,8 @@ class RolController extends Controller
      */
     public function show($id)
     {
-        //
+        $rol = Rol::where('id', $id)->withTrashed()->first();
+        return view('administracion.rol.show', compact('rol'));
     }
 
     /**
@@ -56,7 +75,8 @@ class RolController extends Controller
      */
     public function edit($id)
     {
-        //
+        $rol = Rol::findOrFail($id);
+        return view('administracion.rol.edit', compact('rol'));
     }
 
     /**
@@ -68,7 +88,14 @@ class RolController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'rol' => ['required', 'min:5', 'max:200']
+        ]);
+        $rol = Rol::findOrFail($id);
+        $rol->update([
+            'nombre' => $request->get('rol')
+        ]);
+        return redirect()->route('rol.index');
     }
 
     /**
