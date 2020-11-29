@@ -153,6 +153,7 @@
         <th scope="col" style="width: 10%">ID</th>
         <th scope="col" >Nombre</th>
         <th scope="col">Email</th>
+        <th scope="col">Rol</th>
         <th scope="col">Creado</th>
         <th scope="col">Actualizado</th>
     </tr>
@@ -164,6 +165,7 @@
             <td>{{ $especie->id }}</td>
             <td>{{ $especie->name }}</td>
             <td>{{ $especie->email }}</td>
+            <td>{{ $especie->rol->nombre }}</td>
             <td>{{ $especie->created_at }}</td>
             <td>{{ $especie->updated_at }}</td>
         </tr>

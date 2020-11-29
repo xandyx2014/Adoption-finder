@@ -14,14 +14,13 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label>Nombre</label>
-                                <input type="text" name="rol" value="{{ old('rol') }}" class="form-control @error('rol') is-invalid @enderror" placeholder="Enter ...">
-                                @error('rol')
+                                <input type="text" name="nombre" value="{{ old('nombre') }}" class="form-control @error('nombre') is-invalid @enderror" placeholder="Enter ...">
+                                @error('nombre')
                                 <div class="error invalid-feedback">
                                     {{ $message }}
                                 </div>
                                 @enderror
                             </div>
-
                         </div>
                         <!-- /.card-body -->
 

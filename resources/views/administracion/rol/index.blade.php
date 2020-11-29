@@ -56,6 +56,7 @@
                             </thead>
                             <tbody>
                             @foreach( $roles as $rol)
+                                @unless($rol->nombre == 'admin')
                                 <tr>
                                     <th scope="row">{{ $rol->id }}</th>
                                     <td>{{ $rol->nombre  }}</td>
@@ -69,6 +70,7 @@
                                         @endunless
                                     </td>
                                 </tr>
+                                @endunless
                             @endforeach
                             </tbody>
                         </table>

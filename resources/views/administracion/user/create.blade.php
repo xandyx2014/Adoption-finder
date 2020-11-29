@@ -1,6 +1,11 @@
 @extends('layouts.app')
 @section('title', 'Usuario')
 @section('content')
+    @once
+    @push('css')
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" />
+    @endpush
+    @endonce
     <form action="{{ route('user.store') }}" method="POST">
         @csrf
         @method('POST')
@@ -69,7 +74,15 @@
             <div class="col-6">
                 <div class="card elevation-4 rounded p-4">
                     <div class="card-header"></div>
-                    <div class="card-body"></div>
+                    <div class="card-body">
+                        <select class="js-example-basic-single w-100" name="rol">
+                            @foreach($roles as $rol)
+                                <option
+                                    value="{{ $rol->id }}"
+                                >{{ $rol->nombre }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary w-100">
                             Crear
@@ -80,4 +93,12 @@
         </div>
     </div>
     </form>
+    @push('js')
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous"></script>
+        <script type="application/javascript">
+            $(document).ready(function() {
+                $('.js-example-basic-single').select2();
+            });
+        </script>
+    @endpush
 @endsection

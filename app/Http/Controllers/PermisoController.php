@@ -97,10 +97,13 @@ class PermisoController extends Controller
     public function show($id)
     {
         $rol =  Rol::where('id', $id)->with('permiso')->first();
+        if ($rol->nombre == 'admin')
+        {
+            return redirect('home');
+        }
         $permisos = Permiso::orderBy('id', 'asc')->get();
         return view('administracion.permiso.show', compact('rol', 'permisos'));
     }
-
     /**
      * Show the form for editing the specified resource.
      *

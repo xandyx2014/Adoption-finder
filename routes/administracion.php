@@ -3,6 +3,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\PermisoController;
+use App\Http\Controllers\PerfilController;
 Route::resource('user', UserController::class);
 
 // Route::get('destroyUser/{id}', [UserController::class, 'destroy']);
@@ -19,3 +20,5 @@ Route::post('rol/report/pdf', [RolController::class, 'generatePdf'])->name('rol.
 Route::resource('permiso', PermisoController::class);
 Route::post('permiso/report', [PermisoController::class, 'report'])->name('permiso.report');
 Route::post('permiso/report/pdf', [PermisoController::class, 'generatePdf'])->name('permiso.pdf');
+// Perfil
+Route::resource('perfil', PerfilController::class);

@@ -19,6 +19,17 @@
                         <label for="exampleInputPassword1">Nombre</label>
                         <input type="text" name="name" class="form-control" placeholder="Nombre">
                     </div>
+                    <div class="form-group w-100">
+                        <label for="exampleInputPassword1">Rol</label>
+                        <select class="js-example-basic-single" name="rol" style="width: 100%">
+                            <option value="">TODOS</option>
+                            @foreach($roles as $rol)
+                                <option
+                                    value="{{ $rol->id }}"
+                                >{{ $rol->nombre }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     {{--<div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <label class="input-group-text" for="inputGroupSelect01">Raza</label>

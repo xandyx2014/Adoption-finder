@@ -44,5 +44,8 @@ class DatabaseSeeder extends Seeder
         \App\Models\Permiso::factory(5)
             ->hasRol(4)
             ->create();
+        DB::table('rols')->insert([
+            'nombre' => 'admin'
+        ]);
     }
 }

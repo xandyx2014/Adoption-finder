@@ -38,9 +38,14 @@ class UserController extends Controller
             $email = request()->input('name');
             $query = $query->where('name', 'LIKE', "%$email%");
         }
+        if (request()->has('rol') && request()->input('rol') != "") {
+            $email = request()->input('rol');
+            $query = $query->where('rol_id', $email);
+        }
         $query = $query->where('email', '!=', auth()->user()->email);
         $usuarios = $query->paginate(4)->appends(request()->query());
-        return view('administracion.user.index', compact('usuarios'));
+        $roles = Rol::all();
+        return view('administracion.user.index', compact('usuarios', 'roles'));
     }
 
     public function report(Request $request)
@@ -48,9 +53,17 @@ class UserController extends Controller
         $estado = $request->get('estado');
         $especies;
         if ($estado == "1") {
-            $especies = User::all();
+            $especies = User::with('rol')->with([
+                'rol' => function ($query) {
+                    $query->withTrashed();
+                }
+            ])->get();
         } else {
-            $especies = User::onlyTrashed()->get();
+            $especies = User::onlyTrashed()->with([
+                'rol' => function ($query) {
+                    $query->withTrashed();
+                }
+            ])->get();
         }
         /**/
         return view('administracion.user.report', [
@@ -64,9 +77,17 @@ class UserController extends Controller
         $estado = $request->get('estado');
         $especies;
         if ($estado == "1") {
-            $especies = User::all();
+            $especies = User::with('rol')->with([
+                'rol' => function ($query) {
+                    $query->withTrashed();
+                }
+            ])->get();
         } else {
-            $especies = User::onlyTrashed()->get();
+            $especies = User::onlyTrashed()->with([
+                'rol' => function ($query) {
+                    $query->withTrashed();
+                }
+            ])->get();
         }
         $pdf = PDF::loadView('administracion.user.pdf', compact('especies'));
         $pdf->setPaper('a4', 'portrait');
@@ -81,7 +102,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('administracion.user.create');
+        $roles = Rol::all();
+        return view('administracion.user.create', compact('roles'));
     }
 
     /**
@@ -96,10 +118,12 @@ class UserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'rol' => ['required']
         ]);
         User::create([
             'name' => $request->get('name'),
             'email' => $request->get('email'),
+            'rol_id' => $request->get('rol'),
             'password' => Hash::make($request->get('password')),
         ]);
         return redirect()->route('user.index');

@@ -78,10 +78,10 @@ class RolController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'rol' => ['required', 'min:5', 'max:200']
+            'nombre' => ['required', 'unique:rols','min:5', 'max:200']
         ]);
         Rol::create([
-            'nombre' => $request->get('rol')
+            'nombre' => $request->get('nombre')
         ]);
         return redirect()->route('rol.index');
     }
@@ -108,6 +108,9 @@ class RolController extends Controller
     public function edit($id)
     {
         $rol = Rol::findOrFail($id);
+        if ($rol->nombre == 'admin') {
+            return redirect('home');
+        }
         return view('administracion.rol.edit', compact('rol'));
     }
 
@@ -122,6 +125,9 @@ class RolController extends Controller
     {
         if ($request->has('restore')) {
             Rol::withTrashed()->find($id)->restore();
+            return back();
+        }
+        if ($request->get('rol') == 'admin') {
             return back();
         }
         $request->validate([

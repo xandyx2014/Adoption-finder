@@ -2,6 +2,12 @@
     <div class="sidebar-sticky">
         <ul class="nav flex-column">
             <li class="nav-item">
+                <a class="nav-link active" href="{{ url('home') }}">
+                    <i class="fa fa-home" aria-hidden="true"></i>
+                    Hogar
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link active" href="{{ route('init') }}" target="_blank">
                     <i class="fa fa-globe" aria-hidden="true"></i>
                     Ver Pagina
@@ -146,9 +152,9 @@
         </h6>
         <ul class="nav flex-column collapse" id="reportes">
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fa fa-book" aria-hidden="true"></i>
-                    Current month
+                <a class="nav-link" href="{{ route('reporteMascota.index') }}">
+                    <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                    Reporte de mascota para la adopcion
                 </a>
             </li>
         </ul>
