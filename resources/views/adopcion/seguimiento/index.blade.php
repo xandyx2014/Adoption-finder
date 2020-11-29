@@ -78,7 +78,7 @@
                         <tr>
                             <th scope="row">{{ $mascota->id }}</th>
                             <th scope="row">{{ $mascota->calidad }}</th>
-                            <th scope="row">{{ $mascota->puntuacion }}</th>
+                            <th scope="row">{{ $mascota->puntuacion }} / 100</th>
                             <th scope="row">{{ $mascota->mascota->nombre }}</th>
                             @if( $mascota->mascota->adoptado == 1)
                                 <th scope="row"><span class="badge badge-success">Adoptado</span></th>

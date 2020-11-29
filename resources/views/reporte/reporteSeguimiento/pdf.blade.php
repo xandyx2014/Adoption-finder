@@ -44,7 +44,6 @@
         <h4>Reporte de Mascota</h4>
     </div>
 </div>
-
 <label> Mascota </label>
 <table class="table table-sm">
     <thead>
@@ -80,7 +79,53 @@
     </tr>
     </tbody>
 </table>
-<br>
+<label> Seguimiento</label>
+<table class="table table-sm">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col" style="width: 20%">Descripcion</th>
+        <th scope="col">Calidad</th>
+        <th scope="col">Puntuacion</th>
+        <th scope="col">Creado</th>
+        <th scope="col">Actualizado</th>
+    </tr>
+    </thead>
+    <tbody>
+    @forelse($mascota->seguimientos as $seguimiento)
+        <tr>
+            <td>{{ $seguimiento->id }}</td>
+            <td>{{ $seguimiento->descripcion }}</td>
+            <td>{{ $seguimiento->calidad }}</td>
+            <td>{{ $seguimiento->puntuacion }} / 100</td>
+            <td>{{ $seguimiento->created_at }}</td>
+            <td>{{ $seguimiento->deleted_at }}</td>
+
+            @empty
+                <td>
+                    No hay datos
+                </td>
+        </tr>
+    @endforelse
+    </tbody>
+</table>
+
+@if(count( optional($mascota)->seguimientos ?? []) > 0)
+    <br>
+    <label> Puntuacion mas alta : {{ $mascota->seguimientos->max('puntuacion') }} </label>
+    <br>
+    <label> Puntuacion mas bajas : {{ $mascota->seguimientos->min('puntuacion') }} </label>
+    <br>
+    <label> Total registros : {{ $mascota->seguimientos->count() }} </label>
+    <br>
+    <label> Total gral puntuacion: {{ $mascota->seguimientos->sum('puntuacion') }} </label>
+    <br>
+    <label> Requerimiento : {{ $mascota->seguimientos->count() * 100 }} </label>
+    <br>
+    <label> % Adecuacion: {{ ( $mascota->seguimientos->sum('puntuacion') / ($mascota->seguimientos->count() * 100) ) * 100 }} %</label>
+    <br>
+@endif
+<div style="page-break-after:always;"></div>
 <label> Raza</label>
 <table class="table table-sm">
     <thead>
@@ -102,7 +147,6 @@
     </tr>
     </tbody>
 </table>
-<br>
 <label> Especie</label>
 <table class="table table-sm">
     <thead>
@@ -124,7 +168,6 @@
     </tr>
     </tbody>
 </table>
-<br>
 <label> Etiquetas Total : {{ count($mascota->etiquetas ?? []) }}</label>
 <table class="table table-sm">
     <thead>
@@ -207,49 +250,7 @@
     </table>
 @endif
 <br>
-@if($publicacion == 1)
-    <label> Publicaciones creada de la para la mascota</label>
-    <table class="table table-sm">
-        <thead>
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Titulo</th>
-            @if($denuncia == 1)
-                <th scope="col">Total denuncias</th>
-            @endif()
-            @if($solicitud == 1)
-                <th scope="col">Total Solicitudes</th>
-            @endif
-            <th scope="col">Creado</th>
-            <th scope="col">Actualizado</th>
-        </tr>
-        </thead>
-        <tbody>
 
-        @if(count($mascota->publicacionAdopcions()->withTrashed()->get()) > 0)
-            @foreach($mascota->publicacionAdopcions()->withTrashed()->get() as $publicacion)
-                <tr>
-                    <td>{{ $publicacion->id }}</td>
-                    <td>{{ $publicacion->titulo }}</td>
-                    @if($denuncia == 1)
-                        <td>{{ count($publicacion->denuncias) }}</td>
-                    @endif
-                    @if($solicitud == 1)
-                        <td>{{ count($publicacion->solicitudAdopcions) }}</td>
-                    @endif
-                    <td>{{ $publicacion->created_at }}</td>
-                    <td>{{ $publicacion->updated_at }}</td>
-
-                </tr>
-            @endforeach
-        @else
-            <tr>
-                <td>Sin Publicaciones</td>
-            </tr>
-        @endif
-        </tbody>
-    </table>
-@endif
 </body>
 <script type="text/php">
 

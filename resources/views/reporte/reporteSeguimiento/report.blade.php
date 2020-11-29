@@ -6,14 +6,11 @@
             <div class="col">
                 <div class="card">
                     <div class="card-header">Reporte de Mascota
-                        <form action="{{ route('reporteMascota.pdf') }}" method="post">
+                        <form action="{{ route('reporteSeguimiento.pdf') }}" method="post">
                             @csrf
-                             <input type="text" name="user" value="{{ old('user', $user) }}" hidden>
-                             <input type="text" name="mascota" value="{{ old('mascota', $mascota->id) }}" hidden>
-                             <input type="text" name="adoptador" value="{{ old('adoptador', $adoptador) }}" hidden>
-                             <input type="text" name="publicacion" value="{{ old('publicacion', $publicacion) }}" hidden>
-                             <input type="text" name="solicitud" value="{{ old('solicitud', $solicitud) }}" hidden>
-                             <input type="text" name="denuncia" value="{{ old('denuncia', $denuncia) }}" hidden>
+                            <input type="text" name="user" value="{{ old('user', $user) }}" hidden>
+                            <input type="text" name="mascota" value="{{ old('mascota', $mascota->id) }}" hidden>
+                            <input type="text" name="adoptador" value="{{ old('adoptador', $adoptador) }}" hidden>
                             <button
                                 type="submit"
                                 class="btn btn-sm btn-outline-secondary elevation-2">
@@ -25,10 +22,10 @@
                         <div>
                             <div>
                                 <p>
-                                    <b>Generado en:</b>{{  \Carbon\Carbon::now()->format('d-M-Y') }}
+                                    <b>Generado en: </b>{{  \Carbon\Carbon::now()->format('d-M-Y') }}
                                 </p>
                                 <p>
-                                    <b>Modelo: </b> Mascota
+                                    <b>Modelo: </b> Seguimiento Mascota
                                 </p>
                                 <p>
                                     <b>Generado por:</b> {{ auth()->user()->name }}
@@ -73,6 +70,56 @@
                             </tr>
                             </tbody>
                         </table>
+                        <label> Seguimiento</label>
+                        <table class="table table-sm">
+                            <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col" style="width: 20%">Descripcion</th>
+                                <th scope="col">Calidad</th>
+                                <th scope="col">Puntuacion</th>
+                                <th scope="col">Creado</th>
+                                <th scope="col">Actualizado</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @forelse($mascota->seguimientos as $seguimiento)
+                            <tr>
+                                <td>{{ $seguimiento->id }}</td>
+                                <td>{{ $seguimiento->descripcion }}</td>
+                                <td>{{ $seguimiento->calidad }}</td>
+                                <td>{{ $seguimiento->puntuacion }} / 100</td>
+                                <td>{{ $seguimiento->created_at }}</td>
+                                <td>{{ $seguimiento->deleted_at }}</td>
+
+                                    @empty
+                                    <td>
+                                        No hay datos
+                                    </td>
+                            </tr>
+                            @endforelse
+                            </tbody>
+                        </table>
+
+                        @if(count( optional($mascota)->seguimientos ?? []) > 0)
+                            <br>
+                        <label> Puntuacion mas alta : {{ $mascota->seguimientos->max('puntuacion') }} </label>
+                            <br>
+                        <label> Puntuacion mas bajas : {{ $mascota->seguimientos->min('puntuacion') }} </label>
+                            <br>
+                        <label> Total registros : {{ $mascota->seguimientos->count() }} </label>
+                            <br>
+                        <label> Total gral puntuacion: {{ $mascota->seguimientos->sum('puntuacion') }} </label>
+                            <br>
+                        <label> Requerimiento : {{ $mascota->seguimientos->count() * 100 }} </label>
+                            <br>
+                        <label> % Adecuacion: {{ ( $mascota->seguimientos->sum('puntuacion') / ($mascota->seguimientos->count() * 100) ) * 100 }} %</label>
+                            <br>
+                        @endif
+                        <br>
+                        <br>
+                        <br>
+
                         <label> Raza</label>
                         <table class="table table-sm">
                             <thead>
@@ -135,7 +182,7 @@
                                     <td>{{ $etiqueta->updated_at }}</td>
 
                                 </tr>
-                                @empty
+                            @empty
                                 <tr>
                                     <td>No tiene etiquetas</td>
                                 </tr>
@@ -197,49 +244,6 @@
                             </table>
                         @endif
                         <br>
-                        @if($publicacion == 1)
-                            <label> Publicaciones creada de la para la mascota</label>
-                            <table class="table table-sm">
-                                <thead>
-                                <tr>
-                                    <th scope="col">ID</th>
-                                    <th scope="col">Titulo</th>
-                                    @if($denuncia == 1)
-                                    <th scope="col">Total denuncias</th>
-                                    @endif()
-                                    @if($solicitud == 1)
-                                    <th scope="col">Total Solicitudes</th>
-                                    @endif
-                                    <th scope="col">Creado</th>
-                                    <th scope="col">Actualizado</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-
-                                @if(count($mascota->publicacionAdopcions()->withTrashed()->get()) > 0)
-                                    @foreach($mascota->publicacionAdopcions()->withTrashed()->get() as $publicacion)
-                                        <tr>
-                                            <td>{{ $publicacion->id }}</td>
-                                            <td>{{ $publicacion->titulo }}</td>
-                                            @if($denuncia == 1)
-                                                <td>{{ count($publicacion->denuncias) }}</td>
-                                            @endif
-                                            @if($solicitud == 1)
-                                            <td>{{ count($publicacion->solicitudAdopcions) }}</td>
-                                            @endif
-                                            <td>{{ $publicacion->created_at }}</td>
-                                            <td>{{ $publicacion->updated_at }}</td>
-
-                                        </tr>
-                                    @endforeach
-                                    @else
-                                    <tr>
-                                        <td>Sin Publicaciones</td>
-                                    </tr>
-                                @endif
-                                </tbody>
-                            </table>
-                        @endif
                     </div>
                 </div>
             </div>

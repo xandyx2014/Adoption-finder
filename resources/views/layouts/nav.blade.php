@@ -157,6 +157,12 @@
                     Reporte de mascota para la adopcion
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('reporteSeguimiento.index') }}">
+                    <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                    Reporte de seguimiento de mascota
+                </a>
+            </li>
         </ul>
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-1 text-muted">
             <span>Adm usuario, auditoria</span>
