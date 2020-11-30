@@ -8,28 +8,22 @@
         <div class="card">
             <div class="card-header b-flex">
                 Denuncias | Total :
-                <span class="badge badge-secondary"></span>
-                <button type="button" class="btn btn-sm btn-secondary elevation-2" data-toggle="modal"
-                        data-target="#searchModal">
-                    Busqueda
-                    <i class="fa fa-search" aria-hidden="true"></i>
-                </button>
-                <a
-                    href="{{ route('denuncia.index') }}"
-                    class="btn btn-sm btn-secondary elevation-2">
-                    Limpiar busqueda
-                    <i class="fa fa-ban" aria-hidden="true"></i>
-                </a>
+                <span class="badge badge-secondary">
+                    {{ $denuncias->total() }}
+                </span>
                 @unless(request()->has('bin'))
                 |
-                {{--<a href="{{ route('denuncia.index') }}?tipo=1" class="btn btn-sm btn-primary elevation-2 elevation-2">
-                    <div class="text-light">Publicacion Informativa</div>
-                </a>
-                |
-                |
-                <a href="{{ route('denuncia.index') }}?tipo=0" class="btn btn-sm btn-warning elevation-2 elevation-2">
-                    <div class="text-light">Publicacion Mascotas</div>
-                </a>--}}
+                    <button type="button" class="btn btn-sm btn-secondary elevation-2" data-toggle="modal"
+                            data-target="#searchModal">
+                        Busqueda
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </button>
+                    <a
+                        href="{{ route('denuncia.index') }}"
+                        class="btn btn-sm btn-secondary elevation-2">
+                        Limpiar busqueda
+                        <i class="fa fa-ban" aria-hidden="true"></i>
+                    </a>
                 <button
                     data-toggle="modal" data-target="#reportModal"
                     class="btn btn-sm btn-outline-secondary elevation-2">
@@ -56,8 +50,9 @@
                     <thead>
                     <tr>
                         <th scope="col" style="width: 10%">ID</th>
-                        <th scope="col" style="width: 45%">Descripcion</th>
-                        <th scope="col" >Tipo</th>
+                        <th scope="col" style="width: 35%">Descripcion</th>
+                        <th scope="col" style="width: 10%">Tipo</th>
+                        <th scope="col" >Pertenece</th>
                         <th scope="col">Creado</th>
                         <th scope="col">Acciones</th>
                     </tr>
@@ -66,8 +61,15 @@
                     @foreach($denuncias as $denuncia)
                         <tr>
                             <td>{{ $denuncia->id }}</td>
-                            <th>{{ $denuncia->descripcion }}</th>
+                            <th class="text-muted">{{ $denuncia->descripcion }}</th>
                             <th> {{ collect($denuncia)['tipo_denuncia']['tipo'] }}</th>
+                            <th>
+                                @if($denuncia->denunciable_type == App\Models\PublicacionInformativa::class)
+                                    Publicacion Informativa
+                                    @else
+                                    Publicacion Adopcion
+                                @endif
+                            </th>
                             <td>{{ $denuncia->created_at }}</td>
                             <td>
                                 <a class="btn btn-success elevation-2" href="{{ route('denuncia.show', $denuncia->id) }}" >

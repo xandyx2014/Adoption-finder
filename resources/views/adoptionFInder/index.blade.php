@@ -5,14 +5,14 @@
         Gracias por enviar tu solicitud ❤
     </div>
     @endif
-    @if(session()->has('denuncia'))
-        <div class="alert alert-info" role="alert">
-            Gracias por enviar tu denuncia <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-        </div>
-    @endif
     @if(session()->has('info'))
         <div class="alert alert-warning" role="alert">
             🤔 Ups Has enviado muchas solicitudes a esta publicacion!!
+        </div>
+    @endif
+    @if(session()->has('denuncia'))
+        <div class="alert alert-info" role="alert">
+            Gracias por enviar tu denuncia <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
         </div>
     @endif
     @error('descripcion')
@@ -76,12 +76,19 @@
                     <i class="fa fa-paw"
                        aria-hidden="true">
                     </i>
-                    Ver</a>
+                    Ver
+                </a>
             </div>
         </div>
         @endif
         <!-- Post /////-->
-        @include('adoptionFInder.denuncia', [ 'data' => $publicacion, 'tipoDenuncia' => $tipoDenuncia])
+        @include('adoptionFInder.denuncia',
+            [
+                'data' => $publicacion,
+                'tipoDenuncia' => $tipoDenuncia,
+                'url' => 'finder.destroy'
+            ]
+         )
     @endforeach
 
     <div class="d-flex justify-content-center">

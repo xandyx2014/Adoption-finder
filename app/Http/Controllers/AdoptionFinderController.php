@@ -93,6 +93,6 @@ class AdoptionFinderController extends Controller
         $denuncia->descripcion = request()->get('descripcion');
         $denuncia->tipo_denuncia_id = request()->get('tipo');
         PublicacionAdopcion::findOrFail($id)->denuncias()->save($denuncia);
-        return redirect()->route('finder.index')->with('denuncia', 'Gracias por enviar tu solicitud');
+        return back()->with('denuncia', 'Gracias por enviar tu solicitud');
     }
 }

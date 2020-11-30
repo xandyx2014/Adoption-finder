@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Denuncia;
 use App\Models\PublicacionInformativa;
+use App\Models\TipoDenuncia;
 use Illuminate\Http\Request;
 
 class BlogController extends Controller
@@ -14,10 +16,11 @@ class BlogController extends Controller
      */
     public function index()
     {
+        $tipoDenuncia = TipoDenuncia::all();
         $publicaciones = PublicacionInformativa::where('estado', 1)
             ->orderBy('created_at', 'desc')
             ->paginate(3);
-        return view('blog.index', compact('publicaciones'));
+        return view('blog.index', compact('publicaciones', 'tipoDenuncia'));
     }
 
     /**
@@ -65,7 +68,7 @@ class BlogController extends Controller
      */
     public function edit($id)
     {
-        //
+
     }
 
     /**
@@ -88,6 +91,13 @@ class BlogController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $validate = request()->validate([
+            'descripcion' => ['required', 'min:20','max:200'],
+        ]);
+        $denuncia = new Denuncia;
+        $denuncia->descripcion = request()->get('descripcion');
+        $denuncia->tipo_denuncia_id = request()->get('tipo');
+        PublicacionInformativa::findOrFail($id)->denuncias()->save($denuncia);
+        return back()->with('denuncia', 'Gracias por enviar tu solicitud');
     }
 }

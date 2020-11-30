@@ -12,7 +12,7 @@
                     @csrf
                     @method('GET')
                     <div class="form-group">
-                        <label>Tipo</label>
+                        <label>Por:</label>
                             <select  style="width: 100%;" id="js-example-basic-single" class="form-control select2-selection select2-selection--single" name="tipo">
                                 <option style="padding: 5px;" value="1">Publicacion Informativa</option>
                                 <option style="padding: 5px;" value="0">Publicacion Mascotas</option>
@@ -21,6 +21,15 @@
                                     <option style="padding: 5px;" value="{{ $user->id }}">{{ $user->name }}</option>
                                     @endforeach--}}
                             </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Tipo denuncia</label>
+                        <select name="tipo_denuncia">
+                            <option value="">TODOS</option>
+                            @foreach($tipoDenuncia as $denuncia)
+                            <option value="{{ $denuncia->id }}">{{ $denuncia->tipo }}</option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <button type="submit" class="btn btn-outline-primary">Buscar</button>

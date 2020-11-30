@@ -20,7 +20,7 @@ class DenunciaController extends Controller
     public function index()
     {
         // return Denuncia::all();
-        $tipoPublicacion = TipoDenuncia::all();
+        $tipoDenuncia = TipoDenuncia::all();
         $tipo = request()->input('tipo') ?? 1;
         $alias = PublicacionInformativa::class;
         if ($tipo != 1) {
@@ -30,13 +30,18 @@ class DenunciaController extends Controller
         if (request()->has('bin')) {
             $query = Denuncia::onlyTrashed();
         }
-           $query = $query->with(['tipoDenuncia' => function ($query) {
+        if(request()->has('tipo_denuncia') && request()->input('tipo_denuncia') != "")
+        {
+            $tipoId = request()->input('tipo_denuncia');
+            $query = $query->where('tipo_denuncia_id', $tipoId);
+        }
+        $query = $query->orderBy('id', 'desc')->with(['tipoDenuncia' => function ($query) {
                 $query->withTrashed();
-            }])->paginate(4)
+            }])->paginate(3)
             ->appends(request()->query());
         return view('denuncia.denuncia.index', [
             'denuncias' => $query,
-            'tipoPublicacion' => $tipoPublicacion
+            'tipoDenuncia' => $tipoDenuncia
         ]);
     }
 
