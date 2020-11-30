@@ -59,6 +59,17 @@
                                     @enderror
                                 </dd>
                             </dl>
+                            <dl class="row">
+                                <dt class="col-sm-4">Publicacion</dt>
+                                <dd class="col-sm-8">
+                                    @if($denuncia->denunciable_type == App\Models\PublicacionAdopcion::class)
+                                        <a target="_blank" href="{{ route('publicacionAdopcion.show', $denuncia->denunciable_id) }}" class="badge badge-info">Publicacion adopcion</a>
+                                        @else
+                                        <a target="_blank" href="{{ route('publicacion.show', $denuncia->denunciable_id) }}" class="badge badge-info">Publicacion informativa</a>
+                                    @endif
+
+                                </dd>
+                            </dl>
                         </div>
                         <!-- /.card-body -->
                     </div>

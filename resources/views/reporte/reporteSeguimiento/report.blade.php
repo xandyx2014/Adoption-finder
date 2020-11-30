@@ -11,6 +11,9 @@
                             <input type="text" name="user" value="{{ old('user', $user) }}" hidden>
                             <input type="text" name="mascota" value="{{ old('mascota', $mascota->id) }}" hidden>
                             <input type="text" name="adoptador" value="{{ old('adoptador', $adoptador) }}" hidden>
+                            <input type="text" name="etiqueta" value="{{ old('adoptador', $adoptador) }}" hidden>
+                            <input type="text" name="raza" value="{{ old('adoptador', $adoptador) }}" hidden>
+                            <input type="text" name="especie" value="{{ old('adoptador', $adoptador) }}" hidden>
                             <button
                                 type="submit"
                                 class="btn btn-sm btn-outline-secondary elevation-2">
@@ -119,7 +122,7 @@
                         <br>
                         <br>
                         <br>
-
+                        @if($etiqueta == 1)
                         <label> Raza</label>
                         <table class="table table-sm">
                             <thead>
@@ -141,6 +144,8 @@
                             </tr>
                             </tbody>
                         </table>
+                        @endif
+                        @if($especie == 1)
                         <label> Especie</label>
                         <table class="table table-sm">
                             <thead>
@@ -162,6 +167,8 @@
                             </tr>
                             </tbody>
                         </table>
+                        @endif
+                        @if($etiqueta == 1)
                         <label> Etiquetas Total : {{ count($mascota->etiquetas ?? []) }}</label>
                         <table class="table table-sm">
                             <thead>
@@ -190,6 +197,7 @@
                             </tbody>
                         </table>
                         <br>
+                        @endif
                         @if($user == 1)
                             <label> Usuario creador de la mascota</label>
                             <table class="table table-sm">

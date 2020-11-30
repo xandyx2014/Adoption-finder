@@ -23,6 +23,9 @@ class ReporteSeguimientoController extends Controller
         $mascota = $request->get('mascota');
         $user = $request->get('user');
         $adoptador = $request->get('adoptador');
+        $etiqueta = $request->get('etiqueta');
+        $raza = $request->get('raza');
+        $especie = $request->get('especie');
         $query = Mascota::where('id', $request->get('mascota'))
             ->with([
                 'raza' => function ($query) {
@@ -53,7 +56,7 @@ class ReporteSeguimientoController extends Controller
         }
         $mascota = $query->first();
         return view('reporte.reporteSeguimiento.report',
-            compact('mascota', 'user', 'adoptador')
+            compact('mascota', 'user', 'adoptador', 'etiqueta', 'raza', 'especie')
         );
     }
     function pdf(Request $request)
@@ -61,6 +64,9 @@ class ReporteSeguimientoController extends Controller
         $mascota = $request->get('mascota');
         $user = $request->get('user');
         $adoptador = $request->get('adoptador');
+        $etiqueta = $request->get('etiqueta');
+        $raza = $request->get('raza');
+        $especie = $request->get('especie');
         $query = Mascota::where('id', $request->get('mascota'))
             ->with([
                 'raza' => function ($query) {
@@ -90,7 +96,7 @@ class ReporteSeguimientoController extends Controller
             ]);
         }
         $mascota = $query->first();
-        $pdf = PDF::loadView('reporte.reporteSeguimiento.pdf',  compact('mascota', 'user', 'adoptador'));
+        $pdf = PDF::loadView('reporte.reporteSeguimiento.pdf',  compact('mascota', 'user', 'adoptador', 'etiqueta', 'raza', 'especie'));
         $pdf->setPaper('a4', 'portrait');
         $pdf->setOptions(["isPhpEnabled" => true]);
         return $pdf->stream();

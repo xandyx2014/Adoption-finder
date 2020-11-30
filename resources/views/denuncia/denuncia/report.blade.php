@@ -39,6 +39,7 @@
                             <tr>
                                 <th scope="col" style="width: 10%">ID</th>
                                 <th scope="col" style="width: 35%">Descripcion</th>
+                                <th scope="col">Tipo</th>
                                 <th scope="col">Creado</th>
                             </tr>
                             </thead>
@@ -47,6 +48,11 @@
                                 <tr>
                                     <td>{{ $especie->id }}</td>
                                     <td>{{ $especie->descripcion }}</td>
+                                    @if($especie->denunciable_type == App\Models\PublicacionAdopcion::class)
+                                      <td>Publicacion adopcion</td>
+                                    @else
+                                       <td> Publicacion informativa</td>
+                                    @endif
                                     <td>{{ $especie->created_at }}</td>
                                 </tr>
                             @empty

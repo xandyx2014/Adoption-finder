@@ -152,6 +152,7 @@
     <tr>
         <th>ID</th>
         <th style="width: 35%">Descripcion</th>
+        <th style="width: 18%">Tipo</th>
         <th style="width: 18%">Creado en</th>
         <th>Actualizado</th>
     </tr>
@@ -162,6 +163,11 @@
         <tr>
             <td>{{ $especie->id }}</td>
             <td>{{ $especie->descripcion }}</td>
+            @if($especie->denunciable_type == App\Models\PublicacionAdopcion::class)
+                <td>Publicacion adopcion</td>
+            @else
+                <td> Publicacion informativa</td>
+            @endif
             <td>{{ $especie->created_at }}</td>
             <td>{{ $especie->updated_at }}</td>
         </tr>

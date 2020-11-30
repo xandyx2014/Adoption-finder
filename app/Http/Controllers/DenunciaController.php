@@ -19,6 +19,7 @@ class DenunciaController extends Controller
      */
     public function index()
     {
+        // return Denuncia::all();
         $tipoPublicacion = TipoDenuncia::all();
         $tipo = request()->input('tipo') ?? 1;
         $alias = PublicacionInformativa::class;
@@ -29,8 +30,7 @@ class DenunciaController extends Controller
         if (request()->has('bin')) {
             $query = Denuncia::onlyTrashed();
         }
-
-            $query = $query->with(['tipoDenuncia' => function ($query) {
+           $query = $query->with(['tipoDenuncia' => function ($query) {
                 $query->withTrashed();
             }])->paginate(4)
             ->appends(request()->query());

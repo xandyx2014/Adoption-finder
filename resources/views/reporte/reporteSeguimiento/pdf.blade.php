@@ -125,77 +125,83 @@
     <label> % Adecuacion: {{ ( $mascota->seguimientos->sum('puntuacion') / ($mascota->seguimientos->count() * 100) ) * 100 }} %</label>
     <br>
 @endif
-<div style="page-break-after:always;"></div>
-<label> Raza</label>
-<table class="table table-sm">
-    <thead>
-    <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Nombre</th>
-        <th scope="col" style="width: 20%">Descripcion</th>
-        <th scope="col">Creado</th>
-        <th scope="col">Actualizado</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td>{{ $mascota->raza->id }}</td>
-        <td>{{ $mascota->raza->nombre }}</td>
-        <td>{{ $mascota->raza->descripcion }}</td>
-        <td>{{ $mascota->raza->created_at }}</td>
-        <td>{{ $mascota->raza->updated_at }}</td>
-    </tr>
-    </tbody>
-</table>
-<label> Especie</label>
-<table class="table table-sm">
-    <thead>
-    <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Nombre</th>
-        <th scope="col" style="width: 20%">Descripcion</th>
-        <th scope="col">Creado</th>
-        <th scope="col">Actualizado</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td>{{ $mascota->especie->id }}</td>
-        <td>{{ $mascota->especie->nombre }}</td>
-        <td>{{ $mascota->especie->descripcion }}</td>
-        <td>{{ $mascota->especie->created_at }}</td>
-        <td>{{ $mascota->especie->updated_at }}</td>
-    </tr>
-    </tbody>
-</table>
-<label> Etiquetas Total : {{ count($mascota->etiquetas ?? []) }}</label>
-<table class="table table-sm">
-    <thead>
-    <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Nombre</th>
-        <th scope="col">Creado</th>
-        <th scope="col">Actualizado</th>
-    </tr>
-    </thead>
-    <tbody>
-    @forelse($mascota->etiquetas as $etiqueta)
+@if($etiqueta == 1)
+    <div style="page-break-after:always;"></div>
+    <label> Raza</label>
+    <table class="table table-sm">
+        <thead>
         <tr>
-
-            <td>{{ $etiqueta->id }}</td>
-            <td>{{ $etiqueta->nombre }}</td>
-            <td>{{ $etiqueta->created_at }}</td>
-            <td>{{ $etiqueta->updated_at }}</td>
-
+            <th scope="col">ID</th>
+            <th scope="col">Nombre</th>
+            <th scope="col" style="width: 20%">Descripcion</th>
+            <th scope="col">Creado</th>
+            <th scope="col">Actualizado</th>
         </tr>
-    @empty
+        </thead>
+        <tbody>
         <tr>
-            <td>No tiene etiquetas</td>
+            <td>{{ $mascota->raza->id }}</td>
+            <td>{{ $mascota->raza->nombre }}</td>
+            <td>{{ $mascota->raza->descripcion }}</td>
+            <td>{{ $mascota->raza->created_at }}</td>
+            <td>{{ $mascota->raza->updated_at }}</td>
         </tr>
-    @endforelse
-    </tbody>
-</table>
-<br>
+        </tbody>
+    </table>
+@endif
+@if($especie == 1)
+    <label> Especie</label>
+    <table class="table table-sm">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nombre</th>
+            <th scope="col" style="width: 20%">Descripcion</th>
+            <th scope="col">Creado</th>
+            <th scope="col">Actualizado</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{ $mascota->especie->id }}</td>
+            <td>{{ $mascota->especie->nombre }}</td>
+            <td>{{ $mascota->especie->descripcion }}</td>
+            <td>{{ $mascota->especie->created_at }}</td>
+            <td>{{ $mascota->especie->updated_at }}</td>
+        </tr>
+        </tbody>
+    </table>
+@endif
+@if($etiqueta == 1)
+    <label> Etiquetas Total : {{ count($mascota->etiquetas ?? []) }}</label>
+    <table class="table table-sm">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Creado</th>
+            <th scope="col">Actualizado</th>
+        </tr>
+        </thead>
+        <tbody>
+        @forelse($mascota->etiquetas as $etiqueta)
+            <tr>
+
+                <td>{{ $etiqueta->id }}</td>
+                <td>{{ $etiqueta->nombre }}</td>
+                <td>{{ $etiqueta->created_at }}</td>
+                <td>{{ $etiqueta->updated_at }}</td>
+
+            </tr>
+        @empty
+            <tr>
+                <td>No tiene etiquetas</td>
+            </tr>
+        @endforelse
+        </tbody>
+    </table>
+    <br>
+@endif
 @if($user == 1)
     <label> Usuario creador de la mascota</label>
     <table class="table table-sm">

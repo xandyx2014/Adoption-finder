@@ -41,6 +41,27 @@
                                 <option value="0">NO</option>
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label>Mostrar etiquetas de la mascota</label> <br>
+                            <select  name="etiqueta">
+                                <option value="1">SI</option>
+                                <option value="0">NO</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Mostrar raza de la mascota</label> <br>
+                            <select  name="raza">
+                                <option value="1">SI</option>
+                                <option value="0">NO</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Mostrar especie de la mascota</label> <br>
+                            <select  name="especie">
+                                <option value="1">SI</option>
+                                <option value="0">NO</option>
+                            </select>
+                        </div>
                         <button class="btn btn-secondary m-2">
                             Preparar
                         </button>

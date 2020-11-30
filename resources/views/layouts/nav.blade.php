@@ -1,4 +1,4 @@
-<nav class="col-md-2 d-none d-md-block bg-white">
+<nav class="col-md-2 d-none d-md-block bg-white card">
     <div class="sidebar-sticky">
         <ul class="nav flex-column">
             <li class="nav-item">
@@ -20,7 +20,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" href="{{ route('init') }}" target="_blank">
+                <a class="nav-link active" href="{{ route('finder.index') }}" target="_blank">
                     <i class="fa fa-paw" aria-hidden="true"></i>
                     Ver publicaciones adopcion
                 </a>

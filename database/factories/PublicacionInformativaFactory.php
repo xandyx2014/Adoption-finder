@@ -25,8 +25,8 @@ class PublicacionInformativaFactory extends Factory
     public function definition()
     {
         return [
-            'titulo' => Str::substr($this->faker->paragraph, 0, 200),
-            'subtitulo' => Str::substr($this->faker->paragraph, 0, 150),
+            'titulo' => Str::substr($this->faker->paragraph, 0, 10),
+            'subtitulo' => Str::substr($this->faker->paragraph, 0, 15),
             'cuerpo' => $this->faker->realText(1000),
             'user_id' => User::factory(),
             'estado' => $this->faker->randomElement([0 , 1]),
