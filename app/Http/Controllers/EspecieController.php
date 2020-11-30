@@ -43,6 +43,7 @@ class EspecieController extends Controller
     }
     public function report(Request $request)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar reporte', 'Especie'));
         $estado = $request->get('estado');
         $especies;
         if ($estado == "1")
@@ -61,6 +62,7 @@ class EspecieController extends Controller
     }
     function generatePdf(Request $request)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Generar reporte pdf', 'Especie'));
         $inicio = Carbon::parse($request->get('inicio'))->subDays(1);
         $final = Carbon::parse($request->get('final'))->addDays(1);
         $estado = $request->get('estado');
@@ -85,6 +87,7 @@ class EspecieController extends Controller
      */
     public function create()
     {
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar formulario creacion', 'Especie'));
         return view('parametro.especie.create');
     }
 
@@ -96,6 +99,7 @@ class EspecieController extends Controller
      */
     public function store(Request $request)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Crear', 'Especie'));
         $validateData = $request->validate([
             'nombre' => ['required', 'unique:especies', 'max:255'],
             'descripcion' => ['required'],
@@ -115,6 +119,7 @@ class EspecieController extends Controller
      */
     public function show($id)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Consultar', 'Especie'));
         $especie = Especie::withTrashed()->find($id);
         return view('parametro.especie.show', compact('especie'));
     }
@@ -127,6 +132,7 @@ class EspecieController extends Controller
      */
     public function edit($id)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar formulario edicion', 'Especie'));
         $especie = Especie::withTrashed()->find($id);
         return view('parametro.especie.edit', compact('especie'));
     }
@@ -140,6 +146,7 @@ class EspecieController extends Controller
      */
     public function update(Request $request, $id)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Actualizar', 'Especie'));
         if ($request->input('restore')) {
             $especie = Especie::withTrashed()->find($id)->restore();
             return back();

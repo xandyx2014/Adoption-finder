@@ -63,6 +63,7 @@ class ImagenPublicacionController extends Controller
      */
     public function edit($id)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar formulario edicion', 'Imagen publicacion'));
         $publicacion = PublicacionInformativa::findOrFail($id);
         return view('publicacion.imagenPublicacion.edit', compact('publicacion'));
     }
@@ -76,9 +77,11 @@ class ImagenPublicacionController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $request->validate([
             'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
+        dispatch( new \App\Jobs\BitacoraJob('Actualizar', 'Imagen Publicacion'));
         $file = $request->file('file');
         $imagen = Imagen::findOrFail($id);
         Storage::disk('public')->delete($imagen->url);
@@ -102,6 +105,7 @@ class ImagenPublicacionController extends Controller
         $imagen->update([
             'url' => 'default.jpg'
         ]);
+        dispatch( new \App\Jobs\BitacoraJob('Eliminar', 'Imagen Publicacion'));
         return back();
     }
 }

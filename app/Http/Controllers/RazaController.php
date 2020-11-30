@@ -44,6 +44,7 @@ class RazaController extends Controller
 
     public function report(Request $request)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar reporte', 'Raza'));
         $inicio = Carbon::parse($request->get('inicio'))->subDays(1);
         $final = Carbon::parse($request->get('final'))->addDays(1);
         $estado = $request->get('estado');
@@ -66,6 +67,7 @@ class RazaController extends Controller
     }
     function generatePdf(Request $request)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Generar reporte pdf', 'Raza'));
         $estado = $request->get('estado');
         $especies;
         if ($estado == "1")
@@ -88,6 +90,7 @@ class RazaController extends Controller
      */
     public function create()
     {
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar formulario creacion', 'Raza'));
         return view('parametro.raza.create');
     }
 
@@ -103,6 +106,7 @@ class RazaController extends Controller
             'nombre' => ['required', 'unique:razas', 'max:15'],
             'descripcion' => ['required'],
         ]);
+        dispatch( new \App\Jobs\BitacoraJob('Crear', 'Raza'));
         $especie = new Raza();
         $especie->nombre = $validateData['nombre'];
         $especie->descripcion = $validateData['descripcion'];
@@ -118,6 +122,7 @@ class RazaController extends Controller
      */
     public function show($id)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Consultar', 'Raza'));
         $especie = Raza::withTrashed()->find($id);
         return view('parametro.raza.show', compact('especie'));
     }
@@ -130,6 +135,7 @@ class RazaController extends Controller
      */
     public function edit($id)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar formulario edicion', 'Raza'));
         $raza = Raza::withTrashed()->find($id);
         return view('parametro.raza.edit', compact('raza'));
     }
@@ -144,6 +150,7 @@ class RazaController extends Controller
     public function update(Request $request, $id)
     {
         if ($request->input('restore')) {
+            dispatch( new \App\Jobs\BitacoraJob('Cambio estado', 'Raza'));
             $especie = Raza::withTrashed()->find($id)->restore();
             return back();
         }
@@ -151,6 +158,7 @@ class RazaController extends Controller
             'nombre' => ['required', 'max:15'],
             'descripcion' => ['required', 'max:255'],
         ]);
+        dispatch( new \App\Jobs\BitacoraJob('Actualizar', 'Raza'));
         $especie = Raza::withTrashed()->find($id);
         $especie->update($validateData);
         return redirect()->route('raza.index');
@@ -172,6 +180,7 @@ class RazaController extends Controller
             $countTotal = $especie->mascotas()->get()->count();
             if ($countTotal == 0) {
                 $especie->forceDelete();
+                dispatch( new \App\Jobs\BitacoraJob('Eliminar', 'Raza'));
                 if (request()->ajax())
                 {
                     return response()->json([
@@ -189,6 +198,7 @@ class RazaController extends Controller
             return back()->withErrors(['errorDependencia' => "Especie $especie->nombre tiene dependencias"]);
         }
         $especie->delete();
+        dispatch( new \App\Jobs\BitacoraJob('Cambio estado', 'Raza'));
         if (request()->ajax())
         {
             return response()->json([

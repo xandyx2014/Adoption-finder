@@ -67,6 +67,7 @@ class PerfilController extends Controller
         $user = User::where('id', auth()->user()->id)->with([
             'perfil'
         ])->first();
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar formulario edicion', 'Perfil'));
         return view('administracion.perfil.edit', compact('user'));
     }
 
@@ -95,6 +96,7 @@ class PerfilController extends Controller
             'telefono' => $request->get('telefono') ?? ' ',
             'about' => $request->get('about') ?? ' ',
         ]);
+        dispatch( new \App\Jobs\BitacoraJob('Actualizar', 'Perfil'));
         return back()->with('success', 'Actualizado correctamente');
     }
 

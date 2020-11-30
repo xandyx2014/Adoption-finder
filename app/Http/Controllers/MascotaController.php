@@ -33,6 +33,7 @@ class MascotaController extends Controller
         }
         if (request()->has('adoptado') && request()->input('adoptado') != "")
         {
+            dispatch( new \App\Jobs\BitacoraJob('Buscar mascotas', 'Mascota'));
             $query = $query->where('adoptado', request()->input('adoptado'));
         }
         /*if (request()->has('raza') && request()->input('raza') != "")
@@ -45,6 +46,7 @@ class MascotaController extends Controller
         }*/
         if (request()->has('search'))
         {
+            dispatch( new \App\Jobs\BitacoraJob('Buscar mascotas', 'Mascota'));
             $nombre = request()->input('search');
             $query = $query->where('nombre', 'LIKE', "%$nombre%");
         }
@@ -54,6 +56,7 @@ class MascotaController extends Controller
     }
     public function report(Request $request)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Generar reporte mascotas', 'Mascota'));
         $estado = $request->get('estado');
         $adoptado = $request->get('adoptado');
         $especies;
@@ -74,6 +77,7 @@ class MascotaController extends Controller
     }
     function generatePdf(Request $request)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Generar Pdf Mascota mascotas', 'Mascota'));
         $estado = $request->get('estado');
         $adoptado = $request->get('adoptado');
         $especies;
@@ -98,6 +102,7 @@ class MascotaController extends Controller
      */
     public function create()
     {
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar formulario creacion mascota', 'Mascota'));
         $etiquetas = Etiqueta::all();
         $razas = Raza::all();
         $especies = Especie::all();
@@ -126,6 +131,7 @@ class MascotaController extends Controller
             'salud' => 'required',
             'about' => 'required',
         ]);
+        dispatch( new \App\Jobs\BitacoraJob('Guardar mascotas', 'Mascota'));
         $mascota = new Mascota;
         $mascota->nombre = $request->get('nombre');
         $mascota->color = $request->get('color');
@@ -161,6 +167,7 @@ class MascotaController extends Controller
      */
     public function show($id)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Consultar', 'Mascota'));
         $mascota = Mascota::withTrashed()
             ->where('id', $id)
             ->with([
@@ -191,6 +198,7 @@ class MascotaController extends Controller
      */
     public function edit($id)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar formulario edicion', 'Mascota'));
         $mascota = Mascota::where('id', $id)->with([
             'propetario' => function ($query) {
                 $query->withTrashed();
@@ -208,6 +216,7 @@ class MascotaController extends Controller
     }
     public function imageDelete($id)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Borrar imagen', 'Mascota'));
         $imagen = Imagen::withTrashed()->where('id', $id)->first();
         if ($imagen->url != 'default.jpg')
         {
@@ -230,6 +239,7 @@ class MascotaController extends Controller
         if ($request->has('restore'))
         {
             Mascota::withTrashed()->find($id)->restore();
+            dispatch( new \App\Jobs\BitacoraJob('Cambiar estado', 'Mascota'));
             return back();
 
         }
@@ -242,6 +252,7 @@ class MascotaController extends Controller
             'salud' => 'required',
             'about' => 'required',
         ]);
+        dispatch( new \App\Jobs\BitacoraJob('Actualizar', 'Mascota'));
         if (request()->hasFile('file'))
         {
             $imagenes = $request->file('file.*');
@@ -283,6 +294,7 @@ class MascotaController extends Controller
      */
     public function destroy($id)
     {
+
         $especie = Mascota::withTrashed()->find($id);
         $bin = request()->input('bin');
         if ($bin)
@@ -295,6 +307,7 @@ class MascotaController extends Controller
             $counPublicaicones = count($especie->publicacionAdopcions()->withTrashed()->get() ?? []);
             if ($especie->adoptado == "1" && $adoptado != null)
             {
+                dispatch( new \App\Jobs\BitacoraJob('Eliminar no completado', 'Mascota'));
                 return response()->json([
                     "error" => "$especie->nombre ya ha sido adoptado no se puede eliminar"
                 ]);
@@ -302,6 +315,7 @@ class MascotaController extends Controller
             if ($countSeguimiento == 0 && $countTotalImagen == 0 && $counPublicaicones == 0) {
                 $especie->etiquetas()->detach();
                 $especie->forceDelete();
+                dispatch( new \App\Jobs\BitacoraJob('Eliminar', 'Mascota'));
                 if (request()->ajax())
                 {
                     return response()->json([
@@ -314,6 +328,7 @@ class MascotaController extends Controller
             {
                 $publicaciones = $counPublicaicones;
                 $total = $countTotal + $countTotalImagen + $countSeguimiento + $publicaciones;
+                dispatch( new \App\Jobs\BitacoraJob('Eliminar mascota no completado', 'Mascota'));
                 return response()->json([
                     "error" => "$especie->nombre tiene dependencias Total: $total, Imagenes: $countTotalImagen, Seguimientos: $countSeguimiento, Publicaciones de adopcion $publicaciones"
                 ]);
@@ -321,6 +336,7 @@ class MascotaController extends Controller
             return back()->withErrors(['errorDependencia' => "Especie $especie->nombre tiene dependencias"]);
         }
         $especie->delete();
+        dispatch( new \App\Jobs\BitacoraJob('Cambiar estado', 'Mascota'));
         if (request()->ajax())
         {
             return response()->json([

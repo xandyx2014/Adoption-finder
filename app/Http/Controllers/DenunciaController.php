@@ -74,6 +74,7 @@ class DenunciaController extends Controller
      */
     public function show($id)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Consultar denuncia', 'Denuncia'));
         $denuncia = Denuncia::withTrashed()->where('id', $id)->first();
         $tipo = TipoDenuncia::withTrashed()->get();
         return view('denuncia.denuncia.show', compact('denuncia', 'tipo'));
@@ -81,6 +82,7 @@ class DenunciaController extends Controller
 
     public function report(Request $request)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar reporte', 'Denuncia'));
         $estado = $request->get('estado');
         $especies;
         if ($estado == "1") {
@@ -97,6 +99,7 @@ class DenunciaController extends Controller
 
     function generatePdf(Request $request)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Generar reporte pdf', 'Denuncia'));
         $estado = $request->get('estado');
         $especies;
         if ($estado == "1") {
@@ -112,6 +115,7 @@ class DenunciaController extends Controller
 
     public function edit($id)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar formulario edicion', 'Denuncia'));
         $denuncia = Denuncia::findOrFail($id);
         $tipo = TipoDenuncia::all();
         return view('denuncia.denuncia.edit', compact('denuncia', 'tipo'));
@@ -128,6 +132,7 @@ class DenunciaController extends Controller
     {
 
         if ($request->has('restore')) {
+            dispatch( new \App\Jobs\BitacoraJob('Cambiar estado', 'Denuncia'));
             Denuncia::withTrashed()->find($id)->restore();
             return redirect()->route('denuncia.index', [
                 'bin' => 1
@@ -141,6 +146,7 @@ class DenunciaController extends Controller
             'descripcion' => $request->get('descripcion'),
             'tipo_denuncia_id' => $request->get('tipo_denuncia_id')
         ]);
+        dispatch( new \App\Jobs\BitacoraJob('Actualizar', 'Denuncia'));
         return redirect()->route('denuncia.index');
     }
 
@@ -159,6 +165,7 @@ class DenunciaController extends Controller
             $countTotal = 0;
             $countTotalImagen = 0;
             if ($countTotal == 0 || $countTotalImagen == 0) {
+                dispatch( new \App\Jobs\BitacoraJob('Eliminar', 'Denuncia'));
                 $especie->forceDelete();
                 if (request()->ajax()) {
                     return response()->json([
@@ -174,6 +181,7 @@ class DenunciaController extends Controller
             }
             return back()->withErrors(['errorDependencia' => "Especie $especie->nombre tiene dependencias"]);
         }
+        dispatch( new \App\Jobs\BitacoraJob('Cambiar estado', 'Denuncia'));
         $especie->delete();
         if (request()->ajax()) {
             return response()->json([

@@ -44,6 +44,7 @@ class EtiquetaController extends Controller
     }
     public function report(Request $request)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar reporte', 'Etiqueta'));
         $estado = $request->get('estado');
         $especies;
         if ($estado == "1")
@@ -62,6 +63,7 @@ class EtiquetaController extends Controller
     }
     function generatePdf(Request $request)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Generar reporte pdf', 'Etiqueta'));
         $estado = $request->get('estado');
         $especies;
         if ($estado == "1")
@@ -84,6 +86,7 @@ class EtiquetaController extends Controller
      */
     public function create()
     {
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar formulario creacion', 'Etiqueta'));
         return view('parametro.etiqueta.create');
     }
 
@@ -95,9 +98,11 @@ class EtiquetaController extends Controller
      */
     public function store(Request $request)
     {
+
         $validateData = $request->validate([
             'nombre' => ['required', 'unique:etiquetas', 'max:255'],
         ]);
+        dispatch( new \App\Jobs\BitacoraJob('Crear', 'Etiqueta'));
         $especie = new Etiqueta();
         $especie->nombre = $validateData['nombre'];
         $especie->save();
@@ -112,6 +117,7 @@ class EtiquetaController extends Controller
      */
     public function show($id)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Consultar', 'Etiqueta'));
         $especie = Etiqueta::withTrashed()->find($id);
         return view('parametro.etiqueta.show', compact('especie'));
     }
@@ -124,6 +130,7 @@ class EtiquetaController extends Controller
      */
     public function edit($id)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar formulario edicion', 'Etiqueta'));
         $especie = Etiqueta::withTrashed()->find($id);
         return view('parametro.etiqueta.edit', compact('especie'));
     }
@@ -137,13 +144,16 @@ class EtiquetaController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         if ($request->input('restore')) {
+            dispatch( new \App\Jobs\BitacoraJob('Cambiar estado', 'Etiqueta'));
             $especie = Etiqueta::withTrashed()->find($id)->restore();
             return back();
         }
         $validateData = $request->validate([
             'nombre' => ['required', 'max:15'],
         ]);
+        dispatch( new \App\Jobs\BitacoraJob('Actualizar', 'Etiqueta'));
         $especie = Etiqueta::withTrashed()->find($id);
         $especie->update($validateData);
         return redirect()->route('etiqueta.index');
@@ -164,6 +174,7 @@ class EtiquetaController extends Controller
             // verificar las dependencias y force delete
             $countTotal = $especie->mascotas()->get()->count();
             if ($countTotal == 0) {
+                dispatch( new \App\Jobs\BitacoraJob('Eliminar', 'Etiqueta'));
                 $especie->forceDelete();
                 if (request()->ajax())
                 {
@@ -181,6 +192,7 @@ class EtiquetaController extends Controller
             }
             return back()->withErrors(['errorDependencia' => "Especie $especie->nombre tiene dependencias"]);
         }
+        dispatch( new \App\Jobs\BitacoraJob('Cambiar estado', 'Etiqueta'));
         $especie->delete();
         if (request()->ajax())
         {

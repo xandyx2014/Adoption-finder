@@ -15,11 +15,13 @@ class ReporteSeguimientoController extends Controller
 
     function index()
     {
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar parametros de reporte', 'Reporte seguimiento mascota'));
         $mascotas = Mascota::all();
         return view('reporte.reporteSeguimiento.index', compact('mascotas'));
     }
     function store(Request $request)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar reporte', 'Reporte seguimiento mascota'));
         $mascota = $request->get('mascota');
         $user = $request->get('user');
         $adoptador = $request->get('adoptador');
@@ -61,6 +63,7 @@ class ReporteSeguimientoController extends Controller
     }
     function pdf(Request $request)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Generar reporte pdf', 'Reporte seguimiento mascota'));
         $mascota = $request->get('mascota');
         $user = $request->get('user');
         $adoptador = $request->get('adoptador');

@@ -48,6 +48,7 @@ class SeguimientoController extends Controller
     }
     public function report(Request $request)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar reporte', 'Seguimiento'));
         $estado = $request->get('estado');
         $mascota = $request->get('mascota');
         $especies;
@@ -77,6 +78,7 @@ class SeguimientoController extends Controller
     }
     function generatePdf(Request $request)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Generar reporte', 'Seguimiento'));
         $estado = $request->get('estado');
         $mascota = $request->get('mascota');
         $especies;
@@ -108,7 +110,7 @@ class SeguimientoController extends Controller
      */
     public function create()
     {
-
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar formulario creacion', 'Seguimiento'));
         $mascotas = Mascota::all();
         return view('adopcion.seguimiento.create', compact('mascotas'));
     }
@@ -127,6 +129,7 @@ class SeguimientoController extends Controller
             'calidad' => 'required|min:0|max:15',
             'mascota_id' => 'required'
         ]);
+        dispatch( new \App\Jobs\BitacoraJob('Crear', 'Seguimiento'));
         $seguimiento = new Seguimiento;
         $seguimiento->puntuacion = $request->get('puntuacion');
         $seguimiento->descripcion = $request->get('descripcion');
@@ -144,6 +147,7 @@ class SeguimientoController extends Controller
      */
     public function show($id)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Consultar', 'Seguimiento'));
         $seguimiento = Seguimiento::withTrashed()->where('id', $id)
             ->with('mascota.raza', 'mascota.especie', 'mascota.etiquetas', 'mascota.imagens')->first();
         return view('adopcion.seguimiento.show', compact('seguimiento'));
@@ -157,6 +161,7 @@ class SeguimientoController extends Controller
      */
     public function edit($id)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar formulario edicion', 'Seguimiento'));
         $mascotas = Mascota::withTrashed()->get();
         $seguimiento = Seguimiento::withTrashed()->where('id', $id)->first();
         return view('adopcion.seguimiento.edit', compact('mascotas', 'seguimiento'));
@@ -172,6 +177,7 @@ class SeguimientoController extends Controller
     public function update(Request $request, $id)
     {
         if ($request->input('restore')) {
+            dispatch( new \App\Jobs\BitacoraJob('Cambio estado', 'Seguimiento'));
             $especie = Seguimiento::withTrashed()->find($id)->restore();
             return back();
         }
@@ -181,6 +187,7 @@ class SeguimientoController extends Controller
             'calidad' => 'required|min:0|max:15',
             'mascota_id' => 'required'
         ]);
+        dispatch( new \App\Jobs\BitacoraJob('Actualizar', 'Seguimiento'));
         $seguimiento = Seguimiento::withTrashed()->where('id', $id)->first();
         $seguimiento->update($request->all());
         return redirect()->route('seguimiento.index');
@@ -201,6 +208,7 @@ class SeguimientoController extends Controller
             // verificar las dependencias y force delete
             $countTotal = 0;
             if ($countTotal == 0) {
+                dispatch( new \App\Jobs\BitacoraJob('Eliminar', 'Seguimiento'));
                 $especie->forceDelete();
                 if (request()->ajax())
                 {
@@ -218,6 +226,7 @@ class SeguimientoController extends Controller
             }
             return back()->withErrors(['errorDependencia' => "Especie $especie->nombre tiene dependencias"]);
         }
+        dispatch( new \App\Jobs\BitacoraJob('Cambio estado', 'Seguimiento'));
         $especie->delete();
         if (request()->ajax())
         {

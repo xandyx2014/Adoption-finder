@@ -38,6 +38,7 @@ class PermisoController extends Controller
     }
     public function report(Request $request)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar reporte', 'Permiso'));
         $estado = $request->get('estado');
         $especies;
         if ($estado == "1") {
@@ -54,6 +55,7 @@ class PermisoController extends Controller
 
     function generatePdf(Request $request)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Generar reporte', 'Permiso'));
         $estado = $request->get('estado');
         $especies;
         if ($estado == "1") {
@@ -96,6 +98,7 @@ class PermisoController extends Controller
      */
     public function show($id)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Consultar', 'Permiso'));
         $rol =  Rol::where('id', $id)->with('permiso')->first();
         if ($rol->nombre == 'admin')
         {
@@ -124,6 +127,7 @@ class PermisoController extends Controller
      */
     public function update(Request $request, $id)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Actualizar', 'Permiso'));
         if ($request->has('permisos'))
         {
             $rol = Rol::findOrFail($id);

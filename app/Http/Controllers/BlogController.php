@@ -94,6 +94,7 @@ class BlogController extends Controller
         $validate = request()->validate([
             'descripcion' => ['required', 'min:20','max:200'],
         ]);
+        dispatch( new \App\Jobs\BitacoraJob('Crear', 'Denuncia'));
         $denuncia = new Denuncia;
         $denuncia->descripcion = request()->get('descripcion');
         $denuncia->tipo_denuncia_id = request()->get('tipo');

@@ -31,6 +31,7 @@ class RolController extends Controller
     }
     public function report(Request $request)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar reporte', 'Rol'));
         $estado = $request->get('estado');
         $especies;
         if ($estado == "1") {
@@ -47,6 +48,7 @@ class RolController extends Controller
 
     function generatePdf(Request $request)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Generar reporte pdf', 'Rol'));
         $estado = $request->get('estado');
         $especies;
         if ($estado == "1") {
@@ -66,6 +68,7 @@ class RolController extends Controller
      */
     public function create()
     {
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar formulario creacion', 'Rol'));
         return  view('administracion.rol.create');
     }
 
@@ -77,9 +80,11 @@ class RolController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
             'nombre' => ['required', 'unique:rols','min:5', 'max:200']
         ]);
+        dispatch( new \App\Jobs\BitacoraJob('Crear', 'Rol'));
         Rol::create([
             'nombre' => $request->get('nombre')
         ]);
@@ -94,6 +99,7 @@ class RolController extends Controller
      */
     public function show($id)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Consultar', 'Rol'));
         $rol = Rol::where('id', $id)->withTrashed()->with('permiso')->first();
         $permisos = Permiso::all();
         return view('administracion.rol.show', compact('rol', 'permisos'));
@@ -107,6 +113,7 @@ class RolController extends Controller
      */
     public function edit($id)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar formulario edicion', 'Rol'));
         $rol = Rol::findOrFail($id);
         if ($rol->nombre == 'admin') {
             return redirect('home');
@@ -124,6 +131,7 @@ class RolController extends Controller
     public function update(Request $request, $id)
     {
         if ($request->has('restore')) {
+            dispatch( new \App\Jobs\BitacoraJob('Cambiar estado', 'Rol'));
             Rol::withTrashed()->find($id)->restore();
             return back();
         }
@@ -137,6 +145,7 @@ class RolController extends Controller
         $rol->update([
             'nombre' => $request->get('rol')
         ]);
+        dispatch( new \App\Jobs\BitacoraJob('Actualizar', 'Rol'));
         return redirect()->route('rol.index');
     }
 
@@ -152,6 +161,7 @@ class RolController extends Controller
         $bin = request()->input('bin');
         if ($bin) {
             try {
+                dispatch( new \App\Jobs\BitacoraJob('Eliminar', 'Rol'));
                 $especie->forceDelete();
                 if (request()->ajax()) {
                     return response()->json([
@@ -166,6 +176,7 @@ class RolController extends Controller
             }
         }
         $especie->delete();
+        dispatch( new \App\Jobs\BitacoraJob('Cambio estado', 'Rol'));
         if (request()->ajax()) {
             return response()->json([
                 "message" => 'Borrado correctamente'

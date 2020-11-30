@@ -50,6 +50,7 @@ class UserController extends Controller
 
     public function report(Request $request)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar reporte', 'Usuario'));
         $estado = $request->get('estado');
         $especies;
         if ($estado == "1") {
@@ -74,6 +75,7 @@ class UserController extends Controller
 
     function generatePdf(Request $request)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Generar reporte pdf', 'Usuario'));
         $estado = $request->get('estado');
         $especies;
         if ($estado == "1") {
@@ -102,6 +104,7 @@ class UserController extends Controller
      */
     public function create()
     {
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar formulario creacion', 'Usuario'));
         $roles = Rol::all();
         return view('administracion.user.create', compact('roles'));
     }
@@ -120,6 +123,7 @@ class UserController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'rol' => ['required']
         ]);
+        dispatch( new \App\Jobs\BitacoraJob('Crear', 'Usuario'));
         User::create([
             'name' => $request->get('name'),
             'email' => $request->get('email'),
@@ -137,6 +141,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Consultar', 'Usuario'));
         $user = User::withTrashed()->where('id', $id)
             ->with([
                 'publicacionInformativas' => function ($query) {
@@ -163,6 +168,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar reporte', 'Usuario'));
         $user = User::findOrFail($id);
         $roles = Rol::all();
         return view('administracion.user.edit', compact('user', 'roles'));
@@ -178,6 +184,7 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         if ($request->has('restore')) {
+            dispatch( new \App\Jobs\BitacoraJob('Cambio estado', 'Usuario'));
             User::withTrashed()->find($id)->restore();
             return back();
         }
@@ -194,6 +201,7 @@ class UserController extends Controller
                 'password' => Hash::make($request->get('password')),
                 'email_verified_at' => null
             ]);
+            dispatch( new \App\Jobs\BitacoraJob('Actualizar', 'Usuario'));
             return redirect()->route('user.index');
         }
         $user = User::findOrFail($id);
@@ -219,6 +227,7 @@ class UserController extends Controller
         if ($bin) {
             try {
                 $especie->forceDelete();
+                dispatch( new \App\Jobs\BitacoraJob('Eliminar', 'Usuario'));
                 if (request()->ajax()) {
                     return response()->json([
                         "message" => 'Borrado correctamente'
@@ -232,6 +241,7 @@ class UserController extends Controller
             }
         }
         $especie->delete();
+        dispatch( new \App\Jobs\BitacoraJob('Cambio estado', 'Usuario'));
         if (request()->ajax()) {
             return response()->json([
                 "message" => 'Borrado correctamente'

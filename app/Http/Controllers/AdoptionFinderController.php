@@ -63,6 +63,7 @@ class AdoptionFinderController extends Controller
             'motivo' => ['required', 'min:10', 'max:200'],
             'descripcion' => ['required', 'min:20','max:200'],
         ]);
+        dispatch( new \App\Jobs\BitacoraJob('Crear', 'Solicitud adopcion'));
         $id = $request->get('id');
         $cantidadSolicitudes = PublicacionAdopcion::where('id', $id)
             ->with([
@@ -89,6 +90,7 @@ class AdoptionFinderController extends Controller
         $validate = request()->validate([
             'descripcion' => ['required', 'min:20','max:200'],
         ]);
+        dispatch( new \App\Jobs\BitacoraJob('Crear', 'Denuncia'));
         $denuncia = new Denuncia;
         $denuncia->descripcion = request()->get('descripcion');
         $denuncia->tipo_denuncia_id = request()->get('tipo');

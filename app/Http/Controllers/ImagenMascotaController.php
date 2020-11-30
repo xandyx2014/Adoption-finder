@@ -64,6 +64,7 @@ class ImagenMascotaController extends Controller
      */
     public function edit($id)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar formulario edicion', 'Imagen Mascota'));
         $publicacion = Mascota::findOrFail($id);
         return view('adopcion.imagenMascota.edit', compact('publicacion'));
     }
@@ -86,6 +87,7 @@ class ImagenMascotaController extends Controller
         $image = new Imagen;
         $image->url = $url;
         $mascota->imagens()->save($image);
+        dispatch( new \App\Jobs\BitacoraJob('Actualizar', 'Imagen Mascota'));
         return back();
     }
 
@@ -102,6 +104,7 @@ class ImagenMascotaController extends Controller
             Storage::disk('public')->delete($imagen->url);
         }
         $imagen->delete();
+        dispatch( new \App\Jobs\BitacoraJob('Eliminar', 'Imagen mascota'));
         return back();
     }
 }

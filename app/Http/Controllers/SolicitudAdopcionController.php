@@ -69,6 +69,7 @@ class SolicitudAdopcionController extends Controller
     }
     public function report(Request $request)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar reporte', 'Solicitud adopcion'));
         $estado = $request->get('estado');
         $solicitud = $request->get('solicitud');
         $especies;
@@ -89,6 +90,7 @@ class SolicitudAdopcionController extends Controller
     }
     function generatePdf(Request $request)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Generar reporte pdf', 'Solicitud adopcion'));
         $estado = $request->get('estado');
         $solicitud = $request->get('solicitud');
         $especies;
@@ -113,6 +115,7 @@ class SolicitudAdopcionController extends Controller
      */
     public function create()
     {
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar formulario creacion', 'Solicitud adopcion'));
         return view('denuncia.tipoDenuncia.create');
     }
 
@@ -144,6 +147,7 @@ class SolicitudAdopcionController extends Controller
      */
     public function show($id)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Consultar', 'Solicitud adopcion'));
         return $solicitud = SolicitudAdopcion::withTrashed()
             ->where('id', $id)
             ->first();
@@ -158,6 +162,7 @@ class SolicitudAdopcionController extends Controller
      */
     public function edit($id)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar formulario edicion', 'Solicitud adopcion'));
         $solicitud = SolicitudAdopcion::withTrashed()
             ->where('id', $id)
             ->with('publicacion_adopcion', 'publicacion_adopcion.mascota')
@@ -175,6 +180,7 @@ class SolicitudAdopcionController extends Controller
     public function update(Request $request, $id)
     {
         if ($request->input('restore')) {
+            dispatch( new \App\Jobs\BitacoraJob('Cambio estado', 'Solicitud adopcion'));
             $especie = SolicitudAdopcion::withTrashed()->find($id)->restore();
             return back();
         }
@@ -182,6 +188,7 @@ class SolicitudAdopcionController extends Controller
             'motivo' => ['required', 'max:255', 'min:20'],
             'descripcion' => ['required', 'max:255', 'min:20'],
         ]);
+        dispatch( new \App\Jobs\BitacoraJob('Actualizar', 'Solicitud adopcion'));
         $especie = SolicitudAdopcion::withTrashed()->find($id);
         $especie->update($request->all());
         return redirect()->route('solicitud.index');
@@ -207,6 +214,7 @@ class SolicitudAdopcionController extends Controller
             $adoptado = $especie->estado;
             if ($adoptado == 0) {
                 $especie->forceDelete();
+                dispatch( new \App\Jobs\BitacoraJob('Eliminar', 'Solicitud adopcion'));
                 if (request()->ajax())
                 {
                     return response()->json([
@@ -224,6 +232,7 @@ class SolicitudAdopcionController extends Controller
             return back()->withErrors(['errorDependencia' => "Especie $especie->nombre tiene dependencias"]);
         }
         $especie->delete();
+        dispatch( new \App\Jobs\BitacoraJob('Cambio estado', 'Solicitud adopcion'));
         if (request()->ajax())
         {
             return response()->json([

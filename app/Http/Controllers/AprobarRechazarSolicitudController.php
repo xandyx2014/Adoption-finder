@@ -74,6 +74,7 @@ class AprobarRechazarSolicitudController extends Controller
      */
     public function edit($id)
     {   // Publicacion Publicacion.mascota User
+        dispatch( new \App\Jobs\BitacoraJob('Aprobar Rechazar Solcitud de adopcion', 'Solicitud'));
         $solicitud = SolicitudAdopcion::where('id', $id)
             ->with([
                 'publicacion_adopcion' => function($query) {

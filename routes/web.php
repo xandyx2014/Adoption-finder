@@ -15,3 +15,4 @@ Route::resource('finder', App\Http\Controllers\AdoptionFinderController::class)-
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+

@@ -43,6 +43,7 @@ class TipoDenunciaController extends Controller
     }
     public function report(Request $request)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar reporte', 'Tipo denuncia'));
         $estado = $request->get('estado');
         $especies;
         if ($estado == "1")
@@ -61,6 +62,7 @@ class TipoDenunciaController extends Controller
     }
     function generatePdf(Request $request)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Generar reporte pdf', 'Tipo denuncia'));
         $estado = $request->get('estado');
         $especies;
         if ($estado == "1")
@@ -84,6 +86,7 @@ class TipoDenunciaController extends Controller
      */
     public function create()
     {
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar formulario creacion', 'Tipo denuncia'));
         return view('denuncia.tipoDenuncia.create');
     }
 
@@ -99,6 +102,7 @@ class TipoDenunciaController extends Controller
             'tipo' => ['required', 'unique:tipo_denuncias', 'max:100'],
             'descripcion' => ['required', 'max:200'],
         ]);
+        dispatch( new \App\Jobs\BitacoraJob('Crear', 'Tipo denuncia'));
         $especie = new TipoDenuncia();
         $especie->tipo = $validateData['tipo'];
         $especie->descripcion = $validateData['descripcion'];
@@ -114,6 +118,7 @@ class TipoDenunciaController extends Controller
      */
     public function show($id)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Consultar', 'Tipo denuncia'));
         $especie = TipoDenuncia::withTrashed()->find($id);
         return view('denuncia.tipoDenuncia.show', compact('especie'));
     }
@@ -126,6 +131,7 @@ class TipoDenunciaController extends Controller
      */
     public function edit($id)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar formulario edicion', 'Tipo denuncia'));
         $especie = TipoDenuncia::withTrashed()->find($id);
         return view('denuncia.tipoDenuncia.edit', compact('especie'));
     }
@@ -140,6 +146,7 @@ class TipoDenunciaController extends Controller
     public function update(Request $request, $id)
     {
         if ($request->input('restore')) {
+            dispatch( new \App\Jobs\BitacoraJob('Cambio estado', 'Tipo denuncia'));
             $especie = TipoDenuncia::withTrashed()->find($id)->restore();
             return back();
         }
@@ -147,6 +154,7 @@ class TipoDenunciaController extends Controller
             'tipo' => ['required', 'max:100'],
             'descripcion' => ['required', 'max:200'],
         ]);
+        dispatch( new \App\Jobs\BitacoraJob('Actualizar', 'Tipo denuncia'));
         $especie = TipoDenuncia::withTrashed()->find($id);
         $especie->update($validateData);
         return redirect()->route('tipodenuncia.index');
@@ -168,6 +176,7 @@ class TipoDenunciaController extends Controller
             $countTotal = $especie->denuncias()->get()->count();
             if ($countTotal == 0) {
                 $especie->forceDelete();
+                dispatch( new \App\Jobs\BitacoraJob('Eliminar', 'Tipo denuncia'));
                 if (request()->ajax())
                 {
                     return response()->json([
@@ -185,6 +194,7 @@ class TipoDenunciaController extends Controller
             return back()->withErrors(['errorDependencia' => "Especie $especie->nombre tiene dependencias"]);
         }
         $especie->delete();
+        dispatch( new \App\Jobs\BitacoraJob('Cambio estado', 'Tipo denuncia'));
         if (request()->ajax())
         {
             return response()->json([

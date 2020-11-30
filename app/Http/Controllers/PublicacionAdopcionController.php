@@ -30,6 +30,7 @@ class PublicacionAdopcionController extends Controller
     }
     public function report(Request $request)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar reporte', 'Publicacion adopcion'));
         $estado = $request->get('estado');
         $especies;
         if ($estado == "1")
@@ -48,6 +49,7 @@ class PublicacionAdopcionController extends Controller
     }
     function generatePdf(Request $request)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Generar reporte pdf', 'Publicacion adopcion'));
         $estado = $request->get('estado');
         $especies;
         if ($estado == "1")
@@ -70,6 +72,7 @@ class PublicacionAdopcionController extends Controller
      */
     public function create()
     {
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar formulario creacion', 'Publicacion adopcion'));
         $mascotas = Mascota::all();
         return view('adopcion.publicacionAdopcion.create', compact('mascotas'));
     }
@@ -87,6 +90,7 @@ class PublicacionAdopcionController extends Controller
             'descripcion_corta' => 'required|min:0|max:16000000',
             'mascota' => 'required'
         ]);
+        dispatch( new \App\Jobs\BitacoraJob('Crear', 'Publicacion adopcion'));
         $publicacion = new PublicacionAdopcion;
         $publicacion->titulo = $request->get('titulo');
         $publicacion->descripcion_corta = $request->get('descripcion_corta');
@@ -104,6 +108,7 @@ class PublicacionAdopcionController extends Controller
      */
     public function show($id)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Consultar', 'Publicacion adopcion'));
         $publicacion = PublicacionAdopcion::withTrashed()->where('id', $id)
             ->with([
                 'user' => function($query) {
@@ -135,6 +140,7 @@ class PublicacionAdopcionController extends Controller
      */
     public function edit($id)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar formulario edicion', 'Publicacion adopcion'));
         $mascotas = Mascota::all();
         $publicacion = PublicacionAdopcion::findOrFail($id);
         return view('adopcion.publicacionAdopcion.edit', compact('publicacion', 'mascotas'));
@@ -150,6 +156,7 @@ class PublicacionAdopcionController extends Controller
     public function update(Request $request, $id)
     {
         if ($request->input('restore')) {
+            dispatch( new \App\Jobs\BitacoraJob('Cambio estado', 'Publicacion adopcion'));
             $especie = PublicacionAdopcion::withTrashed()->find($id)->restore();
             return back();
         }
@@ -158,6 +165,7 @@ class PublicacionAdopcionController extends Controller
             'descripcion_corta' => 'required|min:0|max:16000000',
             'mascota' => 'required'
         ]);
+        dispatch( new \App\Jobs\BitacoraJob('Actualizar', 'Publicacion adopcion'));
         $publicacion = PublicacionAdopcion::findOrFail($id);
         $publicacion->update([
             'titulo' => $request->get('titulo'),
@@ -185,6 +193,7 @@ class PublicacionAdopcionController extends Controller
             $countSolicitud = $especie->solicitudAdopcions()->get()->count();
             if ($countTotal == 0 && $countDenuncia == 0 && $countSolicitud == 0) {
                 $especie->forceDelete();
+                dispatch( new \App\Jobs\BitacoraJob('Eliminar', 'Publicacion adopcion'));
                 if (request()->ajax())
                 {
                     return response()->json([
@@ -202,6 +211,7 @@ class PublicacionAdopcionController extends Controller
             }
             return back()->withErrors(['errorDependencia' => "Especie $especie->nombre tiene dependencias"]);
         }
+        dispatch( new \App\Jobs\BitacoraJob('Cambio lo estado', 'Publicacion adopcion'));
         $especie->delete();
         if (request()->ajax())
         {

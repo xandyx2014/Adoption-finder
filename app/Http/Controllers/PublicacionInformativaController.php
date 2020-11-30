@@ -92,7 +92,7 @@ class PublicacionInformativaController extends Controller
 
     public function report(Request $request)
     {
-
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar reporte', 'Publicacion informativa'));
         $estado = $request->get('estado');
         $estadoPublicacion = $request->get('estadoPublicacion');
         $especies;
@@ -111,6 +111,7 @@ class PublicacionInformativaController extends Controller
 
     function generatePdf(Request $request)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Generar reporte pdf', 'Publicacion informativa'));
         $estado = $request->get('estado');
         $estadoPublicacion = $request->get('estadoPublicacion');
         $especies;
@@ -132,6 +133,7 @@ class PublicacionInformativaController extends Controller
      */
     public function create()
     {
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar formulario creacion', 'Publicacion informativa'));
         $tipoPublicacion = TipoPublicacion::all();
         return view('publicacion.publicacion.create', [
             'tipos' => $tipoPublicacion,
@@ -152,6 +154,7 @@ class PublicacionInformativaController extends Controller
             'subtitulo' => 'required|min:0|max:150',
             'tipoPublicacion' => 'required'
         ]);
+        dispatch( new \App\Jobs\BitacoraJob('Crear', 'Publicacion informativa'));
         $publicacion = new PublicacionInformativa;
         $publicacion->titulo = $request->get('titulo');
         $publicacion->subtitulo = $request->get('subtitulo');
@@ -183,7 +186,7 @@ class PublicacionInformativaController extends Controller
      */
     public function show($id)
     {
-
+        dispatch( new \App\Jobs\BitacoraJob('Consultar', 'Publicacion informativa'));
         $especie = PublicacionInformativa::withTrashed()
             ->where('id', $id)
             ->with([
@@ -201,6 +204,7 @@ class PublicacionInformativaController extends Controller
 
     public function denuncia($id)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Consultar', 'Denuncia'));
         $denuncias = PublicacionInformativa::withTrashed()
             ->where('id', $id)
             ->first()
@@ -220,6 +224,7 @@ class PublicacionInformativaController extends Controller
      */
     public function edit($id)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar formulario edicion', 'Publicacion informativa'));
         $tipoPublicacion = TipoPublicacion::all();
         $especie = PublicacionInformativa::withTrashed()
             ->where('id', $id)
@@ -233,6 +238,7 @@ class PublicacionInformativaController extends Controller
 
     public function imagenDelete(Request $request, $id)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Eliminar imagen', 'Publicacion informativa'));
         $imagen = Imagen::withTrashed()->where('id', $id)->first();
         if ($imagen->url != 'default.jpg')
         {
@@ -253,6 +259,7 @@ class PublicacionInformativaController extends Controller
     public function update(Request $request, $id)
     {
         if ($request->input('restore')) {
+            dispatch( new \App\Jobs\BitacoraJob('Cambiar estado', 'Publicacion informativa'));
             $especie = PublicacionInformativa::withTrashed()->find($id)->restore();
             return back();
         }
@@ -273,7 +280,7 @@ class PublicacionInformativaController extends Controller
                 if ($especieImagen->url != 'default.jpg') {
                     Storage::disk('public')->delete($imagen->url);
                 }
-
+                dispatch( new \App\Jobs\BitacoraJob('Eliminar imagen', 'Publicacion informativa'));
                 $imagen->delete();
             }
 
@@ -286,6 +293,7 @@ class PublicacionInformativaController extends Controller
         }
 
         $especie->update($request->all());
+        dispatch( new \App\Jobs\BitacoraJob('Actualizar', 'Publicacion informativa'));
         return redirect()->route('publicacion.index');
     }
 
@@ -304,6 +312,7 @@ class PublicacionInformativaController extends Controller
             $countTotal = $especie->denuncias()->get()->count();
             $countTotalImagen = $especie->imagens()->get()->count();
             if ($countTotal == 0 || $countTotalImagen == 0) {
+                dispatch( new \App\Jobs\BitacoraJob('Eliminar', 'Publicacion informativa'));
                 $especie->forceDelete();
                 if (request()->ajax()) {
                     return response()->json([
@@ -319,6 +328,7 @@ class PublicacionInformativaController extends Controller
             }
             return back()->withErrors(['errorDependencia' => "Especie $especie->nombre tiene dependencias"]);
         }
+        dispatch( new \App\Jobs\BitacoraJob('Cambio estado', 'Publicacion informativa'));
         $especie->delete();
         if (request()->ajax()) {
             return response()->json([

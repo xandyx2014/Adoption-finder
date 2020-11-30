@@ -44,6 +44,7 @@ class TipoPublicacionController extends Controller
     }
     public function report(Request $request)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar reporte', 'Tipo publicacion'));
         $estado = $request->get('estado');
         $especies;
         if ($estado == "1")
@@ -62,6 +63,7 @@ class TipoPublicacionController extends Controller
     }
     function generatePdf(Request $request)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Generar reporte', 'Tipo publicacion'));
         $estado = $request->get('estado');
         $especies;
         if ($estado == "1")
@@ -84,6 +86,7 @@ class TipoPublicacionController extends Controller
      */
     public function create()
     {
+        dispatch( new \App\Jobs\BitacoraJob('Mostrar formulario creacion', 'Tipo publicacion'));
         return view('publicacion.tipoPublicacion.create');
     }
 
@@ -98,6 +101,7 @@ class TipoPublicacionController extends Controller
         $validateData = $request->validate([
             'tipo' => ['required', 'unique:tipo_publicacions', 'max:50'],
         ]);
+        dispatch( new \App\Jobs\BitacoraJob('Crear', 'Tipo publicacion'));
         $especie = new TipoPublicacion();
         $especie->tipo = $validateData['tipo'];
         $especie->save();
@@ -138,6 +142,7 @@ class TipoPublicacionController extends Controller
     public function update(Request $request, $id)
     {
         if ($request->input('restore')) {
+            dispatch( new \App\Jobs\BitacoraJob('Cambio estado', 'Tipo publicacion'));
             $especie = TipoPublicacion::withTrashed()->find($id)->restore();
             return back();
         }
@@ -146,6 +151,7 @@ class TipoPublicacionController extends Controller
         ]);
         $especie = TipoPublicacion::withTrashed()->find($id);
         $especie->update($validateData);
+        dispatch( new \App\Jobs\BitacoraJob('Actualizar', 'Tipo publicacion'));
         return redirect()->route('tipopublicacion.index');
     }
 
@@ -165,6 +171,7 @@ class TipoPublicacionController extends Controller
             $countTotal = $especie->publicacionInformativas()->get()->count();
             if ($countTotal == 0) {
                 $especie->forceDelete();
+                dispatch( new \App\Jobs\BitacoraJob('Eliminar', 'Tipo publicacion'));
                 if (request()->ajax())
                 {
                     return response()->json([
@@ -182,6 +189,7 @@ class TipoPublicacionController extends Controller
             return back()->withErrors(['errorDependencia' => "Especie $especie->nombre tiene dependencias"]);
         }
         $especie->delete();
+        dispatch( new \App\Jobs\BitacoraJob('Cambio estado', 'Tipo publicacion'));
         if (request()->ajax())
         {
             return response()->json([

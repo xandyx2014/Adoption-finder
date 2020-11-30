@@ -78,6 +78,7 @@ class AprobarRechazarPublicacionController extends Controller
      */
     public function update(Request $request, $id)
     {
+        dispatch( new \App\Jobs\BitacoraJob('Aprobar Rechazar Publicacion', 'Publicacion'));
         $estado = $request->input('cambiar');
         $publicacion = PublicacionInformativa::where('id', $id);
         $publicacion->update([
