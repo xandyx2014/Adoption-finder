@@ -5,25 +5,106 @@
     <div class="container">
         <div class="row d-flex justify-content-center">
             <div class="col-5">
-                <div class="card elevation-4 rounded ">
-                    {{--@if(session()->has('success'))
-                        <div class="card bg-success">
-                            <div class="card-header">
-                                <h3 class="card-title">Exito</h3>
 
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fa fa-times"></i>
-                                    </button>
-                                </div>
-                                <!-- /.card-tools -->
-                            </div>
+                <div class="card elevation-4">
+                    <div class="card-header">
+                        <h4>Tu cuenta</h4>
+                    </div>
+                    @if(session()->has('user'))
+                        <div class="card bg-success">
                             <!-- /.card-header -->
                             <div class="card-body">
                                 Se ha actualizado tu perfil
                             </div>
                             <!-- /.card-body -->
                         </div>
-                    @endif--}}
+                    @endif
+                    <div class="card-body">
+                        <form action="{{ route('perfil.store') }}" method="POST">
+                            @csrf
+                            @method('POST')
+                            <div class="form-group row">
+                                <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
+
+                                <div class="col-md-6">
+                                    <input id="name" type="text"
+                                           class="form-control @error('name') is-invalid @enderror" name="name"
+                                           value="{{ old('name', $user->name) }}" required autocomplete="name" autofocus>
+
+                                    @error('name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="email"
+                                       class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+
+                                <div class="col-md-6">
+                                    <input id="email" type="email"
+                                           class="form-control @error('email') is-invalid @enderror" name="email"
+                                           value="{{ old('email', $user->email) }}" required autocomplete="email">
+
+                                    @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="password"
+                                       class="col-md-4 col-form-label text-md-right">Nueva {{ __('Password') }}</label>
+
+                                <div class="col-md-6">
+                                    <input id="password" type="password"
+                                           class="form-control @error('password') is-invalid @enderror" name="password"
+                                           autocomplete="new-password">
+
+                                    @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="password-confirm"
+                                       class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
+
+                                <div class="col-md-6">
+                                    <input id="password-confirm" type="password" class="form-control"
+                                           name="password_confirmation" autocomplete="new-password">
+                                </div>
+                            </div>
+
+                            <div class="form-group row mb-0">
+                                <div class="col-md-6 offset-md-4">
+                                    <button type="submit" class="btn btn-outline-secondary">
+                                        {{ __('Register') }}
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-5">
+                <div class="card elevation-4 rounded ">
+                    @if(session()->has('success'))
+                        <div class="card bg-success">
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                Se ha actualizado tu perfil
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                    @endif
                     <div class="card-body">
 
                         <div class="row">

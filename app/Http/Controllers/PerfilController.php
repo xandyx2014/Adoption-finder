@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Perfil;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use function PHPUnit\Framework\isNull;
 
 class PerfilController extends Controller
@@ -42,7 +43,58 @@ class PerfilController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dispatch( new \App\Jobs\BitacoraJob('Actualizar', 'User'));
+        $user = User::findOrFail(auth()->user()->id);
+        if($request->get('password') == null)
+        {
+            // actualizar solo nombre
+            if ($user->email == $request->get('email'))
+            {
+                $validateRequest = $request->validate([
+                    'name' => ['required', 'string', 'max:255']
+                ]);
+                $user->update($validateRequest);
+                return back()->with('user', 'Se ha actualizado tu usuario');
+            }
+            // actualizar email
+            $validateRequest = $request->validate([
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            ]);
+
+
+            $user->update($validateRequest);
+            return back()->with('user', 'Se ha actualizado tu usuario');
+        }
+        if ($user->email == $request->get('email'))
+        {
+            $validateRequest = $request->validate([
+                'name' => ['required', 'string', 'max:255'],
+                'password' => ['required', 'string', 'min:8', 'confirmed'],
+            ]);
+            $user->update([
+                'name' => $request->get('name'),
+                'password' => Hash::make($request->get('password'))
+            ]);
+            return back()->with('user', 'Se ha actualizado tu usuario');
+        }
+        if ($user->email != $request->get('email'))
+        {
+            $validateRequest = $request->validate([
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'password' => ['required', 'string', 'min:8', 'confirmed'],
+            ]);
+            $user->update([
+                'name' => $request->get('name'),
+                'email' => $request->get('email'),
+                'password' => Hash::make($request->get('password'))
+            ]);
+            return back()->with('user', 'Se ha actualizado tu usuario');
+        }
+        // si quiere actualizar contraseña
+
+        return back()->with('user', 'Se ha actualizado tu usuario');
     }
 
     /**
@@ -80,7 +132,6 @@ class PerfilController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return $id;
         $user = User::findOrFail($id);
         if ($user->perfil == null) {
             $perfil = new Perfil;
@@ -88,6 +139,8 @@ class PerfilController extends Controller
             $perfil->apodo = $request->get('apodo') ?? '';
             $perfil->telefono = $request->get('telefono') ?? '';
             $perfil->about = $request->get('about') ?? '';
+            $perfil->user_id = auth()->user()->id;
+            $perfil->save();
             return back()->with('success', 'Actualizado correctamente');
         }
         $user->perfil->update([
@@ -108,6 +161,6 @@ class PerfilController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return $id;
     }
 }

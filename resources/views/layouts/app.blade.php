@@ -30,9 +30,12 @@
             </main>
         </div>
     </div>
+
 </div>
-<script src="{{ asset('js/app.js') }}"></script>
+@stack('footer')
+
 </body>
+<script src="{{ asset('js/app.js') }}"></script>
 <!-- Scripts -->
 @stack('js')
 </html>

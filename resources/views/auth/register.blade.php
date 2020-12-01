@@ -84,4 +84,7 @@
             </div>
         </div>
     </div>
+    @push('footer')
+        @include('layouts.footer')
+    @endpush
 @endsection
