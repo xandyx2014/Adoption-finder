@@ -190,6 +190,12 @@
                     Administrar permisos
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('bitacora.index') }}">
+                    <i class="fa fa-history" aria-hidden="true"></i>
+                    Administrar bitacora
+                </a>
+            </li>
         </ul>
 
     </div>

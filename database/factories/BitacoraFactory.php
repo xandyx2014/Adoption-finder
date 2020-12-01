@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Bitacora;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class BitacoraFactory extends Factory
@@ -22,7 +23,9 @@ class BitacoraFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'accion' => 'ALguna accion',
+            'entidad' => 'Entidad nombre',
+            'user_id' => User::factory()
         ];
     }
 }

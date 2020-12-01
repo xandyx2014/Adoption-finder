@@ -16,14 +16,14 @@ class Bitacora extends Model
     ];
     public function getCreatedAtAttribute($value)
     {
-        return Carbon::parse($value)->format('d-M-Y');
+        return Carbon::parse($value)->format('d-M-Y H:i:s');
     }
     public function getDeletedAtAttribute($value)
     {
-        return Carbon::parse($value)->format('d-M-Y');
+        return Carbon::parse($value)->format('d-M-Y H:i:s');
     }
     public function getUpdatedAtAttribute($value)
     {
-        return Carbon::parse($value)->format('d-M-Y');
+        return Carbon::parse($value)->format('d-M-Y H:i:s');
     }
 }

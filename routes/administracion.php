@@ -4,6 +4,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\PermisoController;
 use App\Http\Controllers\PerfilController;
+use App\Http\Controllers\BitacoraController;
 Route::resource('user', UserController::class);
 
 // Route::get('destroyUser/{id}', [UserController::class, 'destroy']);
@@ -22,3 +23,7 @@ Route::post('permiso/report', [PermisoController::class, 'report'])->name('permi
 Route::post('permiso/report/pdf', [PermisoController::class, 'generatePdf'])->name('permiso.pdf');
 // Perfil
 Route::resource('perfil', PerfilController::class);
+// Bitacora
+Route::resource('bitacora', BitacoraController::class);
+Route::post('bitacora/report', [BitacoraController::class, 'report'])->name('bitacora.report');
+Route::post('bitacora/report/pdf', [BitacoraController::class, 'generatePdf'])->name('bitacora.pdf');
