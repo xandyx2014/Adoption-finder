@@ -19,7 +19,7 @@
                             <div class="h5">{{ App\Models\Mascota::where('adoptado', 0)->count() }}</div>
                         </li>
                         <li class="list-group-item">
-                            <div class="h6 text-muted">Mascotas adoptados</div>
+                            <div class="h6 text-muted">Mascotas Adoptadas</div>
                             <div class="h5">{{  App\Models\Mascota::where('adoptado', 1)->count() }}</div>
                         </li>
                         <li class="list-group-item">
@@ -34,12 +34,8 @@
                 </div>
             </div>
             <div class="col-md-6 gedf-main">
-
-
                 <!--- \\\\\\\Post-->
                 @yield('content-body')
-
-
             </div>
             <div class="col-md-3">
                 @section('info')
@@ -57,5 +53,8 @@
             </div>
         </div>
     </div>
+    @push('js')
+        @stack('js-finder')
+    @endpush
 @endsection
 

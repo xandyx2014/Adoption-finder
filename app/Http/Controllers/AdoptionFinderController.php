@@ -43,7 +43,7 @@ class AdoptionFinderController extends Controller
     {
         $publicacion = PublicacionAdopcion::where('id', $id)->with([
             'mascota',
-            'mascota.user'
+            'mascota.user',
         ])->first();
         if ($publicacion->mascota == null) {
             abort(404);

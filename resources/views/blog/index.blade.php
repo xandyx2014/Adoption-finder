@@ -18,7 +18,7 @@
                 </div>
                 @enderror
                 @foreach($publicaciones as $publicacion)
-                    <div class="card flex-md-row mb-4 box-shadow h-md-250">
+                    <div class="card flex-md-row mb-4 box-shadow h-md-250 elevation-1">
                         <div class="card-body d-flex flex-column align-items-start">
                             <div class="d-flex justify-content-between align-items-center w-100">
                                 <strong class="d-inline-block mb-2 text-primary">

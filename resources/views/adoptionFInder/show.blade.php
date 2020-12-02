@@ -23,22 +23,7 @@
                     </div>
                 </div>
                 <div>
-                    <div class="dropdown">
-                        <button class="btn btn-link dropdown-toggle" type="button" id="gedf-drop1"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-ellipsis-h"></i>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
-                            <div class="h6 dropdown-header">
-                                <a href="#">
-                                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                                    Denunciar
-                                </a>
-                            </div>
-                            {{--<a class="dropdown-item" href="#">Denunciar esta publicacion</a>--}}
 
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -55,30 +40,75 @@
         </div>
         <div class="card-footer">
             <br>
-            <button href="#" class="btn btn-outline-primary pull-right" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-paw"
-                                                                      aria-hidden="true"></i>
-                Solicitar</button>
+            <button href="#" class="btn btn-info pull-right" data-toggle="modal" data-target="#exampleModal">
+                <i class="fa fa-paw"
+                   aria-hidden="true"></i>
+                Solicitar
+            </button>
             @include('adoptionFInder.store', [ 'data' => $publicacion])
         </div>
     </div>
+    @push('js-finder')
+        <script type="text/javascript">
+            document.addEventListener("DOMContentLoaded", function (event) {
+                console.log('Hola');
+            });
+
+
+        </script>
+    @endpush
 @endsection
 @section('info')
     @parent
     <div class="mb-1 p-3 bg-white rounded box-shadow elevation-2">
         <h6 class="border-bottom border-gray pb-2 mb-0">Mascotas</h6>
-        @forelse($publicacion->mascota->imagens as $imagen)
-            @if($loop->first)
-                @if(Illuminate\Support\Str::contains( $imagen->url, 'http'))
-                    <img class="img-thumbnail rounded-circle" src='{{ asset(  $imagen->url ) }}' alt="" srcset="">
-                @else
-                    <img class="img-thumbnail rounded-circle" src='{{ asset( "storage/" .  $imagen->url ) }}' alt=""
+        <div id="demo" class="carousel slide" data-ride="carousel">
+
+            <!-- Indicators -->
+            <ul class="carousel-indicators">
+                @foreach($publicacion->mascota->imagens as $imagen)
+                    <li data-target="#demo" data-slide-to="{{ $loop->index }}" @if($loop->first) class="active" @endif></li>
+
+                @endforeach
+            </ul>
+
+            <!-- The slideshow -->
+            <div class="carousel-inner">
+                @forelse($publicacion->mascota->imagens as $imagen)
+                    {{--@if($loop->first)
+                        @if(Illuminate\Support\Str::contains( $imagen->url, 'http'))
+
+                               <img
+                                   class="img-thumbnail rounded-circle"
+                                   src='{{ asset(  $imagen->url ) }}'
+                                   alt="" srcset="">
+
+                        @else
+
+                            <img class="img-thumbnail rounded-circle" src='{{ asset( "storage/" .  $imagen->url ) }}' alt=""
+                                 srcset="">
+                        @endif
+                    @endif--}}
+                    <div class="carousel-item @if($loop->first) active @endif">
+                        <img class="img-thumbnail rounded-circle" src='{{ asset( "storage/" .  $imagen->url ) }}' alt=""
+                             srcset="">
+                    </div>
+                @empty
+                    <img class="img-thumbnail rounded-circle" src='{{ asset( "storage/default.jpg" ) }}' alt=""
                          srcset="">
-                @endif
-            @endif
-        @empty
-            <img class="img-thumbnail rounded-circle" src='{{ asset( "storage/default.jpg" ) }}' alt=""
-                 srcset="">
-        @endforelse
+                @endforelse
+            </div>
+
+            <!-- Left and right controls -->
+            <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </a>
+            <a class="carousel-control-next" href="#demo" data-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </a>
+
+        </div>
+
         <div class="media text-muted pt-1">
             <p class="media-body pb-1 mb-0 small lh-125 border-bottom">
                 <strong class="d-block text-gray-dark">Nombre 🔍</strong>
@@ -99,7 +129,7 @@
         </div>
         <div class="media text-muted pt-1">
             <p class="media-body pb-1 mb-0 small lh-125 border-bottom">
-                <strong class="d-block text-gray-dark">Tamaño  📋</strong>
+                <strong class="d-block text-gray-dark">Tamaño 📋</strong>
                 {{ $publicacion->mascota->tamagno }}
             </p>
         </div>
@@ -141,7 +171,7 @@
             <p class="media-body pb-1 mb-0 small lh-125 border-bottom">
                 <strong class="d-block text-gray-dark">Etiquetas</strong>
                 @forelse($publicacion->mascota->etiquetas as $item)
-                    <span class="badge badge-primary p-1">{{ $item->nombre }}</span>
+                    <span class="badge badge-info p-1">{{ $item->nombre }}</span>
                 @empty
                     <span class="badge badge-secondary p-1">No etiquetas</span>
                 @endforelse

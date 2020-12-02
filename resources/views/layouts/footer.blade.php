@@ -12,44 +12,41 @@
                 <line x1="14.31" y1="16" x2="2.83" y2="16"></line>
                 <line x1="16.62" y1="12" x2="10.88" y2="21.94"></line>
             </svg>
-            <small class="d-block mb-3 text-muted">© 2017-2018</small>
+            <small class="d-block mb-3 text-muted">© Bolivia {{ now()->format('yy') }}</small>
         </div>
         <div class="col-6 col-md">
-            <h5>Features</h5>
+            <h5 class="text-primary">Paginas</h5>
             <ul class="list-unstyled text-small">
-                <li><a class="text-muted" href="#">Cool stuff</a></li>
-                <li><a class="text-muted" href="#">Random feature</a></li>
-                <li><a class="text-muted" href="#">Team feature</a></li>
-                <li><a class="text-muted" href="#">Stuff for developers</a></li>
-                <li><a class="text-muted" href="#">Another one</a></li>
-                <li><a class="text-muted" href="#">Last time</a></li>
+                <li>
+                    <a class="text-muted" href="{{ route('blog.index') }}">Blog</a>
+                </li>
+                <li>
+                    <a class="text-muted" href="{{ route('finder.index') }}">Busca una mascota</a>
+                </li>
+                <li>
+                    <a class="text-muted" href=" {{ route('fasqs') }}">Preguntas frecuentes</a>
+                </li>
+                <li>
+                    <a class="text-muted" href="{{ route('nosotros') }}">Acerca de nosotros</a>
+                </li>
             </ul>
         </div>
         <div class="col-6 col-md">
-            <h5>Resources</h5>
+            <h5 class="text-primary">Refugios</h5>
             <ul class="list-unstyled text-small">
-                <li><a class="text-muted" href="#">Resource</a></li>
-                <li><a class="text-muted" href="#">Resource name</a></li>
-                <li><a class="text-muted" href="#">Another resource</a></li>
-                <li><a class="text-muted" href="#">Final resource</a></li>
+                <li><a class="text-muted" href="https://www.facebook.com/groups/228942774142526/">Mascotas perdidas Santa Cruz</a></li>
+                <li><a class="text-muted" href="https://www.facebook.com/veda.bolivia/">Veda- Voluntarios</a></li>
+                <li><a class="text-muted" href="https://www.facebook.com/groups/23205197680/">No compreas Adopta!</a></li>
+                <li><a class="text-muted" href="https://www.facebook.com/groups/23205197680/">Adopciones Santa cruz Bolivia</a></li>
             </ul>
         </div>
         <div class="col-6 col-md">
-            <h5>Resources</h5>
+            <h5 class="text-primary">Refugios</h5>
             <ul class="list-unstyled text-small">
-                <li><a class="text-muted" href="#">Business</a></li>
-                <li><a class="text-muted" href="#">Education</a></li>
-                <li><a class="text-muted" href="#">Government</a></li>
-                <li><a class="text-muted" href="#">Gaming</a></li>
-            </ul>
-        </div>
-        <div class="col-6 col-md">
-            <h5>About</h5>
-            <ul class="list-unstyled text-small">
-                <li><a class="text-muted" href="#">Team</a></li>
-                <li><a class="text-muted" href="#">Locations</a></li>
-                <li><a class="text-muted" href="#">Privacy</a></li>
-                <li><a class="text-muted" href="#">Terms</a></li>
+                <li><a class="text-muted" href="https://www.facebook.com/MiRefugioSC/">MI Refurio</a></li>
+                <li><a class="text-muted" href="https://www.facebook.com/refugio.esperanza.bolivia/">Refugio Esperanza</a></li>
+                <li><a class="text-muted" href="https://www.facebook.com/AsociacionProtectoraDeAnimalesSantaCruz">A.P.A SCZ</a></li>
+                <li><a class="text-muted" href="https://www.facebook.com/MiRefugioSC">Mi refugio</a></li>
             </ul>
         </div>
     </div>
