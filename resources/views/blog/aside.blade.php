@@ -1,6 +1,8 @@
 <aside class="col-md-4 blog-sidebar">
     <div class="p-3 mb-3 bg-light rounded elevation-1">
         <h4 class="font-italic">Acerda de </h4>Adopta mascota
+        <br>
+        <img style="width: 80px"  src="{{ asset('storage/default/welcome-1.png') }}" alt="">
         <p class="mb-0">Conoce nuestro <em>Blog informativo</em>
             para mantenerte informado acerda de tus mascotas,tips , cuidadosy mucha mas informacion.</p>
     </div>
@@ -26,4 +28,5 @@
             <li><a href="#">Facebook</a></li>
         </ol>
     </div>--}}
+
 </aside>

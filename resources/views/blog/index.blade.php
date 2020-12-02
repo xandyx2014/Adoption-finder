@@ -18,7 +18,7 @@
                 </div>
                 @enderror
                 @foreach($publicaciones as $publicacion)
-                    <div class="card flex-md-row mb-4 box-shadow h-md-250 elevation-1">
+                    <div class="card flex-md-row mb-4 box-shadow h-md-250 elevation-2">
                         <div class="card-body d-flex flex-column align-items-start">
                             <div class="d-flex justify-content-between align-items-center w-100">
                                 <strong class="d-inline-block mb-2 text-primary">
@@ -31,7 +31,7 @@
                                         </button>
                                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
                                             <div class="h6 dropdown-header">
-                                                <button class="text-muted" data-toggle="modal"
+                                                <button class="btn btn-outline-primary text-muted" data-toggle="modal"
                                                         data-target="#exampleModal-{{$publicacion->id}}">
                                                     <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                                                     Denunciar
@@ -55,10 +55,10 @@
                             <a href="{{ route('blog.show', $publicacion->id)  }}">Continuar leyendo</a>
                         </div>
                         @if(Illuminate\Support\Str::contains($publicacion['imagens'][0]['url'], 'http'))
-                            <img class="card-img-right flex-auto d-none d-md-block"
+                            <img class="img-thumbnail card-img-right flex-auto d-none d-md-block"
                                  src='{{ asset( $publicacion['imagens'][0]['url'] ) }}' alt="" srcset="">
                         @else
-                            <img style="max-width: 250px" class="card-img-right img-fluid flex-auto d-none d-md-block"
+                            <img style="max-width: 250px" class=" img-thumbnail card-img-right img-fluid flex-auto d-none d-md-block"
                                  src='{{ asset( "storage/" . $publicacion['imagens'][0]['url'] ) }}' alt=""
                                  srcset="">
                         @endif

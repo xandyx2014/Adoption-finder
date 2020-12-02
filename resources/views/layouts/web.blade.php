@@ -8,6 +8,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="shortcut icon" href="{{ asset('storage/paw.ico') }}">
+    @stack('css')
 </head>
 <body>
 {{--@if (Route::has('login'))

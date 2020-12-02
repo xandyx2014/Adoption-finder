@@ -39,7 +39,16 @@
             </p>
         </div>
         <div class="card-footer">
-            <br>
+            <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ route('finder.show', $publicacion->id) }}&t='{{ $publicacion->titulo  }}'&display=popup">
+                <i class="fa fa-facebook-official" aria-hidden="true"></i>
+            </a>
+            <a target="_blank" href="http://twitter.com/share?text={{ $publicacion->titulo  }}&url={{route('finder.show', $publicacion->id)}}">
+                <i class="fa fa-twitter" aria-hidden="true"></i>
+            </a>
+            <a  target="_blank" href="https://wa.me/?text=Adopta a {{ $publicacion->mascota->nombre }} en {{route('finder.show', $publicacion->id)}} en Adoption Finder">
+                <i class="fa fa-whatsapp" style="color: green;" aria-hidden="true"></i>
+            </a>
+
             <button href="#" class="btn btn-info pull-right" data-toggle="modal" data-target="#exampleModal">
                 <i class="fa fa-paw"
                    aria-hidden="true"></i>

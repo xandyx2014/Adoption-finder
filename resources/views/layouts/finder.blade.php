@@ -43,10 +43,10 @@
                 <div class="card gedf-card">
                     <div class="card-body">
                         <h5 class="card-title">Preguntas Frecuentes</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
-                            the
-                            card's content.</p>
-                        <a href="#" class="card-link">Ver pregunta</a>
+                        <p class="card-text">
+                            Tienes preguntas o dudas puedes visitar
+                        </p>
+                        <a target="_blank" href="{{ url('faqs') }}" class="card-link">Ver pregunta</a>
                     </div>
                 </div>
 
