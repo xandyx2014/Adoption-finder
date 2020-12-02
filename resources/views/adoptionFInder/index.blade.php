@@ -72,7 +72,7 @@
                     @endforeach
                 @endif
                     <br>
-                <a href="{{ route('finder.show', $publicacion->id) }}" class="btn btn-outline-primary btn-sm pull-right">
+                <a href="{{ route('finder.show', $publicacion->id) }}" class="btn btn-primary  pull-right">
                     <i class="fa fa-paw"
                        aria-hidden="true">
                     </i>

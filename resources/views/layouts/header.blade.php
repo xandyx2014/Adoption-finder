@@ -1,5 +1,5 @@
 <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 bg-white border-bottom shadow-sm">
-    <h5 class="my-0 mr-md-auto font-weight-normal"><i class="fa fa-paw" aria-hidden="true"></i> Adoption Finder <i
+    <h5 class="my-0 mr-md-auto text-primary font-weight-normal"><i class="fa fa-paw" aria-hidden="true"></i> Adoption Finder <i
             class="fa fa-paw" aria-hidden="true"></i></h5>
     <ul class="navbar-nav bd-navbar-nav flex-row">
         @guest
