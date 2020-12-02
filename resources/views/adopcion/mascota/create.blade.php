@@ -33,7 +33,7 @@
 
                         </li>
                         <li class="list-group-item d-flex justify-content-between lh-condensed">
-                            <div>
+                            <div class="w-100">
                                 <h6 class="my-0">Raza</h6>
                                 <select style="width: 100%" id="raza" name="raza">
                                     @foreach($razas as $raza)
@@ -43,7 +43,7 @@
                             </div>
                         </li>
                         <li class="list-group-item d-flex justify-content-between lh-condensed">
-                            <div>
+                            <div class="w-100">
                                 <h6 class="my-0">Especies</h6>
                                 <select style="width: 100%" id="especie" name="especie">
                                     @foreach($especies as $especie)
@@ -149,7 +149,7 @@
                             @enderror
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label>Acerca de la masctoa</label>
+                            <label>Acerca de la mascota</label>
                             <textarea
                                 name="about"
                                 id="about"

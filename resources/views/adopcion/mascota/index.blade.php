@@ -83,7 +83,7 @@
 
                                         @if(Illuminate\Support\Str::contains($item->url, 'http'))
                                             <img class="img-thumbnail elevation-2"
-                                                 src='{{ asset( $publicacion['imagens'][0]['url'] ) }}' alt=""
+                                                 src='{{ asset( $item->url ) }}' alt=""
                                                  srcset="">
                                         @else
                                             <img style="width: 250px" class="img-thumbnail elevation-2"

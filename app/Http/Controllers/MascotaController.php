@@ -174,9 +174,6 @@ class MascotaController extends Controller
                 'user' => function($query) {
                     $query->withTrashed();
                 },
-                'imagens' => function($query) {
-                    $query->withTrashed();
-                },
                 'etiquetas' => function($query) {
                     $query->withTrashed();
                 },

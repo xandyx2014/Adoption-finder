@@ -34,7 +34,15 @@
                             <dt class="col-sm-4">Titulo</dt>
                             <dd class="col-sm-8">{{ $especie->titulo }}.</dd>
                             <dt class="col-sm-4">Subtitulo</dt>
-                            <dd class="col-sm-8">{{ $especie->subtitulo }}</dd>
+                            <dd class="col-sm-8">{{ $especie->titulo }}.</dd>
+                            <dt class="col-sm-4">Estado</dt>
+                            <dd class="col-sm-8">
+                                @if($especie->estado == 1)
+                                    <span class="badge badge-success">Aprobado</span>
+                                    @else
+                                    <span class="badge badge-danger">No Aprobado</span>
+                                @endif
+                            </dd>
                             <dt class="col-sm-4">Denuncias</dt>
                             <dd class="col-sm-8">
                                 <a href="{{ route('publicacion.denuncia',  $especie->id) }}" class="btn btn-sm btn-warning mt-1 elevation-2" disabled>

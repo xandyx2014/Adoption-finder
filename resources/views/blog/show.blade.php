@@ -16,7 +16,7 @@
                     @if(Illuminate\Support\Str::contains($publicacion['imagens'][0]['url'], 'http'))
                         <img class="image-fluid" src='{{ asset( $publicacion['imagens'][0]['url'] ) }}'>
                     @else
-                        <img style="max-width: 250px" class="image-fluid" src='{{ asset( "storage/" . $publicacion['imagens'][0]['url'] ) }}'>
+                        <img class="image-fluid" src='{{ asset( "storage/" . $publicacion['imagens'][0]['url'] ) }}'>
                     @endif
 
                     <div>

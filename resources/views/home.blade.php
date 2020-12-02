@@ -12,7 +12,7 @@
         <div class="row justify-content-center">
             <div class="col-8">
                 <div class="card">
-                    <div class="card-header bg-primary">Gestion de adopcion</div>
+                    <div class="card-header border border-primary text-primary">Gestion de adopcion</div>
                     <div class="card-body bg-light d-flex flex-wrap">
                         <div style="width: 250px" class="small-box bg-info mr-3 elevation-4">
                             <div class="inner">
@@ -91,9 +91,9 @@
                 </div>
             </div>
             <div class="col-4">
-                <div class="card bg-light elevation-4 p-3">
-                    <div class="card-header bg-primary">
-                        Mascotas
+                <div class="card bg-light elevation-1">
+                    <div class="card-header border border-primary text-primary">
+                        Mascotas en general
                     </div>
                     <canvas id="myChart" width="400" height="400"></canvas>
                 </div>
@@ -135,15 +135,6 @@
                         borderWidth: 1
                     }]
                 },
-                options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }]
-                    }
-                }
             });
         </script>
     @endpush

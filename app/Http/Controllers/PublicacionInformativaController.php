@@ -149,7 +149,7 @@ class PublicacionInformativaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'titulo' => 'required|min:0|max:200',
             'subtitulo' => 'required|min:0|max:150',
             'tipoPublicacion' => 'required'

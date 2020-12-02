@@ -78,6 +78,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Mascota::class, 'propetario_id');
     }
+    public function mascotas()
+    {
+        return $this->hasMany(Mascota::class);
+    }
     public function rol()
     {
         return $this->belongsTo(Rol::class);

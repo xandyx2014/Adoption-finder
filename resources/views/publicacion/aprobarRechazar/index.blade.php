@@ -6,7 +6,7 @@
             <div class="card-header">
 
 
-                <b>Total Pendientes :</b> <span class="badge badge-warning mr-2">{{ $publicaciones->total() }}</span>
+                <b>Total :</b> <span class="badge badge-warning mr-2">{{ $publicaciones->total() }}</span>
                 <div class="d-flex">
                     <a href="{{ route('aprobar.index', [ 'estado' => 1]) }}" type="submit"
                        class="btn btn-sm mr-2 btn-success elevation-2">

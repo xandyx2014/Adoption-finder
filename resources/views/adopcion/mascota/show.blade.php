@@ -82,13 +82,9 @@
                     <div class="col-4">
                         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                             <div class="carousel-inner">
+
                                 @forelse($mascota->imagens as $item)
-                                    @if ($loop->first)
-                                        <img class="carousel-item active"
-                                             src='{{ asset("storage/" . $item->url) }}' alt=""
-                                             srcset="">
-                                    @endif
-                                    <img class="carousel-item"
+                                    <img class="carousel-item @if ($loop->first) active @endif"
                                          src='{{ asset( "storage/" . $item->url ) }}' alt="" srcset="">
                                 @empty
                                     <img class="carousel-item active"
@@ -110,11 +106,13 @@
                         </div>
                     </div>
                     <div class="col">
-                        <p class="font-weight-bold">Descripcion :</p>
+                        <p class="font-weight-bold mb-0">Descripcion :</p>
                         {{ $mascota->descripcion }}
-                        <p class="font-weight-bold">Acerca de mi :</p>
+                        <p class="font-weight-bold mb-0">Acerca de mi :</p>
                         {{ $mascota->about }}
-                        <p class="font-weight-bold">Etiquetas :</p>
+                        <p class="font-weight-bold mb-0">Total imagenes :</p>
+                        {{ $mascota->imagens->count() }}
+                        <p class="font-weight-bold mb-0">Etiquetas :</p>
                         @foreach($mascota->etiquetas as $etiqueta)
                             <span class="badge badge-primary">{{ $etiqueta->nombre }}</span>
                         @endforeach
