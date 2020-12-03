@@ -12,6 +12,8 @@ class TipoPublicacionController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('permiso:listar-tipo-publicacion')->only(['index']);
+        $this->middleware('permiso:consultar-tipo-publicacion')->only(['show']);
     }
     public function indexApi()
     {

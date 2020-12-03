@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Mascota;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class ReporteMascotaController extends Controller
 {
@@ -16,6 +17,10 @@ class ReporteMascotaController extends Controller
     public function index()
     {
         $mascotas = Mascota::all();
+        if(Gate::check('no-admin'))
+        {
+            $mascotas = $mascotas->where('user_id', auth()->user()->id);
+        }
         dispatch( new \App\Jobs\BitacoraJob('Mostrar parametros de reporte', 'Reporte mascota'));
         return view('reporte.reporteMascota.index', compact('mascotas'));
     }

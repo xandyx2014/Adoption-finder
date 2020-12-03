@@ -213,6 +213,14 @@ class DatabaseSeeder extends Seeder
             ['id' => 32 ,'nombre' =>'eliminar-solicitud-adopcion'],
             ['id' => 33 ,'nombre' =>'consultar-solicitud-adopcion'],
             ['id' => 34 ,'nombre' =>'listar-solicitud-adopcion'],
+            // Gestionar tipo de publicacion
+            ['id' => 35 ,'nombre' =>'registrar-tipo-publicacion'],
+            ['id' => 36,'nombre' =>'buscar-tipo-publicacion'],
+            ['id' => 37 ,'nombre' =>'editar-tipo-publicacion'],
+            ['id' => 38 ,'nombre' =>'estado-tipo-publicacion'],
+            ['id' => 39 ,'nombre' =>'eliminar-tipo-publicacion'],
+            ['id' => 40 ,'nombre' =>'consultar-tipo-publicacion'],
+            ['id' => 41,'nombre' =>'listar-tipo-publicacion'],
         ]);
         DB::table('permiso_rol')->insert([
             // gestionar mascota
@@ -255,6 +263,14 @@ class DatabaseSeeder extends Seeder
             ['id' => 32, 'rol_id' => 4 , 'permiso_id' => 32],
             ['id' => 33, 'rol_id' => 4 , 'permiso_id' => 33],
             ['id' => 34, 'rol_id' => 4 , 'permiso_id' => 34],
+            // Gestionar tipo de publicacion
+            ['id' => 35, 'rol_id' => 3 , 'permiso_id' => 35],
+            ['id' => 36, 'rol_id' => 3 , 'permiso_id' => 36],
+            ['id' => 37, 'rol_id' => 3 , 'permiso_id' => 37],
+            ['id' => 38, 'rol_id' => 3 , 'permiso_id' => 38],
+            ['id' => 39, 'rol_id' => 3 , 'permiso_id' => 39],
+            ['id' => 40, 'rol_id' => 3 , 'permiso_id' => 40],
+            ['id' => 41, 'rol_id' => 3 , 'permiso_id' => 41],
         ]);
     }
 }

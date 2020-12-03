@@ -14,19 +14,23 @@
                         @unless($bin)
                             <button
                                 data-toggle="modal" data-target="#reportModal"
-                               class="btn btn-sm btn-outline-secondary elevation-2">
+                                class="btn btn-sm btn-outline-secondary elevation-2">
                                 Reporte <i class="fa fa-file" aria-hidden="true"></i>
                             </button>
-                            <a href="{{ route('tipopublicacion.index', [ 'bin' => true]) }}"
-                               class="btn btn-sm btn-outline-danger elevation-2">
-                                Papelera <i class="fa fa-recycle" aria-hidden="true"></i>
-                            </a>
+                            @can('permiso', 'estado-tipo-publicacion')
+                                <a href="{{ route('tipopublicacion.index', [ 'bin' => true]) }}"
+                                   class="btn btn-sm btn-outline-danger elevation-2">
+                                    Papelera <i class="fa fa-recycle" aria-hidden="true"></i>
+                                </a>
+                            @endcan
                             @include('publicacion.tipoPublicacion.select')
                         @endunless
                         @if($bin)
-                            <a href="{{ route('tipopublicacion.index') }}" class="btn btn-sm btn-outline-success">
-                                Lista <i class="fa fa-list" aria-hidden="true"></i>
-                            </a>
+                            @can('permiso', 'estado-tipo-publicacion')
+                                <a href="{{ route('tipopublicacion.index') }}" class="btn btn-sm btn-outline-success">
+                                    Lista <i class="fa fa-list" aria-hidden="true"></i>
+                                </a>
+                            @endcan
                         @endif
 
                     </div>
@@ -94,6 +98,7 @@
                 $('#especie-data-table').DataTable({
                     "serverSide": true,
                     "order": [[0, "desc"]],
+                    'searching': @can('permiso', 'buscar-tipo-publicacion') true @else false @endcan,
                     "columnDefs": [
                         {
                             "targets": 4,
