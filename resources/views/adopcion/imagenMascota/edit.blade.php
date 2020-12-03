@@ -14,22 +14,25 @@
                 <div class="row">
                     <div class="col">
                         @foreach($publicacion->imagens as $imagen)
-                        <div class="callout callout-danger">
-                            @if(Illuminate\Support\Str::contains($imagen->url, 'http'))
-                                <img class="img-thumbnail" src='{{ asset( $imagen->url ) }}' alt=""
-                                     srcset="">
-                            @else
-                                <img style="width: 50%" class="img-thumbnail"
-                                     src='{{ asset( "storage/" . $imagen->url ) }}' alt=""
-                                     srcset="">
-                            @endif
-                            <form action="{{ route('imagenMascota.destroy', $imagen->id) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button class="btn btn-danger">Eliminar <i class="fa fa-ban" aria-hidden="true"></i></button>
-                            </form>
+                            <div class="callout callout-danger">
+                                @if(Illuminate\Support\Str::contains($imagen->url, 'http'))
+                                    <img class="img-thumbnail" src='{{ asset( $imagen->url ) }}' alt=""
+                                         srcset="">
+                                @else
+                                    <img style="width: 50%" class="img-thumbnail"
+                                         src='{{ asset( "storage/" . $imagen->url ) }}' alt=""
+                                         srcset="">
+                                @endif
+                                @can('permiso', 'eliminar-galeria-mascota')
+                                    <form action="{{ route('imagenMascota.destroy', $imagen->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-danger">Eliminar <i class="fa fa-ban"
+                                                                                   aria-hidden="true"></i></button>
+                                    </form>
+                                @endcan
 
-                        </div>
+                            </div>
                         @endforeach
                     </div>
                     <div class="col">
@@ -40,17 +43,21 @@
                             </div>
                             <img id="blah" style="width: 180px"
                                  src='{{ asset('storage/default.jpg') }}' alt="" srcset="">
-                            <form action="{{ route('imagenMascota.update', $publicacion->id) }}" method="post" enctype="multipart/form-data">
-                                @csrf
-                                @method('PUT')
-                            <div class="form-group">
-                                <input
-                                    type='file'
-                                    accept="image/x-png,image/gif,image/jpeg"
-                                    name="file" id="imgInp"/> <br>
-                                <button type="submit" class="btn mt-4 btn-primary">Adicionar</button>
-                            </div>
-                            </form>
+                            @can('permiso', 'registrar-galeria-mascota')
+                                <form action="{{ route('imagenMascota.update', $publicacion->id) }}" method="post"
+                                      enctype="multipart/form-data">
+                                    @csrf
+                                    @method('PUT')
+                                    <div class="form-group">
+                                        <input
+                                            type='file'
+                                            accept="image/x-png,image/gif,image/jpeg"
+                                            name="file" id="imgInp"/> <br>
+                                        <button type="submit" class="btn mt-4 btn-primary">Adicionar</button>
+                                    </div>
+                                </form>
+                            @endcan
+
                         </div>
                     </div>
                 </div>

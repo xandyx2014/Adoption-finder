@@ -12,22 +12,27 @@
                     <div class="card-header">
                         Solicitud de adopcion
                         @unless($bin)
+                            @can('permiso', 'is-admin')
                             <button
                                 data-toggle="modal" data-target="#reportModal"
                                 class="btn btn-sm btn-outline-secondary elevation-2">
                                 Reporte <i class="fa fa-file" aria-hidden="true"></i>
                             </button>
+                            @endcan
                             <a href="{{ route('solicitud.index', [ 'bin' => true]) }}"
                                class="btn btn-sm btn-outline-danger elevation-2">
                                 Papelera <i class="fa fa-recycle" aria-hidden="true"></i>
                             </a>
                             @include('adopcion.solicitud.select')
                         @endunless
-                        @if($bin)
-                            <a href="{{ route('solicitud.index') }}" class="btn btn-sm btn-outline-success elevation-2">
-                                Lista <i class="fa fa-list" aria-hidden="true"></i>
-                            </a>
-                        @endif
+                        @can('permiso', 'estado-solicitud-adopcion')
+                            @if($bin)
+                                <a href="{{ route('solicitud.index') }}"
+                                   class="btn btn-sm btn-outline-success elevation-2">
+                                    Lista <i class="fa fa-list" aria-hidden="true"></i>
+                                </a>
+                            @endif
+                        @endcan
 
                     </div>
                     @error('errorDependencia')
@@ -91,6 +96,7 @@
                 ];
                 $('#especie-data-table').DataTable({
                     "serverSide": true,
+                    "searching": @can('permiso', 'buscar-solicitud-adopcion') true @else false  @endcan,
                     "order": [[0, "desc"]],
                     "columnDefs": [
                         {

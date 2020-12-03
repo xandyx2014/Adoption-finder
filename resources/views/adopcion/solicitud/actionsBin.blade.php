@@ -1,6 +1,9 @@
+@can('permiso', 'consultar-solicitud-adopcion')
 <a class="btn btn-success" href="{{ route('solicitud.show', $id) }}">
     <i class="fa fa-eye" aria-hidden="true"></i>
 </a>
+@endcan
+@can('permiso', 'estado-solicitud-adopcion')
 <form method="POST" action="{{ route('solicitud.update', $id) }}?restore=true" style="display: inline">
     @csrf
     @method('PUT')
@@ -8,6 +11,7 @@
         <i class="fa fa-recycle" aria-hidden="true"></i>
     </button>
 </form>
+@endcan
 {{--<form method="POST" action="{{ route('especie.destroy', $id) }}?bin=true" style="display: inline">
     @csrf
     @method('DELETE')
@@ -15,9 +19,11 @@
         <i class="fa fa-trash" aria-hidden="true"></i>
     </button>
 </form>--}}
+@can('permiso', 'eliminar-solicitud-adopcion')
 <button id="especie-delete-{{$id}}" class="btn btn-danger">
     <i class="fa fa-trash" aria-hidden="true"></i>
 </button>
+@endcan
 <script>
     $(document).ready(function () {
         $("#especie-delete-{{$id}}").click(async function (e) {

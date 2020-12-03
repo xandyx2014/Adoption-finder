@@ -27,7 +27,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label>Descripcion</label>
-                            <input type="text" required value="{{ old('descripcion') }}" name="password_confirmation"
+                            <input type="text" required value="{{ old('descripcion') }}" name="descripcion"
                                    class="form-control  @error('descripcion') is-invalid @enderror">
                             @error('descripcion')
                             <div class="error invalid-feedback">
@@ -55,8 +55,8 @@
                             <span class="text-muted">Mascota</span>
                         </h4>
                         <ul class="list-group mb-3">
-                            <li class="list-group-item d-flex justify-content-between lh-condensed">
-                                <div>
+                            <li class=" w-100 list-group-item d-flex justify-content-between lh-condensed">
+                                <div class="">
                                     <h6 class="my-0">Mascota</h6>
                                     <small class="text-muted">Seleciona tu mascota</small>
                                     <select class="js-example-basic-single w-100" name="mascota_id" value="{{ old('mascota_id') }}" id="js-example-basic-single">

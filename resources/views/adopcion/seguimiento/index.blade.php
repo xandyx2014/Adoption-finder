@@ -9,57 +9,70 @@
     <div class="container elevation-4">
         <div class="card">
             <div class="card-header">
-                Mascotas Total :  <span class="badge badge-secondary p-1">{{ $seguimientos->total() }}</span>
+                Mascotas Total : <span class="badge badge-secondary p-1">{{ $seguimientos->total() }}</span>
                 @unless(request()->input('bin'))
-                    <button type="button" class="btn btn-sm btn-secondary elevation-2" data-toggle="modal"
-                            data-target="#searchModal">
-                        Busqueda
-                        <i class="fa fa-search" aria-hidden="true"></i>
-                    </button>
-                    <a
-                        href="{{ route('seguimiento.index') }}"
-                        class="btn btn-sm btn-outline-secondary elevation-2">
-                        Limpiar busqueda
-                        <i class="fa fa-ban" aria-hidden="true"></i>
-                    </a>
-                    @include('adopcion.seguimiento.search')
-                    <a
-                        href="{{ route('seguimiento.create') }}"
-                        class="btn btn-sm btn-secondary elevation-2">
-                        Crear <i class="fa fa-book" aria-hidden="true"></i>
-                    </a>
-                    <button
-                        data-toggle="modal" data-target="#reportModal"
-                        class="btn btn-sm btn-outline-secondary elevation-2">
-                        Reporte <i class="fa fa-file" aria-hidden="true"></i>
-                    </button>
-                    <a href="{{ route('seguimiento.index', [ 'bin' => true]) }}"
-                       class="btn btn-sm btn-outline-danger elevation-2">
-                        Papelera <i class="fa fa-recycle" aria-hidden="true"></i>
-                    </a>
+                    @can('permiso', 'buscar-seguimiento-mascota')
+                        <button type="button" class="btn btn-sm btn-secondary elevation-2" data-toggle="modal"
+                                data-target="#searchModal">
+                            Busqueda
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </button>
+                        <a
+                            href="{{ route('seguimiento.index') }}"
+                            class="btn btn-sm btn-outline-secondary elevation-2">
+                            Limpiar busqueda
+                            <i class="fa fa-ban" aria-hidden="true"></i>
+                        </a>
+                        @include('adopcion.seguimiento.search')
+                    @endcan
+
+                    @can('permiso', 'registrar-seguimiento-mascota')
+                        <a
+                            href="{{ route('seguimiento.create') }}"
+                            class="btn btn-sm btn-secondary elevation-2">
+                            Crear <i class="fa fa-book" aria-hidden="true"></i>
+                        </a>
+                    @endcan
+                    @can('is-admin')
+                        <button
+                            data-toggle="modal" data-target="#reportModal"
+                            class="btn btn-sm btn-outline-secondary elevation-2">
+                            Reporte <i class="fa fa-file" aria-hidden="true"></i>
+                        </button>
+                    @endcan
+                    @can('permiso', 'estado-seguimiento-mascota')
+                        <a href="{{ route('seguimiento.index', [ 'bin' => true]) }}"
+                           class="btn btn-sm btn-outline-danger elevation-2">
+                            Papelera <i class="fa fa-recycle" aria-hidden="true"></i>
+                        </a>
+                    @endcan
                     @include('adopcion.seguimiento.select')
                 @endunless
-                @if(request()->input('bin'))
-                    <a href="{{ route('seguimiento.index') }}" class="btn btn-sm btn-outline-success elevation-2">
-                        Lista <i class="fa fa-list" aria-hidden="true"></i>
-                    </a>
-                @endif
+                @can('permiso', 'estado-seguimiento-mascota')
+                    @if(request()->input('bin'))
+                        <a href="{{ route('seguimiento.index') }}" class="btn btn-sm btn-outline-success elevation-2">
+                            Lista <i class="fa fa-list" aria-hidden="true"></i>
+                        </a>
+                    @endif
+                @endcan
             </div>
             <div class="card-body">
-                @unless(request()->input('bin'))
-                    <form action="{{ route('seguimiento.index') }}" method="GET"
-                          class="input-group input-group-sm m-2">
-                        @csrf
-                        @method('GET')
-                        <input name="search" class="form-control form-control-navbar" type="search"
-                               placeholder="Buscar por nombre de mascota">
-                        <div class="input-group-append">
-                            <button class="btn btn-navbar" type="submit">
-                                <i class="fa fa-search"></i>
-                            </button>
-                        </div>
-                    </form>
-                @endunless
+                @can('permiso', 'buscar-seguimiento-mascota')
+                    @unless(request()->input('bin'))
+                        <form action="{{ route('seguimiento.index') }}" method="GET"
+                              class="input-group input-group-sm m-2">
+                            @csrf
+                            @method('GET')
+                            <input name="search" class="form-control form-control-navbar" type="search"
+                                   placeholder="Buscar por nombre de mascota">
+                            <div class="input-group-append">
+                                <button class="btn btn-navbar" type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </form>
+                    @endunless
+                @endcan
                 <table class="table table-sm">
                     <thead>
                     <tr class="bg-dark">
@@ -82,7 +95,7 @@
                             <th scope="row">{{ $mascota->mascota->nombre }}</th>
                             @if( $mascota->mascota->adoptado == 1)
                                 <th scope="row"><span class="badge badge-success">Adoptado</span></th>
-                                @else
+                            @else
                                 <th scope="row"><span class="badge badge-danger">No adoptado</span></th>
                             @endif
 
@@ -92,7 +105,7 @@
 
                                 @if(request()->has('bin'))
                                     @include('adopcion.seguimiento.actionsBin', [ 'data' => $mascota])
-                                    @else
+                                @else
                                     @include('adopcion.seguimiento.action', [ 'data' => $mascota])
                                 @endunless
                             </th>
@@ -100,9 +113,9 @@
                     @endforeach
                     </tbody>
                 </table>
-                    <div class="pull-right">
+                <div class="pull-right">
 
-                    </div>
+                </div>
                 <div class="pull-right mt-3">
                     {{ $seguimientos->appends(request()->query())->links() }}
                 </div>

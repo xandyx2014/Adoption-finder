@@ -49,6 +49,12 @@
                                     <option value="{{ $mascota->id }}">{{ $mascota->nombre }}</option>
                                     @endforeach
                                 </select>
+                                @error('mascota')
+                                <div class="color-palette-set">
+                                    <div class="bg-danger color-palette p-1"><span><i class="fa fa-ban" aria-hidden="true"></i></span></div>
+                                    <div class="bg-danger disabled color-palette p-1"><span>{{ $message }}</span></div>
+                                </div>
+                                @enderror
                             </div>
 
                         </li>

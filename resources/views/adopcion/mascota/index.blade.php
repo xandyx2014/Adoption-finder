@@ -11,55 +11,68 @@
             <div class="card-header">
                 Mascotas
                 @unless(request()->input('bin'))
-                    <button type="button" class="btn btn-sm btn-secondary elevation-2" data-toggle="modal"
-                            data-target="#searchModal">
-                        Busqueda
-                        <i class="fa fa-search" aria-hidden="true"></i>
-                    </button>
-                    <a
-                        href="{{ route('mascota.index') }}"
-                        class="btn btn-sm btn-outline-secondary elevation-2">
-                        Limpiar busqueda
-                        <i class="fa fa-ban" aria-hidden="true"></i>
-                    </a>
-                    @include('adopcion.mascota.search')
-                    <a
-                        href="{{ route('mascota.create') }}"
-                        class="btn btn-sm btn-secondary elevation-2">
-                        Crear <i class="fa fa-book" aria-hidden="true"></i>
-                    </a>
-                    <button
-                        data-toggle="modal" data-target="#reportModal"
-                        class="btn btn-sm btn-outline-secondary elevation-2">
-                        Reporte <i class="fa fa-file" aria-hidden="true"></i>
-                    </button>
-                    <a href="{{ route('mascota.index', [ 'bin' => true]) }}"
-                       class="btn btn-sm btn-outline-danger elevation-2">
-                        Papelera <i class="fa fa-recycle" aria-hidden="true"></i>
-                    </a>
+                    @can('permiso', 'buscar-mascota')
+                        <button type="button" class="btn btn-sm btn-secondary elevation-2" data-toggle="modal"
+                                data-target="#searchModal">
+                            Busqueda
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </button>
+
+                        <a
+                            href="{{ route('mascota.index') }}"
+                            class="btn btn-sm btn-outline-secondary elevation-2">
+                            Limpiar busqueda
+                            <i class="fa fa-ban" aria-hidden="true"></i>
+                        </a>
+                        @include('adopcion.mascota.search')
+                    @endcan
+                    @can('permiso', 'registrar-mascota')
+                        <a
+                            href="{{ route('mascota.create') }}"
+                            class="btn btn-sm btn-secondary elevation-2">
+                            Crear <i class="fa fa-book" aria-hidden="true"></i>
+                        </a>
+                    @endcan
+                    @can('permiso', 'is-admin')
+                        <button
+                            data-toggle="modal" data-target="#reportModal"
+                            class="btn btn-sm btn-outline-secondary elevation-2">
+                            Reporte <i class="fa fa-file" aria-hidden="true"></i>
+                        </button>
+                    @endcan
+                    @can('permiso', 'estado-mascota')
+                        <a href="{{ route('mascota.index', [ 'bin' => true]) }}"
+                           class="btn btn-sm btn-outline-danger elevation-2">
+                            Papelera <i class="fa fa-recycle" aria-hidden="true"></i>
+                        </a>
+                    @endcan
                     @include('adopcion.mascota.select')
                 @endunless
-                @if(request()->input('bin'))
-                    <a href="{{ route('mascota.index') }}" class="btn btn-sm btn-outline-success elevation-2">
-                        Lista <i class="fa fa-list" aria-hidden="true"></i>
-                    </a>
-                @endif
+                @can('permiso', 'estado-mascota')
+                    @if(request()->input('bin'))
+                        <a href="{{ route('mascota.index') }}" class="btn btn-sm btn-outline-success elevation-2">
+                            Lista <i class="fa fa-list" aria-hidden="true"></i>
+                        </a>
+                    @endif
+                @endcan
             </div>
             <div class="card-body">
-                @unless(request()->input('bin'))
-                    <form action="{{ route('mascota.index') }}" method="GET"
-                          class="input-group input-group-sm m-2">
-                        @csrf
-                        @method('GET')
-                        <input name="search" class="form-control form-control-navbar" type="search"
-                               placeholder="Buscar por nombre">
-                        <div class="input-group-append">
-                            <button class="btn btn-navbar" type="submit">
-                                <i class="fa fa-search"></i>
-                            </button>
-                        </div>
-                    </form>
-                @endunless
+                @can('permiso', 'buscar-mascota')
+                    @unless(request()->input('bin'))
+                        <form action="{{ route('mascota.index') }}" method="GET"
+                              class="input-group input-group-sm m-2">
+                            @csrf
+                            @method('GET')
+                            <input name="search" class="form-control form-control-navbar" type="search"
+                                   placeholder="Buscar por nombre">
+                            <div class="input-group-append">
+                                <button class="btn btn-navbar" type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </form>
+                    @endunless
+                @endcan
                 <table class="table table-sm">
                     <thead>
                     <tr>

@@ -48,12 +48,13 @@
             <a  target="_blank" href="https://wa.me/?text=Adopta a {{ $publicacion->mascota->nombre }} en {{route('finder.show', $publicacion->id)}} en Adoption Finder">
                 <i class="fa fa-whatsapp" style="color: green;" aria-hidden="true"></i>
             </a>
-
+            @can('permiso', 'registrar-solicitud-adopcion')
             <button href="#" class="btn btn-info pull-right" data-toggle="modal" data-target="#exampleModal">
                 <i class="fa fa-paw"
                    aria-hidden="true"></i>
                 Solicitar
             </button>
+            @endcan
             @include('adoptionFInder.store', [ 'data' => $publicacion])
         </div>
     </div>

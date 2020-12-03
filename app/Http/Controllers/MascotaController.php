@@ -9,6 +9,7 @@ use App\Models\Mascota;
 use App\Models\Raza;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
 class MascotaController extends Controller
@@ -16,6 +17,9 @@ class MascotaController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('permiso:listar-mascota')->only(['index']);
+        $this->middleware('permiso:consultar-mascota')->only(['show']);
+        $this->middleware('permiso:editar-mascota')->only(['edit', 'update']);
     }
     /**
      * Display a listing of the resource.
@@ -25,6 +29,11 @@ class MascotaController extends Controller
     public function index()
     {
         $query = Mascota::orderBy('created_at', 'desc');
+        if (Gate::check('no-admin'))
+        {
+            // dd('no-admin');
+            $query = $query->where('user_id', auth()->user()->id);
+        }
         $razas = Raza::all();
         $especies = Especie::all();
         if (request()->input('bin'))

@@ -7,12 +7,14 @@ use App\Models\PublicacionAdopcion;
 use App\Models\SolicitudAdopcion;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class AprobarRechazarSolicitudController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('permiso:listar-aprobar-rechazar-solicitud')->only(['index']);
     }
     /**
      * Display a listing of the resource.
@@ -22,14 +24,25 @@ class AprobarRechazarSolicitudController extends Controller
     public function index()
     {
         $mascotas = Mascota::all();
+        if (Gate::check('no-admin'))
+        {
+            // dd('no-admin');
+            $mascotas = $mascotas->where('user_id', auth()->user()->id);
+        }
         $query = SolicitudAdopcion::orderBy('id', 'desc')->whereHas('publicacion_adopcion.mascota', function ($query) {
             $query->whereNull('deleted_at');
+
+            if (Gate::check('no-admin'))
+            {
+                // dd('no-admin');
+                $query->where('user_id', auth()->user()->id);
+            }
             if (request()->has('mascota_id'))
             {
                 $query->where('id', request()->input('mascota_id'));
             }
-        })->paginate(4);
-        $query = $query->appends(request()->query());
+        });
+        $query = $query->paginate(4)->appends(request()->query());
         $solicitudes = $query;
         return view('adopcion.aprobarSolicitud.index', compact('solicitudes', 'mascotas'));
     }

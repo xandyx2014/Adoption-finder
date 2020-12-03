@@ -26,7 +26,10 @@
                                 <div class="card-header">
                                     <h3 class="card-title">Contenido de la post</h3>
                                 </div>
-                                <textarea id="summernote" name="cuerpo"></textarea>
+                                <div class="elevation-4">
+                                    <textarea id="summernote" name="cuerpo"></textarea>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -96,7 +99,7 @@
                                                 <span class="input-group-text" id="">Seleciona Imagen</span>
                                             </div>
                                             @error('image')
-                                            <div class="error invalid-feedback">
+                                            <div class="alert alert-danger mt-1" role="alert">
                                                 {{ $message }}
                                             </div>
                                             @enderror
@@ -192,7 +195,7 @@
 
                 $('#js-example-basic-single').select2();
                 const sum = $('#summernote').summernote({
-                    height: 280,
+                    height: 350,
                     lang: 'es-ES',
                     maximumImageFileSize: 1024*1024,
                     lineHeights: ['0.2', '0.3', '0.4', '0.5', '0.6', '0.8', '1.0', '1.2', '1.4', '1.5', '2.0', '3.0'],

@@ -27,10 +27,17 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('is-admin', function($user) {
             return $user->rol->nombre == 'admin';
         });
+        Gate::define('no-admin', function($user) {
+            return $user->rol->nombre != 'admin';
+        });
         Gate::define('permiso', function($user, $permiso) {
-            $user = $user->rol->permiso;
+            $auth = $user->rol->permiso;
+            if ($user->rol->nombre == 'admin')
+            {
+                return true;
+            }
             // $user = User::findOrFail(1)->rol->permiso;
-            return $permiso = $user->pluck('nombre')->contains($permiso);
+            return $permiso = $auth->pluck('nombre')->contains($permiso);
         });
         //
     }

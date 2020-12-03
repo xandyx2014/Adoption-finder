@@ -57,7 +57,7 @@
                         </h4>
                         <ul class="list-group mb-3">
                             <li class="list-group-item d-flex justify-content-between lh-condensed">
-                                <div>
+                                <div class="w-100">
                                     <h6 class="my-0">Mascota</h6>
                                     <select class="js-example-basic-single w-100" name="mascota_id" value="{{ old('mascota_id') }}" id="js-example-basic-single">
                                         @foreach($mascotas as $mascota)

@@ -6,20 +6,27 @@ use App\Models\Mascota;
 use App\Models\Seguimiento;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class SeguimientoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('permiso:listar-seguimiento-mascota')->only(['index']);
+        $this->middleware('permiso:consultar-seguimiento-mascota')->only(['show']);
+    }
+
     public function index()
     {
         $query = Seguimiento::orderBy('id', 'desc')
             ->with('mascota')
             ->whereHas('mascota', function ($query) {
                 $search = request()->input('search');
+                if (Gate::check('no-admin'))
+                {
+                    return $query->where('user_id', auth()->user()->id)->where('nombre', 'LIKE', "%$search%");
+                }
                 return $query->where('nombre', 'LIKE', "%$search%");
             });
         if (request()->has('bin'))
@@ -44,6 +51,10 @@ class SeguimientoController extends Controller
         ->appends(request()->query());
         $seguimientos = $query;
         $mascotas = Mascota::all();
+        if (Gate::check('no-admin'))
+        {
+            $mascotas = $mascotas->where('user_id', auth()->user()->id);
+        }
         return view('adopcion.seguimiento.index', compact('seguimientos', 'mascotas'));
     }
     public function report(Request $request)
@@ -112,6 +123,10 @@ class SeguimientoController extends Controller
     {
         dispatch( new \App\Jobs\BitacoraJob('Mostrar formulario creacion', 'Seguimiento'));
         $mascotas = Mascota::all();
+        if (Gate::check('no-admin'))
+        {
+            $mascotas = $mascotas->where('user_id', auth()->user()->id);
+        }
         return view('adopcion.seguimiento.create', compact('mascotas'));
     }
 
@@ -162,7 +177,11 @@ class SeguimientoController extends Controller
     public function edit($id)
     {
         dispatch( new \App\Jobs\BitacoraJob('Mostrar formulario edicion', 'Seguimiento'));
-        $mascotas = Mascota::withTrashed()->get();
+        $mascotas = Mascota::all();
+        if (Gate::check('no-admin'))
+        {
+            $mascotas = $mascotas->where('user_id', auth()->user()->id);
+        }
         $seguimiento = Seguimiento::withTrashed()->where('id', $id)->first();
         return view('adopcion.seguimiento.edit', compact('mascotas', 'seguimiento'));
     }

@@ -1,6 +1,9 @@
+@can('permiso', 'consultar-mascota')
 <a class="btn btn-success" href="{{ route('mascota.show', $data->id) }}">
     <i class="fa fa-eye" aria-hidden="true"></i>
 </a>
+@endcan
+@can('permiso', 'estado-mascota')
 <form method="POST" action="{{ route('mascota.update', $data->id) }}?restore=true" style="display: inline">
     @csrf
     @method('PUT')
@@ -8,6 +11,7 @@
         <i class="fa fa-recycle" aria-hidden="true"></i>
     </button>
 </form>
+@endcan
 {{--<form method="POST" action="{{ route('especie.destroy', $id) }}?bin=true" style="display: inline">
     @csrf
     @method('DELETE')
@@ -15,9 +19,11 @@
         <i class="fa fa-trash" aria-hidden="true"></i>
     </button>
 </form>--}}
+@can('permiso', 'eliminar-mascota')
 <button id="especie-delete-{{$data->id}}" class="btn btn-danger">
     <i class="fa fa-trash" aria-hidden="true"></i>
 </button>
+@endcan
 <script type="application/javascript">
     document.addEventListener('DOMContentLoaded', () => {
         $("#especie-delete-{{$data->id}}").click(async function (e) {

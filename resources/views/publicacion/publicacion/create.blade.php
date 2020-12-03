@@ -19,13 +19,15 @@
             @csrf
             <div class="row justify-content-left">
                 <div class="col-8">
-                    <div class="card elevation-4">
+                    <div class="card elevation-1">
                         <div class="card-body">
                            <div class="card card-primary">
                                <div class="card-header">
                                    <h3 class="card-title">Contenido de la post</h3>
                                </div>
-                               <textarea id="summernote" value="{{ old('cuerpo') }}" rows=10 name="cuerpo"></textarea>
+                               <div class="elevation-4">
+                                   <textarea  id="summernote" value="{{ old('cuerpo') }}" rows=10 name="cuerpo"></textarea>
+                               </div>
                            </div>
                         </div>
                     </div>
@@ -86,7 +88,7 @@
                                                 <span class="input-group-text" id="">Selecionar Imagen Destacada <i class="fa ml-2 fa-picture-o" aria-hidden="true"></i></span>
                                             </div>
                                             @error('image')
-                                            <div class="error invalid-feedback">
+                                            <div class="alert alert-danger mt-1" role="alert">
                                                 {{ $message }}
                                             </div>
                                             @enderror
@@ -151,7 +153,7 @@
 
                 $('#js-example-basic-single').select2();
                 const sum = $('#summernote').summernote({
-                    height: 220,
+                    height: 380,
                     lang: 'es-ES',
                     maximumImageFileSize: 1024*1024,
                     lineHeights: ['0.2', '0.3', '0.4', '0.5', '0.6', '0.8', '1.0', '1.2', '1.4', '1.5', '2.0', '3.0'],

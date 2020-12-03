@@ -82,80 +82,80 @@
             </div>
             <div class="col">
                 @unless($solicitud->publicacion_adopcion->mascota == null)
-                <div class="my-3 p-3 bg-white rounded box-shadow elevation-4">
-                    <h6 class="border-bottom border-gray pb-2 mb-0">Mascotas</h6>
-                    @forelse($solicitud->publicacion_adopcion->mascota->imagens as $imagen)
-                        @if($loop->first)
-                            @if(Illuminate\Support\Str::contains( $imagen->url, 'http'))
-                                <img class="img-thumbnail rounded-circle" src='{{ asset(  $imagen->url ) }}' alt=""
-                                     srcset="">
-                            @else
-                                <img class="img-thumbnail rounded-circle"
-                                     src='{{ asset( "storage/" .  $imagen->url ) }}' alt=""
-                                     srcset="">
+                    <div class="my-3 p-3 bg-white rounded box-shadow elevation-4">
+                        <h6 class="border-bottom border-gray pb-2 mb-0">Mascotas</h6>
+                        @forelse($solicitud->publicacion_adopcion->mascota->imagens as $imagen)
+                            @if($loop->first)
+                                @if(Illuminate\Support\Str::contains( $imagen->url, 'http'))
+                                    <img class="img-thumbnail rounded-circle" src='{{ asset(  $imagen->url ) }}' alt=""
+                                         srcset="">
+                                @else
+                                    <img class="img-thumbnail rounded-circle"
+                                         src='{{ asset( "storage/" .  $imagen->url ) }}' alt=""
+                                         srcset="">
+                                @endif
                             @endif
-                        @endif
-                    @empty
-                        <img class="img-thumbnail rounded-circle" src='{{ asset( "storage/default.jpg" ) }}' alt=""
-                             srcset="">
-                    @endforelse
-                    <div class="media text-muted pt-1">
-                        <p class="media-body pb-1 mb-0 small lh-125 border-bottom">
-                            <strong class="d-block text-gray-dark">Nombre</strong>
-                            {{ $solicitud->publicacion_adopcion->mascota->nombre}}
-                        </p>
+                        @empty
+                            <img class="img-thumbnail rounded-circle" src='{{ asset( "storage/default.jpg" ) }}' alt=""
+                                 srcset="">
+                        @endforelse
+                        <div class="media text-muted pt-1">
+                            <p class="media-body pb-1 mb-0 small lh-125 border-bottom">
+                                <strong class="d-block text-gray-dark">Nombre</strong>
+                                {{ $solicitud->publicacion_adopcion->mascota->nombre}}
+                            </p>
+                        </div>
+                        <div class="media text-muted pt-1">
+                            <p class="media-body pb-1 mb-0 small lh-125 border-bottom">
+                                <strong class="d-block text-gray-dark">Tamaño</strong>
+                                {{ $solicitud->publicacion_adopcion->mascota->tamagno }}
+                            </p>
+                        </div>
+                        <div class="media text-muted pt-1">
+                            <p class="media-body pb-1 mb-0 small lh-125 border-bottom">
+                                <strong class="d-block text-gray-dark">Salud</strong>
+                                {{ $solicitud->publicacion_adopcion->mascota->salud }}
+                            </p>
+                        </div>
+                        <div class="media text-muted pt-1">
+                            <p class="media-body pb-1 mb-0 small lh-125 border-bottom">
+                                <strong class="d-block text-gray-dark">Adoptado</strong>
+                                @if($solicitud->publicacion_adopcion->mascota->adoptado == 1)
+                                    <span class="badge badge-success p-2">Adoptado</span>
+                                @else
+                                    <span class="badge badge-danger p-2">No adoptado</span>
+                                @endif
+                            </p>
+                        </div>
+                        <div class="media text-muted pt-1">
+                            <p class="media-body pb-1 mb-0 small lh-125 border-bottom">
+                                <strong class="d-block text-gray-dark">Raza</strong>
+                                {{ $solicitud->publicacion_adopcion->mascota->raza->nombre }}
+                            </p>
+                        </div>
+                        <div class="media text-muted pt-1">
+                            <p class="media-body pb-1 mb-0 small lh-125 border-bottom">
+                                <strong class="d-block text-gray-dark">Especie</strong>
+                                {{ $solicitud->publicacion_adopcion->mascota->especie->nombre }}
+                            </p>
+                        </div>
+                        {{--<div class="media text-muted pt-1">
+                            <p class="media-body pb-1 mb-0 small lh-125 border-bottom">
+                                <strong class="d-block text-gray-dark">Total solicitudes</strong>
+                                {{ count($publicacion->solicitudAdopcions ?? []) }}
+                            </p>
+                        </div>--}}
+                        <div class="media text-muted pt-1">
+                            <p class="media-body pb-1 mb-0 small lh-125 border-bottom">
+                                <strong class="d-block text-gray-dark">Etiquetas</strong>
+                                @forelse($solicitud->publicacion_adopcion->mascota->etiquetas as $item)
+                                    <span class="badge badge-primary p-1">{{ $item->nombre }}</span>
+                                @empty
+                                    <span class="badge badge-secondary p-1">No etiquetas</span>
+                                @endforelse
+                            </p>
+                        </div>
                     </div>
-                    <div class="media text-muted pt-1">
-                        <p class="media-body pb-1 mb-0 small lh-125 border-bottom">
-                            <strong class="d-block text-gray-dark">Tamaño</strong>
-                            {{ $solicitud->publicacion_adopcion->mascota->tamagno }}
-                        </p>
-                    </div>
-                    <div class="media text-muted pt-1">
-                        <p class="media-body pb-1 mb-0 small lh-125 border-bottom">
-                            <strong class="d-block text-gray-dark">Salud</strong>
-                            {{ $solicitud->publicacion_adopcion->mascota->salud }}
-                        </p>
-                    </div>
-                    <div class="media text-muted pt-1">
-                        <p class="media-body pb-1 mb-0 small lh-125 border-bottom">
-                            <strong class="d-block text-gray-dark">Adoptado</strong>
-                            @if($solicitud->publicacion_adopcion->mascota->adoptado == 1)
-                                <span class="badge badge-success p-2">Adoptado</span>
-                            @else
-                                <span class="badge badge-danger p-2">No adoptado</span>
-                            @endif
-                        </p>
-                    </div>
-                    <div class="media text-muted pt-1">
-                        <p class="media-body pb-1 mb-0 small lh-125 border-bottom">
-                            <strong class="d-block text-gray-dark">Raza</strong>
-                            {{ $solicitud->publicacion_adopcion->mascota->raza->nombre }}
-                        </p>
-                    </div>
-                    <div class="media text-muted pt-1">
-                        <p class="media-body pb-1 mb-0 small lh-125 border-bottom">
-                            <strong class="d-block text-gray-dark">Especie</strong>
-                            {{ $solicitud->publicacion_adopcion->mascota->especie->nombre }}
-                        </p>
-                    </div>
-                    {{--<div class="media text-muted pt-1">
-                        <p class="media-body pb-1 mb-0 small lh-125 border-bottom">
-                            <strong class="d-block text-gray-dark">Total solicitudes</strong>
-                            {{ count($publicacion->solicitudAdopcions ?? []) }}
-                        </p>
-                    </div>--}}
-                    <div class="media text-muted pt-1">
-                        <p class="media-body pb-1 mb-0 small lh-125 border-bottom">
-                            <strong class="d-block text-gray-dark">Etiquetas</strong>
-                            @forelse($solicitud->publicacion_adopcion->mascota->etiquetas as $item)
-                                <span class="badge badge-primary p-1">{{ $item->nombre }}</span>
-                            @empty
-                                <span class="badge badge-secondary p-1">No etiquetas</span>
-                            @endforelse
-                        </p>
-                    </div>
-                </div>
                 @endunless
             </div>
 
@@ -169,19 +169,21 @@
                 </a>
             </div>
             <div class="col">
-                <form action="{{ route('aprobarSolicitud.update', $solicitud->id) }}" method="post">
-                    @csrf
-                    @method('PUT')
-                    <input type="text" hidden name="adoptar" value="1">
-                    <button
-                        type="submit"
-                        @if($solicitud->publicacion_adopcion->mascota->adoptado == 1)
-                        disabled
-                        @endif
-                        class="btn btn-primary bt-lg w-100">
-                        APROBAR
-                    </button>
-                </form>
+                @can('permiso', 'aprobar-rechazar-solicitud')
+                    <form action="{{ route('aprobarSolicitud.update', $solicitud->id) }}" method="post">
+                        @csrf
+                        @method('PUT')
+                        <input type="text" hidden name="adoptar" value="1">
+                        <button
+                            type="submit"
+                            @if($solicitud->publicacion_adopcion->mascota->adoptado == 1)
+                            disabled
+                            @endif
+                            class="btn btn-primary bt-lg w-100">
+                            APROBAR
+                        </button>
+                    </form>
+                @endcan
             </div>
         </div>
     </div>

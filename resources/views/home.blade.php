@@ -30,7 +30,7 @@
                             <div class="inner">
                                 <h5>Publicacion</h5>
 
-                                <p>Ver publicaciones</p>
+                                <p>Ver publicaciones informativa</p>
                             </div>
                             <div class="icon">
                                 <i class="fa fa-newspaper-o" aria-hidden="true"></i>

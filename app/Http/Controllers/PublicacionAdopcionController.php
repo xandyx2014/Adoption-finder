@@ -6,17 +6,23 @@ use App\Models\Mascota;
 use App\Models\PublicacionAdopcion;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class PublicacionAdopcionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('permiso:listar-publicacion-adopcion')->only(['index']);
+        $this->middleware('permiso:consultar-publicacion-adopcion')->only(['show']);
+    }
+
     public function index()
     {
         $publicaciones = PublicacionAdopcion::orderBy('id', 'desc');
+        if(Gate::check('no-admin'))
+        {
+            $publicaciones = $publicaciones->where('user_id', auth()->user()->id);
+        }
         if (request()->has('bin'))
         {
             $publicaciones =  $publicaciones->onlyTrashed();
@@ -74,6 +80,10 @@ class PublicacionAdopcionController extends Controller
     {
         dispatch( new \App\Jobs\BitacoraJob('Mostrar formulario creacion', 'Publicacion adopcion'));
         $mascotas = Mascota::all();
+        if (Gate::check('no-admin'))
+        {
+            $mascotas = $mascotas->where('user_id', auth()->user()->id);
+        }
         return view('adopcion.publicacionAdopcion.create', compact('mascotas'));
     }
 
@@ -142,6 +152,10 @@ class PublicacionAdopcionController extends Controller
     {
         dispatch( new \App\Jobs\BitacoraJob('Mostrar formulario edicion', 'Publicacion adopcion'));
         $mascotas = Mascota::all();
+        if (Gate::check('no-admin'))
+        {
+            $mascotas = $mascotas->where('user_id', auth()->user()->id);
+        }
         $publicacion = PublicacionAdopcion::findOrFail($id);
         return view('adopcion.publicacionAdopcion.edit', compact('publicacion', 'mascotas'));
     }

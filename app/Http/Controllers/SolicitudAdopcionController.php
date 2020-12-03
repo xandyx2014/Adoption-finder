@@ -7,6 +7,7 @@ use App\Models\SolicitudAdopcion;
 use App\Models\TipoDenuncia;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use function PHPUnit\Framework\isNull;
 
@@ -15,14 +16,21 @@ class SolicitudAdopcionController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('permiso:listar-solicitud-adopcion')->only(['index']);
+        $this->middleware('permiso:consultar-solicitud-adopcion')->only(['show']);
     }
     public function indexApi()
     {
         $params = request()->input('bin');
         if($params)
         {
+            $query = SolicitudAdopcion::onlyTrashed();
+            if (Gate::check('no-admin'))
+            {
+                $query = $query->where('user_id', auth()->user()->id);
+            }
             return datatables()
-                ->eloquent(SolicitudAdopcion::onlyTrashed())
+                ->eloquent($query)
                 ->editColumn('motivo', function ($request) {
                     return Str::substr($request->motivo, 0 ,15) . "...";
                 })
@@ -37,8 +45,13 @@ class SolicitudAdopcionController extends Controller
                 ->rawColumns(['btn', 'estado'])
                 ->toJson();
         }
+        $query = SolicitudAdopcion::with('publicacion_adopcion');
+        if (Gate::check('no-admin'))
+        {
+            $query = SolicitudAdopcion::with('publicacion_adopcion')->where('user_id', auth()->user()->id);
+        }
         return datatables()
-            ->eloquent(SolicitudAdopcion::with('publicacion_adopcion'))
+            ->eloquent($query)
             ->editColumn('motivo', function ($request) {
                 return Str::substr($request->motivo, 0 ,15) . "...";
             })
@@ -148,7 +161,7 @@ class SolicitudAdopcionController extends Controller
     public function show($id)
     {
         dispatch( new \App\Jobs\BitacoraJob('Consultar', 'Solicitud adopcion'));
-        return $solicitud = SolicitudAdopcion::withTrashed()
+        $solicitud = SolicitudAdopcion::withTrashed()
             ->where('id', $id)
             ->first();
         return view('adopcion.solicitud.show', compact('solicitud'));

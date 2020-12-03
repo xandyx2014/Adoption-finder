@@ -34,32 +34,44 @@
             </a>
         </h6>
         <ul class="nav flex-column collapse" id="adopcion">
-            <li class="nav-item">
-                <a class="nav-link active" href="{{ route('mascota.index') }}">
-                    <i class="fa fa-paw" aria-hidden="true"></i>
-                    Mascotas
+            @can('permiso', 'listar-mascota')
+                <li class="nav-item">
+                    <a class="nav-link active" href="{{ route('mascota.index') }}">
+                        <i class="fa fa-paw" aria-hidden="true"></i>
+                        Mascotas
+                    </a>
+                </li>
+            @endcan
+            @can('permiso', 'listar-publicacion-adopcion')
+                <a class="nav-link" href="{{ route('publicacionAdopcion.index') }}">
+                    <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+                    Publicaciones de adopcion
                 </a>
-            </li>
-            <a class="nav-link" href="{{ route('publicacionAdopcion.index') }}">
-                <i class="fa fa-newspaper-o" aria-hidden="true"></i>
-                Publicaciones de adopcion
-            </a>
-            <a class="nav-link" href="{{ route('imagenMascota.index') }}">
-                <i class="fa fa-picture-o" aria-hidden="true"></i>
-                Galeria de fotos de mascota
-            </a>
-            <a class="nav-link" href="{{ route('seguimiento.index') }}">
-                <i class="fa fa-history" aria-hidden="true"></i>
-                Seguimiento de mascota
-            </a>
-            <a class="nav-link" href="{{ route('solicitud.index') }}">
-                <i class="fa fa-question" aria-hidden="true"></i>
-                Solicitud de adopcion
-            </a>
-            <a class="nav-link" href="{{ route('aprobarSolicitud.index') }}">
-                <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                Aprobar | Rechazar solicitud de adopcion
-            </a>
+            @endcan
+            @can('permiso', 'listar-galeria-mascota')
+                <a class="nav-link" href="{{ route('imagenMascota.index') }}">
+                    <i class="fa fa-picture-o" aria-hidden="true"></i>
+                    Galeria de fotos de mascota
+                </a>
+            @endcan
+            @can('permiso', 'listar-seguimiento-mascota')
+                <a class="nav-link" href="{{ route('seguimiento.index') }}">
+                    <i class="fa fa-history" aria-hidden="true"></i>
+                    Seguimiento de mascota
+                </a>
+            @endcan
+            @can('permiso', 'listar-solicitud-adopcion')
+                <a class="nav-link" href="{{ route('solicitud.index') }}">
+                    <i class="fa fa-question" aria-hidden="true"></i>
+                    Solicitud de adopcion
+                </a>
+            @endcan
+            @can('permiso', 'listar-aprobar-rechazar-solicitud')
+                <a class="nav-link" href="{{ route('aprobarSolicitud.index') }}">
+                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                    Aprobar | Rechazar solicitud de adopcion
+                </a>
+            @endcan
 
         </ul>
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-1 text-muted">

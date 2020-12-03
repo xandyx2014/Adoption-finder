@@ -33,7 +33,7 @@
                             </dd>
                             <dt class="col-sm-4">Publicacion adopcion</dt>
                             <dd class="col-sm-8">
-                                <a  target="_blank" href="{{ route('publicacionAdopcion.show', $solicitud->publicacion_adopcion_id) }}" class="badge badge-primary">Publicacion de adopcion</a>
+                                <a  target="_blank" href="{{ route('finder.show', $solicitud->publicacion_adopcion_id) }}" class="badge badge-primary">Publicacion de adopcion</a>
                             </dd>
 
                         </dl>

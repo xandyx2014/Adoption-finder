@@ -4,8 +4,6 @@
     <div class="container elevation-4">
         <div class="card">
             <div class="card-header">
-
-
                 <b>Total :</b> <span class="badge badge-warning mr-2">{{ $publicaciones->total() }}</span>
                 <div class="d-flex">
                     <a href="{{ route('aprobar.index', [ 'estado' => 1]) }}" type="submit"

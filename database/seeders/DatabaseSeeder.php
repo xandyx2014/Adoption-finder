@@ -7,6 +7,7 @@ use App\Models\Etiqueta;
 use App\Models\Imagen;
 use App\Models\Mascota;
 use App\Models\Perfil;
+use App\Models\Permiso;
 use App\Models\Raza;
 use App\Models\Rol;
 use App\Models\Seguimiento;
@@ -59,7 +60,7 @@ class DatabaseSeeder extends Seeder
                 ['id' => 1, 'nombre' => 'admin' ],
                 ['id' => 2, 'nombre' => 'Autor' ],
                 ['id' => 3, 'nombre' => 'Editor' ],
-                ['id' => 4, 'nombre' => 'usuario' ],
+                ['id' => 4, 'nombre' => 'Usuario' ],
             ))
             ->create();
         Etiqueta::factory()
@@ -127,15 +128,31 @@ class DatabaseSeeder extends Seeder
                 [ 'tipo' => 'Salud de la mascota']
             ))
             ->create();
-        User::factory(1)
+        User::factory(4)
+            ->state(new Sequence(
+                [
+                    'rol_id' => 1,
+                    'name' => 'Andy jesus macias gomez',
+                    'email' => 'xandyx2014@gmail.com'
+                ],
+                [
+                    'rol_id' => 4,
+                    'name' => 'usuario',
+                    'email' => 'usuario@usuario.com'
+                ],
+                [
+                    'rol_id' => 3,
+                    'name' => 'editor',
+                    'email' => 'editor@editor.com'
+                ],
+                [
+                    'rol_id' => 2,
+                    'name' => 'autor',
+                    'email' => 'autor@autor.com'
+                ],
+            ))
             ->hasPerfil()
-            ->create(
-            [
-                'rol_id' => 1,
-                'name' => 'Andy jesus macias gomez',
-                'email' => 'xandyx2014@gmail.com'
-            ]
-        );
+            ->create();
         User::factory()
             ->count(20)
             ->state( new Sequence(
@@ -148,19 +165,96 @@ class DatabaseSeeder extends Seeder
         Mascota::factory()
             ->count(20)
             ->state(function (array $attr, $item) {
-                return ['raza_id' => rand(1, 15), 'especie_id' => rand(1,5)];
+                return ['raza_id' => rand(1, 15), 'especie_id' => rand(1,5), 'user_id' => rand(2, 21)];
             })
             ->has(
                 Seguimiento::factory()->count(3)
             )
             ->create();
-        /*User::factory()
-            ->count(10)
-            ->has(
-                Perfil::factory()->count(1)
-            )
-            ->create();*/
-
-
+        // Gestionar mascota
+        DB::table('permisos')->insert([
+            // gestionar mascota
+            ['id' => 1 ,'nombre' =>'registrar-mascota'],
+            ['id' => 2 ,'nombre' =>'buscar-mascota'],
+            ['id' => 3 ,'nombre' =>'editar-mascota'],
+            ['id' => 4 ,'nombre' =>'estado-mascota'],
+            ['id' => 5 ,'nombre' =>'eliminar-mascota'],
+            ['id' => 6 ,'nombre' =>'consultar-mascota'],
+            ['id' => 7 ,'nombre' =>'listar-mascota'],
+            // Gestionar publicacion de adopcion
+            ['id' => 8 ,'nombre' =>'registrar-publicacion-adopcion'],
+            ['id' => 9 ,'nombre' =>'buscar-publicacion-adopcion'],
+            ['id' => 10 ,'nombre' =>'editar-publicacion-adopcion'],
+            ['id' => 11 ,'nombre' =>'estado-publicacion-adopcion'],
+            ['id' => 12 ,'nombre' =>'eliminar-publicacion-adopcion'],
+            ['id' => 13 ,'nombre' =>'consultar-publicacion-adopcion'],
+            ['id' => 14 ,'nombre' =>'listar-publicacion-adopcion'],
+            // Gestionar seguimiento mascota
+            ['id' => 15 ,'nombre' =>'registrar-seguimiento-mascota'],
+            ['id' => 16 ,'nombre' =>'buscar-seguimiento-mascota'],
+            ['id' => 17 ,'nombre' =>'editar-seguimiento-mascota'],
+            ['id' => 18 ,'nombre' =>'estado-seguimiento-mascota'],
+            ['id' => 19 ,'nombre' =>'eliminar-seguimiento-mascota'],
+            ['id' => 20 ,'nombre' =>'consultar-seguimiento-mascota'],
+            ['id' => 21 ,'nombre' =>'listar-seguimiento-mascota'],
+            // Aprobar rechazar solicitud de adopcion
+            ['id' => 22 ,'nombre' =>'buscar-aprobar-rechazar-solicitud'],
+            ['id' => 23 ,'nombre' =>'listar-aprobar-rechazar-solicitud'],
+            ['id' => 24 ,'nombre' =>'aprobar-rechazar-solicitud'],
+            // Administrar galeria de foto de mascota
+            ['id' => 25 ,'nombre' =>'listar-galeria-mascota'],
+            ['id' => 26 ,'nombre' =>'registrar-galeria-mascota'],
+            ['id' => 27 ,'nombre' =>'eliminar-galeria-mascota'],
+            // Gestionar solicitud de adopcion
+            ['id' => 28 ,'nombre' =>'registrar-solicitud-adopcion'],
+            ['id' => 29 ,'nombre' =>'buscar-solicitud-adopcion'],
+            ['id' => 30 ,'nombre' =>'editar-solicitud-adopcion'],
+            ['id' => 31 ,'nombre' =>'estado-solicitud-adopcion'],
+            ['id' => 32 ,'nombre' =>'eliminar-solicitud-adopcion'],
+            ['id' => 33 ,'nombre' =>'consultar-solicitud-adopcion'],
+            ['id' => 34 ,'nombre' =>'listar-solicitud-adopcion'],
+        ]);
+        DB::table('permiso_rol')->insert([
+            // gestionar mascota
+            ['id' => 1, 'rol_id' => 4 , 'permiso_id' => 1],
+            ['id' => 2, 'rol_id' => 4 , 'permiso_id' => 2],
+            ['id' => 3, 'rol_id' => 4 , 'permiso_id' => 3],
+            ['id' => 4, 'rol_id' => 4 , 'permiso_id' => 4],
+            ['id' => 5, 'rol_id' => 4 , 'permiso_id' => 5],
+            ['id' => 6, 'rol_id' => 4 , 'permiso_id' => 6],
+            ['id' => 7, 'rol_id' => 4 , 'permiso_id' => 7],
+            // gestionar publicacion de adopcion
+            ['id' => 8, 'rol_id' => 4 , 'permiso_id' => 8],
+            ['id' => 9, 'rol_id' => 4 , 'permiso_id' => 9],
+            ['id' => 10, 'rol_id' => 4 , 'permiso_id' => 10],
+            ['id' => 11, 'rol_id' => 4 , 'permiso_id' => 11],
+            ['id' => 12, 'rol_id' => 4 , 'permiso_id' => 12],
+            ['id' => 13, 'rol_id' => 4 , 'permiso_id' => 13],
+            ['id' => 14, 'rol_id' => 4 , 'permiso_id' => 14],
+            // gestionar seguimineto de mascota adoptada
+            ['id' => 15, 'rol_id' => 4 , 'permiso_id' => 15],
+            ['id' => 16, 'rol_id' => 4 , 'permiso_id' => 16],
+            ['id' => 17, 'rol_id' => 4 , 'permiso_id' => 17],
+            ['id' => 18, 'rol_id' => 4 , 'permiso_id' => 18],
+            ['id' => 19, 'rol_id' => 4 , 'permiso_id' => 19],
+            ['id' => 20, 'rol_id' => 4 , 'permiso_id' => 20],
+            ['id' => 21, 'rol_id' => 4 , 'permiso_id' => 21],
+            // Aprobar rechazar solicitud de adopcion
+            ['id' => 22, 'rol_id' => 4 , 'permiso_id' => 22],
+            ['id' => 23, 'rol_id' => 4 , 'permiso_id' => 23],
+            ['id' => 24, 'rol_id' => 4 , 'permiso_id' => 24],
+            // Administrar galeria de foto de mascota
+            ['id' => 25, 'rol_id' => 4 , 'permiso_id' => 25],
+            ['id' => 26, 'rol_id' => 4 , 'permiso_id' => 26],
+            ['id' => 27, 'rol_id' => 4 , 'permiso_id' => 27],
+            // Gestionar solicitud de adopcion
+            ['id' => 28, 'rol_id' => 4 , 'permiso_id' => 28],
+            ['id' => 29, 'rol_id' => 4 , 'permiso_id' => 29],
+            ['id' => 30, 'rol_id' => 4 , 'permiso_id' => 30],
+            ['id' => 31, 'rol_id' => 4 , 'permiso_id' => 31],
+            ['id' => 32, 'rol_id' => 4 , 'permiso_id' => 32],
+            ['id' => 33, 'rol_id' => 4 , 'permiso_id' => 33],
+            ['id' => 34, 'rol_id' => 4 , 'permiso_id' => 34],
+        ]);
     }
 }

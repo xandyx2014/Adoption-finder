@@ -6,21 +6,28 @@ use App\Models\Imagen;
 use App\Models\Mascota;
 use App\Models\PublicacionInformativa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
 class ImagenMascotaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('permiso:listar-galeria-mascota')->only(['index']);
+    }
+
     public function index()
     {
-        $publicaciones = Mascota::with('imagens')
-            ->where('adoptado', request()->input('adoptado') ?? 1)
+        $query = Mascota::with('imagens');
+        if (Gate::check('no-admin'))
+        {
+            $query = $query->where('user_id', auth()->user()->id);
+        }
+        $query =  $query->where('adoptado', request()->input('adoptado') ?? 1)
             ->paginate(3)
             ->appends(request()->query());
+        $publicaciones = $query;
         return view('adopcion.imagenMascota.index', compact('publicaciones'));
     }
 
