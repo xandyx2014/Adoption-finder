@@ -9,11 +9,14 @@ use Illuminate\Http\Request;
 
 class RolController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('permiso:listar-rol')->only(['index']);
+        $this->middleware('permiso:consultar-rol')->only(['show']);
+        $this->middleware('permiso:registrar-rol')->only(['create']);
+    }
+
     public function index()
     {
         $query = Rol::orderBy('id', 'desc');

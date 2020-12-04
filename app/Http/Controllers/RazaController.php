@@ -12,6 +12,8 @@ class RazaController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('permiso:listar-raza')->only(['index']);
+        $this->middleware('permiso:consultar-raza')->only(['show']);
     }
     /**
      * Display a listing of the resource.

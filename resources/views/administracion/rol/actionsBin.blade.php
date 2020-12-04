@@ -1,13 +1,17 @@
-<a class="btn btn-success elevation-2" href="{{ route('rol.show', $data->id) }}">
-    <i class="fa fa-eye" aria-hidden="true"></i>
-</a>
-<form method="POST" action="{{ route('rol.update', $data->id) }}?restore=true" style="display: inline">
-    @csrf
-    @method('PUT')
-    <button type="submit" class="btn btn-success elevation-2">
-        <i class="fa fa-recycle" aria-hidden="true"></i>
-    </button>
-</form>
+@can('permiso', 'consultar-rol')
+    <a class="btn btn-success elevation-2" href="{{ route('rol.show', $data->id) }}">
+        <i class="fa fa-eye" aria-hidden="true"></i>
+    </a>
+@endcan
+@can('permiso', 'estado-rol')
+    <form method="POST" action="{{ route('rol.update', $data->id) }}?restore=true" style="display: inline">
+        @csrf
+        @method('PUT')
+        <button type="submit" class="btn btn-success elevation-2">
+            <i class="fa fa-recycle" aria-hidden="true"></i>
+        </button>
+    </form>
+@endcan
 {{--<form method="POST" action="{{ route('especie.destroy', $id) }}?bin=true" style="display: inline">
     @csrf
     @method('DELETE')
@@ -15,11 +19,13 @@
         <i class="fa fa-trash" aria-hidden="true"></i>
     </button>
 </form>--}}
-<button id="especie-delete-{{$data->id}}" class="btn btn-danger elevation-2">
-    <i class="fa fa-trash" aria-hidden="true"></i>
-</button>
+@can('permiso', 'eliminar-rol')
+    <button id="especie-delete-{{$data->id}}" class="btn btn-danger elevation-2">
+        <i class="fa fa-trash" aria-hidden="true"></i>
+    </button>
+@endcan
 <script type="application/javascript">
-    document.addEventListener("DOMContentLoaded",function(){
+    document.addEventListener("DOMContentLoaded", function () {
         $(document).ready(function () {
             $("#especie-delete-{{$data->id}}").click(async function (e) {
                 Swal.fire({

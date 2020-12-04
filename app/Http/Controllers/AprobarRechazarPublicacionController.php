@@ -10,6 +10,7 @@ class AprobarRechazarPublicacionController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('permiso:listar-solicitud-publicacion')->only(['index']);
     }
 
     /**

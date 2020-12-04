@@ -7,17 +7,19 @@
                 <div class="card">
                     <div class="card-header">
                         Permisos
-                        <button type="button" class="btn btn-sm btn-secondary elevation-2" data-toggle="modal"
-                                data-target="#searchModal">
-                            Busqueda
-                            <i class="fa fa-search" aria-hidden="true"></i>
-                        </button>
-                        <a
-                            href="{{ route('permiso.index') }}"
-                            class="btn btn-sm btn-outline-secondary elevation-2">
-                            Limpiar busqueda
-                            <i class="fa fa-ban" aria-hidden="true"></i>
-                        </a>
+                        @can('permiso', 'buscar-permiso')
+                            <button type="button" class="btn btn-sm btn-secondary elevation-2" data-toggle="modal"
+                                    data-target="#searchModal">
+                                Busqueda
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </button>
+                            <a
+                                href="{{ route('permiso.index') }}"
+                                class="btn btn-sm btn-outline-secondary elevation-2">
+                                Limpiar busqueda
+                                <i class="fa fa-ban" aria-hidden="true"></i>
+                            </a>
+                        @endcan
                         @include('administracion.permiso.search')
                         <button
                             data-toggle="modal" data-target="#reportModal"
@@ -51,11 +53,12 @@
                                         <td style="text-align: center">{{ $permiso->created_at }}</td>
                                         <td style="text-align: center">{{ $permiso->updated_at }}</td>
                                         <td>
-
-                                            <a class="btn btn-info elevation-2"
-                                               href="{{ route('permiso.show', $permiso->id) }}">
-                                                <i class="fa fa-shield" aria-hidden="true"></i>
-                                            </a>
+                                            @can('permiso', 'asignar-permiso')
+                                                <a class="btn btn-info elevation-2"
+                                                   href="{{ route('permiso.show', $permiso->id) }}">
+                                                    <i class="fa fa-shield" aria-hidden="true"></i>
+                                                </a>
+                                            @endcan
 
                                         </td>
                                     </tr>

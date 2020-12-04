@@ -12,21 +12,28 @@
                     <div class="card-header">
                         Etiqueta
                         @unless($bin)
-                            <button
-                                data-toggle="modal" data-target="#reportModal"
-                               class="btn btn-sm btn-outline-secondary elevation-2">
-                                Reporte <i class="fa fa-file" aria-hidden="true"></i>
-                            </button>
-                            <a href="{{ route('tipodenuncia.index', [ 'bin' => true]) }}"
-                               class="btn btn-sm btn-outline-danger elevation-2">
-                                Papelera <i class="fa fa-recycle" aria-hidden="true"></i>
-                            </a>
+                            @can('is-admin')
+                                <button
+                                    data-toggle="modal" data-target="#reportModal"
+                                    class="btn btn-sm btn-outline-secondary elevation-2">
+                                    Reporte <i class="fa fa-file" aria-hidden="true"></i>
+                                </button>
+                            @endcan
+                            @can('permiso', 'estado-tipo-denuncia')
+                                <a href="{{ route('tipodenuncia.index', [ 'bin' => true]) }}"
+                                   class="btn btn-sm btn-outline-danger elevation-2">
+                                    Papelera <i class="fa fa-recycle" aria-hidden="true"></i>
+                                </a>
+                            @endcan
                             @include('denuncia.tipoDenuncia.select')
                         @endunless
                         @if($bin)
-                            <a href="{{ route('tipodenuncia.index') }}" class="btn btn-sm btn-outline-success elevation-2">
-                                Lista <i class="fa fa-list" aria-hidden="true"></i>
-                            </a>
+                            @can('permiso', 'estado-tipo-denuncia')
+                                <a href="{{ route('tipodenuncia.index') }}"
+                                   class="btn btn-sm btn-outline-success elevation-2">
+                                    Lista <i class="fa fa-list" aria-hidden="true"></i>
+                                </a>
+                            @endcan
                         @endif
 
                     </div>
@@ -40,9 +47,11 @@
                     @enderror
                     <div class="row">
                         @unless($bin)
-                            <div class="col-3">
-                                @include('denuncia.tipoDenuncia.create')
-                            </div>
+                            @can('permiso', 'registrar-tipo-denuncia')
+                                <div class="col-3">
+                                    @include('denuncia.tipoDenuncia.create')
+                                </div>
+                            @endcan
                         @endunless
                         <div class="@if($bin) col @else col-9 @endif">
                             <div class="card-body pt-2">
@@ -93,6 +102,7 @@
                 ];
                 $('#especie-data-table').DataTable({
                     "serverSide": true,
+                    "searching" : @can('permiso', 'buscar-tipo-denuncia') true @else false @endcan,
                     "order": [[0, "desc"]],
                     "columnDefs": [
                         {

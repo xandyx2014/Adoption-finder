@@ -1,6 +1,9 @@
+@can('permiso', 'consultar-publicacion-informativa')
 <a class="btn btn-success elevation-2" href="{{ route('publicacion.show', $data->id) }}">
     <i class="fa fa-eye" aria-hidden="true"></i>
 </a>
+@endcan
+@can('permiso', 'estado-publicacion-informativa')
 <form method="POST" action="{{ route('publicacion.update', $data->id) }}?restore=true" style="display: inline">
     @csrf
     @method('PUT')
@@ -8,6 +11,7 @@
         <i class="fa fa-recycle" aria-hidden="true"></i>
     </button>
 </form>
+@endcan
 {{--<form method="POST" action="{{ route('especie.destroy', $id) }}?bin=true" style="display: inline">
     @csrf
     @method('DELETE')
@@ -15,9 +19,11 @@
         <i class="fa fa-trash" aria-hidden="true"></i>
     </button>
 </form>--}}
+@can('permiso', 'eliminar-publicacion-informativa')
 <button id="especie-delete-{{$data->id}}" class="btn btn-danger elevation-2">
     <i class="fa fa-trash" aria-hidden="true"></i>
 </button>
+@endcan
 <script type="application/javascript">
     document.addEventListener("DOMContentLoaded",function(){
         $(document).ready(function () {

@@ -11,8 +11,11 @@ class PermisoController extends Controller
 {
     public function __construct()
     {
-        // $this->middleware('permiso:Ver usuario')->only(['index']);
+        $this->middleware('auth');
+        $this->middleware('permiso:listar-permiso')->only(['index']);
+        $this->middleware('permiso:asignar-permiso')->only(['show']);
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -28,17 +31,17 @@ class PermisoController extends Controller
         // @can('permmiso', 'Ver usuario')
         // @can('is-admin') 'Super admin'
         $query = Rol::orderBy('id', 'desc');
-        if (request()->has('search'))
-        {
+        if (request()->has('search')) {
             $q = request()->input('search');
             $query = $query->where('nombre', 'LIKE', "%$q%");
         }
         $permisos = $query->paginate(4)->appends(request()->query());
         return view('administracion.permiso.index', compact('permisos'));
     }
+
     public function report(Request $request)
     {
-        dispatch( new \App\Jobs\BitacoraJob('Mostrar reporte', 'Permiso'));
+        dispatch(new \App\Jobs\BitacoraJob('Mostrar reporte', 'Permiso'));
         $estado = $request->get('estado');
         $especies;
         if ($estado == "1") {
@@ -55,7 +58,7 @@ class PermisoController extends Controller
 
     function generatePdf(Request $request)
     {
-        dispatch( new \App\Jobs\BitacoraJob('Generar reporte', 'Permiso'));
+        dispatch(new \App\Jobs\BitacoraJob('Generar reporte', 'Permiso'));
         $estado = $request->get('estado');
         $especies;
         if ($estado == "1") {
@@ -82,7 +85,7 @@ class PermisoController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -93,24 +96,24 @@ class PermisoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Permiso  $permiso
+     * @param \App\Models\Permiso $permiso
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        dispatch( new \App\Jobs\BitacoraJob('Consultar', 'Permiso'));
-        $rol =  Rol::where('id', $id)->with('permiso')->first();
-        if ($rol->nombre == 'admin')
-        {
+        dispatch(new \App\Jobs\BitacoraJob('Consultar', 'Permiso'));
+        $rol = Rol::where('id', $id)->with('permiso')->first();
+        if ($rol->nombre == 'admin') {
             return redirect('home');
         }
         $permisos = Permiso::orderBy('id', 'asc')->get();
         return view('administracion.permiso.show', compact('rol', 'permisos'));
     }
+
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Permiso  $permiso
+     * @param \App\Models\Permiso $permiso
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -121,15 +124,14 @@ class PermisoController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Permiso  $permiso
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Permiso $permiso
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        dispatch( new \App\Jobs\BitacoraJob('Actualizar', 'Permiso'));
-        if ($request->has('permisos'))
-        {
+        dispatch(new \App\Jobs\BitacoraJob('Actualizar', 'Permiso'));
+        if ($request->has('permisos')) {
             $rol = Rol::findOrFail($id);
             $rol->permiso()->sync($request->get('permisos'));
         }
@@ -140,7 +142,7 @@ class PermisoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Permiso  $permiso
+     * @param \App\Models\Permiso $permiso
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

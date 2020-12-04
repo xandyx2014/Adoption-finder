@@ -12,6 +12,8 @@ class EtiquetaController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('permiso:listar-etiqueta')->only(['index']);
+        $this->middleware('permiso:consultar-etiqueta')->only(['show']);
     }
     public function indexApi()
     {

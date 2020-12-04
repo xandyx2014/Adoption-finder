@@ -83,31 +83,37 @@
         </h6>
         <ul class="nav flex-column collapse" id="publicacion">
             @can('permiso', 'listar-tipo-publicacion')
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('tipopublicacion.index') }}">
-                    <i class="fa fa-book" aria-hidden="true"></i>
-                    Tipo de publicacion
-                </a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('tipopublicacion.index') }}">
+                        <i class="fa fa-book" aria-hidden="true"></i>
+                        Tipo de publicacion
+                    </a>
+                </li>
             @endcan
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('publicacion.index') }}">
-                    <i class="fa fa-rss" aria-hidden="true"></i>
-                    Publicaciones informativas
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('aprobar.index') }}">
-                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                    Aprobar | Rechazar publicacion
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('imagenPublicacion.index') }}">
-                    <i class="fa fa-picture-o" aria-hidden="true"></i>
-                    Galeria de fotos
-                </a>
-            </li>
+            @can('permiso', 'listar-publicacion-informativa')
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('publicacion.index') }}">
+                        <i class="fa fa-rss" aria-hidden="true"></i>
+                        Publicaciones informativas
+                    </a>
+                </li>
+            @endcan
+            @can('permiso', 'listar-solicitud-publicacion')
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('aprobar.index') }}">
+                        <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                        Aprobar | Rechazar publicacion
+                    </a>
+                </li>
+            @endcan
+            @can('permiso', 'listar-galeria-publicacion-informativa')
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('imagenPublicacion.index') }}">
+                        <i class="fa fa-picture-o" aria-hidden="true"></i>
+                        Galeria de fotos
+                    </a>
+                </li>
+            @endcan
         </ul>
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-1 text-muted">
             <span>Gestion de denuncias</span>
@@ -117,18 +123,22 @@
             </a>
         </h6>
         <ul class="nav flex-column collapse" id="denuncia">
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('tipodenuncia.index') }}">
-                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                    Tipo de denuncia
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('denuncia.index') }}">
-                    <i class="fa fa-bell" aria-hidden="true"></i>
-                    Denuncias
-                </a>
-            </li>
+            @can('permiso', 'listar-tipo-denuncia')
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('tipodenuncia.index') }}">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        Tipo de denuncia
+                    </a>
+                </li>
+            @endcan
+            @can('permiso', 'listar-denuncia')
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('denuncia.index') }}">
+                        <i class="fa fa-bell" aria-hidden="true"></i>
+                        Denuncias
+                    </a>
+                </li>
+            @endcan
         </ul>
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-1 text-muted">
             <span>Parametros</span>
@@ -138,24 +148,30 @@
             </a>
         </h6>
         <ul class="nav flex-column collapse" id="parametros">
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('especie.index') }}">
-                    <i class="fa fa-book" aria-hidden="true"></i>
-                    Especie
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('raza.index') }}">
-                    <i class="fa fa-book" aria-hidden="true"></i>
-                    Raza
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('etiqueta.index') }}">
-                    <i class="fa fa-tags" aria-hidden="true"></i>
-                    Etiqueta
-                </a>
-            </li>
+            @can('permiso', 'listar-especie')
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('especie.index') }}">
+                        <i class="fa fa-paw" aria-hidden="true"></i>
+                        Especie
+                    </a>
+                </li>
+            @endcan
+            @can('permiso', 'listar-raza')
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('raza.index') }}">
+                        <i class="fa fa-paw" aria-hidden="true"></i>
+                        Raza
+                    </a>
+                </li>
+            @endcan
+            @can('permiso', 'listar-etiqueta')
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('etiqueta.index') }}">
+                        <i class="fa fa-tags" aria-hidden="true"></i>
+                        Etiqueta
+                    </a>
+                </li>
+            @endcan
         </ul>
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-1 text-muted">
             <span>Reportes</span>
@@ -165,18 +181,22 @@
             </a>
         </h6>
         <ul class="nav flex-column collapse" id="reportes">
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('reporteMascota.index') }}">
-                    <i class="fa fa-file-text-o" aria-hidden="true"></i>
-                    Reporte de mascota para la adopcion
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('reporteSeguimiento.index') }}">
-                    <i class="fa fa-file-text-o" aria-hidden="true"></i>
-                    Reporte de seguimiento de mascota
-                </a>
-            </li>
+            @can('permiso', 'generar-reporte-mascota')
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('reporteMascota.index') }}">
+                        <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                        Reporte de mascota para la adopcion
+                    </a>
+                </li>
+            @endcan
+            @can('permiso', 'generar-reporte-seguimiento')
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('reporteSeguimiento.index') }}">
+                        <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                        Reporte de seguimiento de mascota
+                    </a>
+                </li>
+            @endcan
         </ul>
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-1 text-muted">
             <span>Adm usuario, auditoria</span>
@@ -186,30 +206,38 @@
             </a>
         </h6>
         <ul class="nav flex-column collapse" id="administracion">
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('user.index') }}">
-                    <i class="fa fa-users" aria-hidden="true"></i>
-                    Gestionar usuario
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('rol.index') }}">
-                    <i class="fa fa-user" aria-hidden="true"></i>
-                    Gestionar Rol
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('permiso.index') }}">
-                    <i class="fa fa-shield" aria-hidden="true"></i>
-                    Administrar permisos
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('bitacora.index') }}">
-                    <i class="fa fa-history" aria-hidden="true"></i>
-                    Administrar bitacora
-                </a>
-            </li>
+            @can('permiso', 'listar-usuario')
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('user.index') }}">
+                        <i class="fa fa-users" aria-hidden="true"></i>
+                        Gestionar usuario
+                    </a>
+                </li>
+            @endcan
+            @can('permiso', 'listar-rol')
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('rol.index') }}">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        Gestionar Rol
+                    </a>
+                </li>
+            @endcan
+            @can('permiso', 'listar-permiso')
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('permiso.index') }}">
+                        <i class="fa fa-shield" aria-hidden="true"></i>
+                        Administrar permisos
+                    </a>
+                </li>
+            @endcan
+            @can('permiso', 'listar-bitacora')
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('bitacora.index') }}">
+                        <i class="fa fa-history" aria-hidden="true"></i>
+                        Administrar bitacora
+                    </a>
+                </li>
+            @endcan
         </ul>
 
     </div>

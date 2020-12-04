@@ -39,6 +39,9 @@ class AuthServiceProvider extends ServiceProvider
             // $user = User::findOrFail(1)->rol->permiso;
             return $permiso = $auth->pluck('nombre')->contains($permiso);
         });
+        Gate::define('is-autor', function ($user) {
+            return $user->rol->id == 2;
+        });
         //
     }
 }

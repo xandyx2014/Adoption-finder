@@ -1,13 +1,17 @@
-<a class="btn btn-success elevation-2" href="{{ route('etiqueta.show', $id) }}">
-    <i class="fa fa-eye" aria-hidden="true"></i>
-</a>
-<form method="POST" action="{{ route('etiqueta.update', $id) }}?restore=true" style="display: inline">
-    @csrf
-    @method('PUT')
-    <button type="submit" class="btn btn-success elevation-2">
-        <i class="fa fa-recycle" aria-hidden="true"></i>
-    </button>
-</form>
+@can('permiso', 'consultar-etiqueta')
+    <a class="btn btn-success elevation-2" href="{{ route('etiqueta.show', $id) }}">
+        <i class="fa fa-eye" aria-hidden="true"></i>
+    </a>
+@endcan
+@can('permiso', 'estado-etiqueta')
+    <form method="POST" action="{{ route('etiqueta.update', $id) }}?restore=true" style="display: inline">
+        @csrf
+        @method('PUT')
+        <button type="submit" class="btn btn-success elevation-2">
+            <i class="fa fa-recycle" aria-hidden="true"></i>
+        </button>
+    </form>
+@endcan
 {{--<form method="POST" action="{{ route('especie.destroy', $id) }}?bin=true" style="display: inline">
     @csrf
     @method('DELETE')
@@ -15,9 +19,11 @@
         <i class="fa fa-trash" aria-hidden="true"></i>
     </button>
 </form>--}}
-<button id="especie-delete-{{$id}}" class="btn btn-danger elevation-2">
-    <i class="fa fa-trash" aria-hidden="true"></i>
-</button>
+@can('permiso', 'eliminar-etiqueta')
+    <button id="especie-delete-{{$id}}" class="btn btn-danger elevation-2">
+        <i class="fa fa-trash" aria-hidden="true"></i>
+    </button>
+@endcan
 <script>
     $(document).ready(function () {
         $("#especie-delete-{{$id}}").click(async function (e) {

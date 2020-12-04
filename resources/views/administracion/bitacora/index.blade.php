@@ -7,17 +7,19 @@
                 <div class="card elevation-4">
                     <div class="card-header">
                         Bitacora
-                        <button type="button" class="btn btn-sm btn-secondary elevation-2" data-toggle="modal"
-                                data-target="#searchModal">
-                            Busqueda
-                            <i class="fa fa-search" aria-hidden="true"></i>
-                        </button>
-                        <a
-                            href="{{ route('bitacora.index') }}"
-                            class="btn btn-sm btn-outline-secondary elevation-2">
-                            Limpiar busqueda
-                            <i class="fa fa-ban" aria-hidden="true"></i>
-                        </a>
+                        @can('permiso', 'buscar-bitacora')
+                            <button type="button" class="btn btn-sm btn-secondary elevation-2" data-toggle="modal"
+                                    data-target="#searchModal">
+                                Busqueda
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </button>
+                            <a
+                                href="{{ route('bitacora.index') }}"
+                                class="btn btn-sm btn-outline-secondary elevation-2">
+                                Limpiar busqueda
+                                <i class="fa fa-ban" aria-hidden="true"></i>
+                            </a>
+                        @endcan
                         @include('administracion.bitacora.search')
                     </div>
                     <div class="card-body">

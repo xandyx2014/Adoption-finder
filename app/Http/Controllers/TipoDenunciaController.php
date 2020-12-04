@@ -12,6 +12,8 @@ class TipoDenunciaController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('permiso:listar-tipo-denuncia')->only(['index']);
+        $this->middleware('permiso:consultar-tipo-denuncia')->only(['show']);
     }
     public function indexApi()
     {

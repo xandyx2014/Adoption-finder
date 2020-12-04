@@ -55,40 +55,53 @@
                         <td>{{ $publicacion->created_at }}</td>
                         <td>{{ $publicacion->updated_at }}</td>
                         <td>
-                            @unless($publicacion->estado)
-                                <form class="btn btn-success" action="{{ route('aprobar.update', $publicacion->id) }}?cambiar=1" method="POST">
-                                    @csrf
-                                    @method('PUT')
-                                    <button type="submit">
-                                        <i class="fa fa-check" aria-hidden="true"></i>
-                                    </button>
-                                </form>
-                            @endunless
-                            @if($publicacion->estado)
-                                    <form class="btn btn-danger" action="{{ route('aprobar.update', $publicacion->id) }}?cambiar=0" method="POST">
+                            @can('permiso', 'aprobar-solicitud-publicacion')
+                                @unless($publicacion->estado)
+                                    <form class="btn btn-success"
+                                          action="{{ route('aprobar.update', $publicacion->id) }}?cambiar=1"
+                                          method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <button type="submit">
+                                            <i class="fa fa-check" aria-hidden="true"></i>
+                                        </button>
+                                    </form>
+                                @endunless
+                            @endcan
+                            @can('permiso', 'rechazar-solicitud-publicacion')
+                                @if($publicacion->estado)
+                                    <form class="btn btn-danger"
+                                          action="{{ route('aprobar.update', $publicacion->id) }}?cambiar=0"
+                                          method="POST">
                                         @csrf
                                         @method('PUT')
                                         <button type="submit">
                                             <i class="fa fa-times" aria-hidden="true"></i>
                                         </button>
                                     </form>
-                            @endif
-                            <form method="POST" action="{{ route('publicacion.destroy', $publicacion->id) }}"
-                                  style="display: inline">
-                                @csrf
-                                @method('DELETE')
-                                <meta name="csrf-token" content="{{ csrf_token() }}">
-                                <button type="submit" class="btn btn-danger">
-                                    <i class="fa fa-recycle" aria-hidden="true"></i>
-                                </button>
-                            </form>
-                            <a class="btn btn-success" href="{{ route('publicacion.show', $publicacion->id) }}">
-                                <i class="fa fa-eye" aria-hidden="true"></i>
-                            </a>
-
-                            <a class="btn btn-warning" href="{{ route('publicacion.edit', $publicacion->id) }}">
-                                <i class="fa fa-pencil" aria-hidden="true"></i>
-                            </a>
+                                @endif
+                            @endcan
+                            @can('permiso', 'estado-publicacion-informativa')
+                                <form method="POST" action="{{ route('publicacion.destroy', $publicacion->id) }}"
+                                      style="display: inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <meta name="csrf-token" content="{{ csrf_token() }}">
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="fa fa-recycle" aria-hidden="true"></i>
+                                    </button>
+                                </form>
+                            @endcan
+                            @can('permiso', 'consultar-publicacion-informativa')
+                                <a class="btn btn-success" href="{{ route('publicacion.show', $publicacion->id) }}">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </a>
+                            @endcan
+                            @can('permiso', 'editar-publicacion-informativa')
+                                <a class="btn btn-warning" href="{{ route('publicacion.edit', $publicacion->id) }}">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </a>
+                            @endcan
 
 
                         </td>

@@ -14,20 +14,25 @@
                         @unless($bin)
                             <button
                                 data-toggle="modal" data-target="#reportModal"
-                               class="btn btn-sm btn-outline-secondary elevation-2">
+                                class="btn btn-sm btn-outline-secondary elevation-2">
                                 Reporte <i class="fa fa-file" aria-hidden="true"></i>
                             </button>
-                            <a href="{{ route('especie.index', [ 'bin' => true]) }}"
-                               class="btn btn-sm btn-outline-danger elevation-2">
-                                Papelera <i class="fa fa-recycle" aria-hidden="true"></i>
-                            </a>
+                            @can('permiso', 'estado-especie')
+                                <a href="{{ route('especie.index', [ 'bin' => true]) }}"
+                                   class="btn btn-sm btn-outline-danger elevation-2">
+                                    Papelera <i class="fa fa-recycle" aria-hidden="true"></i>
+                                </a>
+                            @endcan
                             @include('parametro.especie.select')
                         @endunless
-                        @if($bin)
-                            <a href="{{ route('especie.index') }}" class="btn btn-sm btn-outline-success elevation-2">
-                                Lista <i class="fa fa-list" aria-hidden="true"></i>
-                            </a>
-                        @endif
+                        @can('permiso', 'estado-especie')
+                            @if($bin)
+                                <a href="{{ route('especie.index') }}"
+                                   class="btn btn-sm btn-outline-success elevation-2">
+                                    Lista <i class="fa fa-list" aria-hidden="true"></i>
+                                </a>
+                            @endif
+                        @endcan
 
                     </div>
                     @error('errorDependencia')
@@ -39,11 +44,13 @@
                     </div>
                     @enderror
                     <div class="row">
-                        @unless($bin)
-                            <div class="col-3">
-                                @include('parametro.especie.create')
-                            </div>
-                        @endunless
+                        @can('permiso', 'registrar-especie')
+                            @unless($bin)
+                                <div class="col-3">
+                                    @include('parametro.especie.create')
+                                </div>
+                            @endunless
+                        @endcan
                         <div class="@if($bin) col @else col-9 @endif">
                             <div class="card-body pt-2">
                                 <table id="especie-data-table" class="table table-striped table-bordered table-sm"
@@ -93,6 +100,7 @@
                 ];
                 $('#especie-data-table').DataTable({
                     "serverSide": true,
+                    "searching": @can('permiso', 'buscar-especie') true @else false @endcan,
                     "order": [[0, "desc"]],
                     "columnDefs": [
                         {

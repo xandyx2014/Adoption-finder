@@ -1,13 +1,17 @@
-<a class="btn btn-success" href="{{ route('user.show', $data->id) }}">
-    <i class="fa fa-eye" aria-hidden="true"></i>
-</a>
-<form method="POST" action="{{ route('user.update', $data->id) }}?restore=true" style="display: inline">
-    @csrf
-    @method('PUT')
-    <button type="submit" class="btn btn-success">
-        <i class="fa fa-recycle" aria-hidden="true"></i>
-    </button>
-</form>
+@can('permiso', 'consultar-usuario')
+    <a class="btn btn-success" href="{{ route('user.show', $data->id) }}">
+        <i class="fa fa-eye" aria-hidden="true"></i>
+    </a>
+@endcan
+@can('permiso', 'estado-usuario')
+    <form method="POST" action="{{ route('user.update', $data->id) }}?restore=true" style="display: inline">
+        @csrf
+        @method('PUT')
+        <button type="submit" class="btn btn-success">
+            <i class="fa fa-recycle" aria-hidden="true"></i>
+        </button>
+    </form>
+@endcan
 {{--<form method="POST" action="{{ route('especie.destroy', $id) }}?bin=true" style="display: inline">
     @csrf
     @method('DELETE')
@@ -15,9 +19,11 @@
         <i class="fa fa-trash" aria-hidden="true"></i>
     </button>
 </form>--}}
-<button id="especie-delete-{{$data->id}}" class="btn btn-danger">
-    <i class="fa fa-trash" aria-hidden="true"></i>
-</button>
+@can('permiso', 'eliminar-usuario')
+    <button id="especie-delete-{{$data->id}}" class="btn btn-danger">
+        <i class="fa fa-trash" aria-hidden="true"></i>
+    </button>
+@endcan
 <script type="application/javascript">
     document.addEventListener('DOMContentLoaded', () => {
         $("#especie-delete-{{$data->id}}").click(async function (e) {

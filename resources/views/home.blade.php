@@ -12,81 +12,218 @@
         <div class="row justify-content-center">
             <div class="col-8">
                 <div class="card">
-                    <div class="card-header border border-primary text-primary">Gestion de adopcion</div>
+                    <div class="card-header border border-primary text-primary">General</div>
                     <div class="card-body bg-light d-flex flex-wrap">
-                        <div style="width: 250px" class="small-box bg-info mr-3 elevation-4">
-                            <div class="inner">
-                                <h5>Mascotas</h5>
+                        @can('permiso', 'listar-mascota')
+                            <div style="width: 250px" class="small-box bg-info mr-3 elevation-4">
+                                <div class="inner">
+                                    <h5>Mascotas</h5>
 
-                                <p>Ver mascotas</p>
+                                    <p>Ver mascotas</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fa fa-paw" aria-hidden="true"></i>
+                                </div>
+                                <a href="{{ route('mascota.index') }}" class="small-box-footer">Ver<i
+                                        class="fa fa-arrow-circle-right"></i></a>
                             </div>
-                            <div class="icon">
-                                <i class="fa fa-paw" aria-hidden="true"></i>
-                            </div>
-                            <a href="{{ route('mascota.index') }}" class="small-box-footer">Ver<i
-                                    class="fa fa-arrow-circle-right"></i></a>
-                        </div>
-                        <div style="width: 250px" class="small-box bg-primary mr-3 elevation-4">
-                            <div class="inner">
-                                <h5>Publicacion</h5>
+                        @endcan
+                        @can('permiso', 'listar-publicacion-adopcion')
+                            <div style="width: 250px" class="small-box bg-primary mr-3 elevation-4">
+                                <div class="inner">
+                                    <h5>Publicacion adopcion</h5>
 
-                                <p>Ver publicaciones informativa</p>
+                                    <p>Ver publicaciones adopcion</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+                                </div>
+                                <a href="{{ route('publicacionAdopcion.index') }}" class="small-box-footer">Ver<i
+                                        class="fa fa-arrow-circle-right"></i></a>
                             </div>
-                            <div class="icon">
-                                <i class="fa fa-newspaper-o" aria-hidden="true"></i>
-                            </div>
-                            <a href="{{ route('publicacion.index') }}" class="small-box-footer">Ver<i
-                                    class="fa fa-arrow-circle-right"></i></a>
-                        </div>
-                        <div style="width: 250px" class="small-box bg-secondary mr-3 elevation-4">
-                            <div class="inner">
-                                <h5>Seguimiento</h5>
+                        @endcan
+                        @can('permiso', 'listar-seguimiento-mascota')
+                            <div style="width: 250px" class="small-box bg-secondary mr-3 elevation-4">
+                                <div class="inner">
+                                    <h5>Seguimiento</h5>
 
-                                <p>Ver seguimientos</p>
+                                    <p>Ver seguimientos</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fa fa-history" aria-hidden="true"></i>
+                                </div>
+                                <a href="{{ route('seguimiento.index') }}" class="small-box-footer">Ver<i
+                                        class="fa fa-arrow-circle-right"></i></a>
                             </div>
-                            <div class="icon">
-                                <i class="fa fa-history" aria-hidden="true"></i>
-                            </div>
-                            <a href="{{ route('seguimiento.index') }}" class="small-box-footer">Ver<i
-                                    class="fa fa-arrow-circle-right"></i></a>
-                        </div>
-                        <div style="width: 250px" class="small-box bg-warning mr-3 elevation-4">
-                            <div class="inner">
-                                <h5>Solicitud de adopcion</h5>
+                        @endcan
+                        @can('permiso', 'listar-solicitud-adopcion')
+                            <div style="width: 250px" class="small-box bg-warning mr-3 elevation-4">
+                                <div class="inner">
+                                    <h5>Solicitud de adopcion</h5>
 
-                                <p>Ver solicitud</p>
+                                    <p>Ver solicitud</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fa fa-question" aria-hidden="true"></i>
+                                </div>
+                                <a href="{{ route('solicitud.index') }}" class="small-box-footer">Ver<i
+                                        class="fa fa-arrow-circle-right"></i></a>
                             </div>
-                            <div class="icon">
-                                <i class="fa fa-question" aria-hidden="true"></i>
-                            </div>
-                            <a href="{{ route('solicitud.index') }}" class="small-box-footer">Ver<i
-                                    class="fa fa-arrow-circle-right"></i></a>
-                        </div>
-                        <div style="width: 250px" class="small-box bg-success mr-3 elevation-4">
-                            <div class="inner">
-                                <h5>Aprobar rechazar</h5>
+                        @endcan
+                        @can('permiso', 'listar-aprobar-rechazar-solicitud')
+                            <div style="width: 250px" class="small-box bg-success mr-3 elevation-4">
+                                <div class="inner">
+                                    <h5>Aprobar rechazar</h5>
 
-                                <p>Solicitud de mascota</p>
+                                    <p>Solicitud de mascota</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                </div>
+                                <a href="{{ route('aprobarSolicitud.index') }}" class="small-box-footer">Ver<i
+                                        class="fa fa-arrow-circle-right"></i></a>
                             </div>
-                            <div class="icon">
-                                <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                            </div>
-                            <a href="{{ route('aprobarSolicitud.index') }}" class="small-box-footer">Ver<i
-                                    class="fa fa-arrow-circle-right"></i></a>
-                        </div>
-                        <div style="width: 250px" class="small-box bg-dark mr-3 elevation-4">
-                            <div class="inner">
-                                <h5>Galeria de mascota</h5>
+                        @endcan
+                        @can('permiso', 'listar-galeria-mascota')
+                            <div style="width: 250px" class="small-box bg-dark mr-3 elevation-4">
+                                <div class="inner">
+                                    <h5>Galeria de mascota</h5>
 
-                                <p>fotos de la mascota</p>
+                                    <p>fotos de la mascota</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fa fa-picture-o" aria-hidden="true"></i>
+                                </div>
+                                <a href="{{ route('imagenMascota.index') }}" class="small-box-footer">Ver<i
+                                        class="fa fa-arrow-circle-right"></i></a>
                             </div>
-                            <div class="icon">
-                                <i class="fa fa-picture-o" aria-hidden="true"></i>
-                            </div>
-                            <a href="{{ route('imagenMascota.index') }}" class="small-box-footer">Ver<i
-                                    class="fa fa-arrow-circle-right"></i></a>
-                        </div>
+                        @endcan
+                        @can('permiso', 'listar-tipo-publicacion')
+                            <div style="width: 250px" class="small-box bg-gradient-dark mr-3 elevation-4">
+                                <div class="inner">
+                                    <h5>Tipo de publicacion</h5>
 
+                                    <p>ver los tipos</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fa fa-book" aria-hidden="true"></i>
+                                </div>
+                                <a href="{{ route('tipopublicacion.index') }}" class="small-box-footer">Ver<i
+                                        class="fa fa-arrow-circle-right"></i></a>
+                            </div>
+                        @endcan
+                        @can('permiso', 'listar-publicacion-informativa')
+                            <div style="width: 250px" class="small-box bg-gradient-info mr-3 elevation-4">
+                                <div class="inner">
+                                    <h5>Publicaciones informativas</h5>
+
+                                    <p>ver los publicaciones</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fa fa-rss" aria-hidden="true"></i>
+                                </div>
+                                <a href="{{ route('publicacion.index') }}" class="small-box-footer">Ver<i
+                                        class="fa fa-arrow-circle-right"></i></a>
+                            </div>
+                        @endcan
+                        @can('permiso', 'listar-solicitud-publicacion')
+                            <div style="width: 250px" class="small-box bg-gradient-warning mr-3 elevation-4">
+                                <div class="inner">
+                                    <h5>Aprobar o rechazar</h5>
+
+                                    <p>Solicitud de publicacion</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                </div>
+                                <a href="{{ route('aprobar.index') }}" class="small-box-footer">Ver<i
+                                        class="fa fa-arrow-circle-right"></i></a>
+                            </div>
+                        @endcan
+                        @can('permiso', 'listar-galeria-publicacion-informativa')
+                            <div style="width: 250px" class="small-box bg-gradient-danger mr-3 elevation-4">
+                                <div class="inner">
+                                    <h5>Galeria de foto</h5>
+
+                                    <p>publicacion informativas</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fa fa-picture-o" aria-hidden="true"></i>
+                                </div>
+                                <a href="{{ route('imagenPublicacion.index') }}" class="small-box-footer">Ver<i
+                                        class="fa fa-arrow-circle-right"></i></a>
+                            </div>
+                        @endcan
+                        @can('permiso', 'listar-tipo-denuncia')
+                            <div style="width: 250px" class="small-box bg-gradient-success mr-3 elevation-4">
+                                <div class="inner">
+                                    <h5>Tipo de denuncia</h5>
+
+                                    <p>Ver tipo de denuncia</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                                </div>
+                                <a href="{{ route('tipodenuncia.index') }}" class="small-box-footer">Ver<i
+                                        class="fa fa-arrow-circle-right"></i></a>
+                            </div>
+                        @endcan
+                        @can('permiso', 'listar-denuncia')
+                            <div style="width: 250px" class="small-box bg-gradient-secondary mr-3 elevation-4">
+                                <div class="inner">
+                                    <h5>Denuncia</h5>
+
+                                    <p>De las publicaciones</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fa fa-bell" aria-hidden="true"></i>
+                                </div>
+                                <a href="{{ route('denuncia.index') }}" class="small-box-footer">Ver<i
+                                        class="fa fa-arrow-circle-right"></i></a>
+                            </div>
+                        @endcan
+                        @can('permiso', 'listar-especie')
+                            <div style="width: 250px" class="small-box bg-primary mr-3 elevation-4">
+                                <div class="inner">
+                                    <h5>Especie</h5>
+
+                                    <p>De las mascotas</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fa fa-paw" aria-hidden="true"></i>
+                                </div>
+                                <a href="{{ route('especie.index') }}" class="small-box-footer">Ver<i
+                                        class="fa fa-arrow-circle-right"></i></a>
+                            </div>
+                        @endcan
+                        @can('permiso', 'listar-raza')
+                            <div style="width: 250px" class="small-box bg-light mr-3 elevation-4">
+                                <div class="inner">
+                                    <h5>Raza</h5>
+
+                                    <p>De las mascotas</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fa fa-paw" aria-hidden="true"></i>
+                                </div>
+                                <a href="{{ route('raza.index') }}" class="small-box-footer">Ver<i
+                                        class="fa fa-arrow-circle-right"></i></a>
+                            </div>
+                        @endcan
+                        @can('permiso', 'listar-etiqueta')
+                            <div style="width: 250px" class="small-box bg-dark mr-3 elevation-4">
+                                <div class="inner">
+                                    <h5>Etiquetas</h5>
+
+                                    <p>De las mascotas</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fa fa-tags" aria-hidden="true"></i>
+                                </div>
+                                <a href="{{ route('etiqueta.index') }}" class="small-box-footer">Ver<i
+                                        class="fa fa-arrow-circle-right"></i></a>
+                            </div>
+                        @endcan
                     </div>
                 </div>
             </div>

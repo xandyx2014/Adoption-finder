@@ -8,6 +8,7 @@ use App\Models\TipoPublicacion;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -17,6 +18,9 @@ class PublicacionInformativaController extends Controller
     public function __construct()
     {
         $this->middleware('auth')->except(['index', 'show', 'indexApi']);
+        $this->middleware('permiso:listar-publicacion-informativa')->only(['index']);
+        $this->middleware('permiso:consultar-publicacion-informativa')->only(['show']);
+        $this->middleware('permiso:registrar-publicacion-informativa')->only(['create']);
     }
 
     public function indexApi()
@@ -45,18 +49,26 @@ class PublicacionInformativaController extends Controller
     {
         $users = User::all();
         $tipos = TipoPublicacion::all();
+
         $params = request()->input('bin');
         // reciclaje
         if ($params) {
-            $publicaciones = PublicacionInformativa::onlyTrashed()
-                ->orderBy('id', 'desc')->paginate(5);
-
+            $publicaciones = PublicacionInformativa::onlyTrashed();
+            if (Gate::check('is-autor'))
+            {
+                $publicaciones = $publicaciones->where('user_id', auth()->user()->id);
+            }
+            $publicaciones = $publicaciones->orderBy('id', 'desc')->paginate(5);
             return view('publicacion.publicacion.index', [
                 'bin' => true,
                 'publicaciones' => $publicaciones
             ]);
         }
         $query = PublicacionInformativa::orderBy('id', 'desc');
+        if (Gate::check('is-autor'))
+        {
+            $query = $query->where('user_id', auth()->user()->id);
+        }
         if (request()->has('usuario')) {
             if (request()->get('usuario') != "x") {
                 $query = $query->where('user_id', request()->get('usuario'));
@@ -276,7 +288,6 @@ class PublicacionInformativaController extends Controller
             $especieImagen = $especie->imagens()->first();
             if (!empty($especieImagen)) {
                 $imagen = Imagen::withTrashed()->where('id', $especieImagen->id)->first();
-                return $imagen->url;
                 if ($especieImagen->url != 'default.jpg') {
                     Storage::disk('public')->delete($imagen->url);
                 }

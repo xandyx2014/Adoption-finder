@@ -9,11 +9,12 @@ use Illuminate\Support\Facades\Gate;
 
 class ReporteMascotaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('permiso:generar-reporte-mascota');
+    }
+
     public function index()
     {
         $mascotas = Mascota::all();

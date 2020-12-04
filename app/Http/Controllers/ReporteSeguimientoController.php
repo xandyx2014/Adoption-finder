@@ -12,6 +12,7 @@ class ReporteSeguimientoController extends Controller
     function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('permiso:generar-reporte-seguimiento');
     }
 
     function index()

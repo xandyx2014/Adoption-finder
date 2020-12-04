@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\Storage;
 
 class ImagenPublicacionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('permiso:listar-galeria-publicacion-informativa')->only(['index']);
+        $this->middleware('permiso:editar-galeria-publicacion-informativa')->only(['edit']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -84,7 +91,10 @@ class ImagenPublicacionController extends Controller
         dispatch( new \App\Jobs\BitacoraJob('Actualizar', 'Imagen Publicacion'));
         $file = $request->file('file');
         $imagen = Imagen::findOrFail($id);
-        Storage::disk('public')->delete($imagen->url);
+        if ($imagen->url != "default.jpg")
+        {
+            Storage::disk('public')->delete($imagen->url);
+        }
         $url =  Storage::disk('public')->put('', $file);
         $imagen->update([
             'url' => $url
@@ -101,7 +111,12 @@ class ImagenPublicacionController extends Controller
     public function destroy($id)
     {
         $imagen = Imagen::findOrFail($id);
-        $url =  Storage::disk('public')->put('', $imagen->url);
+        if ($imagen->url != "default.jpg")
+        {
+
+            $url =  Storage::disk('public')->delete('', $imagen->url);
+        }
+
         $imagen->update([
             'url' => 'default.jpg'
         ]);

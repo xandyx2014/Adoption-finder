@@ -12,6 +12,8 @@ class EspecieController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('permiso:listar-especie')->only(['index']);
+        $this->middleware('permiso:consultar-especie')->only(['show']);
     }
     /**
      * Display a listing of the resource.

@@ -13,6 +13,8 @@ class BitacoraController extends Controller
     function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('permiso:listar-bitacora')->only(['index']);
+        $this->middleware('permiso:consultar-bitacora')->only(['show']);
     }
 
     /**

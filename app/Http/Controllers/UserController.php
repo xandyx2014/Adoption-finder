@@ -13,6 +13,9 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('permiso:listar-usuario')->only(['index']);
+        $this->middleware('permiso:consultar-usuario')->only(['show']);
+        $this->middleware('permiso:registrar-usuario')->only(['create']);
     }
 
     /**

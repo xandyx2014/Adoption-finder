@@ -20,40 +20,52 @@
                     <div class="card-header">
                         Tipo de publicacion
                         @unless($bin)
-                            <button type="button" class="btn btn-sm btn-secondary elevation-2" data-toggle="modal"
-                                    data-target="#searchModal">
-                                Busqueda
-                                <i class="fa fa-search" aria-hidden="true"></i>
-                            </button>
-                            <a
-                                href="{{ route('publicacion.index') }}"
-                                class="btn btn-sm btn-outline-secondary elevation-2">
-                                Limpiar busqueda
-                                <i class="fa fa-ban" aria-hidden="true"></i>
-                            </a>
-                            <a
-                                href="{{ route('publicacion.create') }}"
-                                class="btn btn-sm btn-secondary elevation-2">
-                                Crear <i class="fa fa-book" aria-hidden="true"></i>
-                            </a>
-                            <button
-                                data-toggle="modal" data-target="#reportModal"
-                                class="btn btn-sm btn-outline-secondary elevation-2">
-                                Reporte <i class="fa fa-file" aria-hidden="true"></i>
-                            </button>
-                            <a href="{{ route('publicacion.index', [ 'bin' => true]) }}"
-                               class="btn btn-sm btn-outline-danger elevation-2">
-                                Papelera <i class="fa fa-recycle" aria-hidden="true"></i>
-                            </a>
+                            @can('permiso', 'buscar-publicacion-informativa')
+                                <button type="button" class="btn btn-sm btn-secondary elevation-2" data-toggle="modal"
+                                        data-target="#searchModal">
+                                    Busqueda
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </button>
+                                <a
+                                    href="{{ route('publicacion.index') }}"
+                                    class="btn btn-sm btn-outline-secondary elevation-2">
+                                    Limpiar busqueda
+                                    <i class="fa fa-ban" aria-hidden="true"></i>
+                                </a>
+                            @endcan
+                            @can('permiso', 'registrar-publicacion-informativa')
+                                <a
+                                    href="{{ route('publicacion.create') }}"
+                                    class="btn btn-sm btn-secondary elevation-2">
+                                    Crear <i class="fa fa-book" aria-hidden="true"></i>
+                                </a>
+                            @endcan
+                            @can('is-autor')
+                            @else
+                                <button
+                                    data-toggle="modal" data-target="#reportModal"
+                                    class="btn btn-sm btn-outline-secondary elevation-2">
+                                    Reporte <i class="fa fa-file" aria-hidden="true"></i>
+                                </button>
+                            @endcan
+                            @can('permiso', 'estado-publicacion-informativa')
+                                <a href="{{ route('publicacion.index', [ 'bin' => true]) }}"
+                                   class="btn btn-sm btn-outline-danger elevation-2">
+                                    Papelera <i class="fa fa-recycle" aria-hidden="true"></i>
+                                </a>
+                            @endcan
                             @include('publicacion.publicacion.select')
                             @include('publicacion.publicacion.search')
 
                         @endunless
-                        @if($bin)
-                            <a href="{{ route('publicacion.index') }}" class="btn btn-sm btn-outline-success elevation-2">
-                                Lista <i class="fa fa-list" aria-hidden="true"></i>
-                            </a>
-                        @endif
+                        @can('permiso', 'estado-publicacion-informativa')
+                            @if($bin)
+                                <a href="{{ route('publicacion.index') }}"
+                                   class="btn btn-sm btn-outline-success elevation-2">
+                                    Lista <i class="fa fa-list" aria-hidden="true"></i>
+                                </a>
+                            @endif
+                        @endcan
 
                     </div>
                     @error('errorDependencia')
@@ -67,24 +79,26 @@
                     <div class="row">
 
 
-
                         <div class="col">
                             <div class="card-body pt-2">
                                 <div>
-                                    @unless($bin)
-                                    <form action="{{ route('publicacion.index') }}" method="POST"
-                                          class="input-group input-group-sm m-2">
-                                        @csrf
-                                        @method('GET')
-                                        <input name="search" class="form-control form-control-navbar" type="search"
-                                               placeholder="Buscar por titulo">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-navbar" type="submit">
-                                                <i class="fa fa-search"></i>
-                                            </button>
-                                        </div>
-                                    </form>
-                                    @endunless
+                                    @can('permiso', 'buscar-publicacion-informativa')
+                                        @unless($bin)
+                                            <form action="{{ route('publicacion.index') }}" method="POST"
+                                                  class="input-group input-group-sm m-2">
+                                                @csrf
+                                                @method('GET')
+                                                <input name="search" class="form-control form-control-navbar"
+                                                       type="search"
+                                                       placeholder="Buscar por titulo">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-navbar" type="submit">
+                                                        <i class="fa fa-search"></i>
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        @endunless
+                                    @endcan
                                 </div>
                                 <table id="especie-data-table" class="table table-striped table-bordered table-sm"
                                        style="width:100%">
@@ -112,7 +126,7 @@
                                             @endif
                                             <td>
                                                 @if($bin)
-                                                @include('publicacion.publicacion.actionsBin', [ 'data' => $publicacion ])
+                                                    @include('publicacion.publicacion.actionsBin', [ 'data' => $publicacion ])
                                                 @else
                                                     @include('publicacion.publicacion.actions', [ 'data' => $publicacion ] )
                                                 @endif

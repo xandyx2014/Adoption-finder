@@ -19,6 +19,7 @@ class BlogController extends Controller
         $tipoDenuncia = TipoDenuncia::all();
         $publicaciones = PublicacionInformativa::where('estado', 1)
             ->orderBy('created_at', 'desc')
+            ->with('imagens')
             ->paginate(3);
         return view('blog.index', compact('publicaciones', 'tipoDenuncia'));
     }

@@ -8,6 +8,7 @@ use App\Models\Imagen;
 use App\Models\Mascota;
 use App\Models\Perfil;
 use App\Models\Permiso;
+use App\Models\PublicacionInformativa;
 use App\Models\Raza;
 use App\Models\Rol;
 use App\Models\Seguimiento;
@@ -154,7 +155,7 @@ class DatabaseSeeder extends Seeder
             ->hasPerfil()
             ->create();
         User::factory()
-            ->count(20)
+            ->count(5)
             ->state( new Sequence(
                 ['rol_id' => 2],
                 ['rol_id' => 3],
@@ -165,10 +166,19 @@ class DatabaseSeeder extends Seeder
         Mascota::factory()
             ->count(20)
             ->state(function (array $attr, $item) {
-                return ['raza_id' => rand(1, 15), 'especie_id' => rand(1,5), 'user_id' => rand(2, 21)];
+                return ['raza_id' => rand(1, 15), 'especie_id' => rand(1,5), 'user_id' => rand(2, 6)];
             })
             ->has(
                 Seguimiento::factory()->count(3)
+            )
+            ->create();
+        PublicacionInformativa::factory()
+            ->count(10)
+            ->state( function (array $attr, $item) {
+                return [ 'user_id' => rand(2, 6), 'tipo_publicacion_id' => rand(1,4)];
+            })
+            ->has(
+                Imagen::factory()->count(1)
             )
             ->create();
         // Gestionar mascota
@@ -221,6 +231,89 @@ class DatabaseSeeder extends Seeder
             ['id' => 39 ,'nombre' =>'eliminar-tipo-publicacion'],
             ['id' => 40 ,'nombre' =>'consultar-tipo-publicacion'],
             ['id' => 41,'nombre' =>'listar-tipo-publicacion'],
+            // gestionar tipo de denuncia
+            ['id' => 42 ,'nombre' =>'registrar-tipo-denuncia'],
+            ['id' => 43,'nombre' =>'buscar-tipo-denuncia'],
+            ['id' => 44 ,'nombre' =>'editar-tipo-denuncia'],
+            ['id' => 45 ,'nombre' =>'estado-tipo-denuncia'],
+            ['id' => 46 ,'nombre' =>'eliminar-tipo-denuncia'],
+            ['id' => 47 ,'nombre' =>'consultar-tipo-denuncia'],
+            ['id' => 48,'nombre' =>'listar-tipo-denuncia'],
+            // Aprobar o rechazar solicitud de publicacion informativa
+            ['id' => 49,'nombre' =>'aprobar-solicitud-publicacion'],
+            ['id' => 50,'nombre' =>'rechazar-solicitud-publicacion'],
+            ['id' => 51,'nombre' =>'listar-solicitud-publicacion'],
+            // administrar galeria de foto de publicacion
+            ['id' => 52,'nombre' =>'listar-galeria-publicacion-informativa'],
+            ['id' => 53,'nombre' =>'editar-galeria-publicacion-informativa'],
+            ['id' => 54,'nombre' =>'eliminar-galeria-publicacion-informativa'],
+            // Gestionar publicacion informativas
+            ['id' => 55,'nombre' =>'registrar-publicacion-informativa'],
+            ['id' => 56,'nombre' =>'buscar-publicacion-informativa'],
+            ['id' => 57,'nombre' =>'editar-publicacion-informativa'],
+            ['id' => 58,'nombre' =>'estado-publicacion-informativa'],
+            ['id' => 59,'nombre' =>'eliminar-publicacion-informativa'],
+            ['id' => 60,'nombre' =>'consultar-publicacion-informativa'],
+            ['id' => 61,'nombre' =>'listar-publicacion-informativa'],
+            // Gestionar denuncia
+            ['id' => 62 ,'nombre' =>'registrar-denuncia'],
+            ['id' => 63 ,'nombre' =>'buscar-denuncia'],
+            ['id' => 64 ,'nombre' =>'editar-denuncia'],
+            ['id' => 65 ,'nombre' =>'estado-denuncia'],
+            ['id' => 66 ,'nombre' =>'eliminar-denuncia'],
+            ['id' => 67 ,'nombre' =>'consultar-denuncia'],
+            ['id' => 68 ,'nombre' =>'listar-denuncia'],
+            // Gestionar especie
+            ['id' => 69 ,'nombre' =>'registrar-especie'],
+            ['id' => 70 ,'nombre' =>'buscar-especie'],
+            ['id' => 71 ,'nombre' =>'editar-especie'],
+            ['id' => 72 ,'nombre' =>'estado-especie'],
+            ['id' => 73 ,'nombre' =>'eliminar-especie'],
+            ['id' => 74 ,'nombre' =>'consultar-especie'],
+            ['id' => 75 ,'nombre' =>'listar-especie'],
+            // Gestionar raza
+            ['id' => 76 ,'nombre' =>'registrar-raza'],
+            ['id' => 77 ,'nombre' =>'buscar-raza'],
+            ['id' => 78 ,'nombre' =>'editar-raza'],
+            ['id' => 79 ,'nombre' =>'estado-raza'],
+            ['id' => 80 ,'nombre' =>'eliminar-raza'],
+            ['id' => 81 ,'nombre' =>'consultar-raza'],
+            ['id' => 82 ,'nombre' =>'listar-raza'],
+            // Gestionar etiqueta
+            ['id' => 83 ,'nombre' =>'registrar-etiqueta'],
+            ['id' => 84 ,'nombre' =>'buscar-etiqueta'],
+            ['id' => 85 ,'nombre' =>'editar-etiqueta'],
+            ['id' => 86 ,'nombre' =>'estado-etiqueta'],
+            ['id' => 87 ,'nombre' =>'eliminar-etiqueta'],
+            ['id' => 88 ,'nombre' =>'consultar-etiqueta'],
+            ['id' => 89 ,'nombre' =>'listar-etiqueta'],
+            // Gestionar usuario
+            ['id' => 90 ,'nombre' =>'registrar-usuario'],
+            ['id' => 91 ,'nombre' =>'buscar-usuario'],
+            ['id' => 92 ,'nombre' =>'editar-usuario'],
+            ['id' => 93 ,'nombre' =>'estado-usuario'],
+            ['id' => 94 ,'nombre' =>'eliminar-usuario'],
+            ['id' => 95 ,'nombre' =>'consultar-usuario'],
+            ['id' => 96 ,'nombre' =>'listar-usuario'],
+            // Gestionar roles
+            ['id' => 97 ,'nombre' =>'registrar-rol'],
+            ['id' => 98 ,'nombre' =>'buscar-rol'],
+            ['id' => 99 ,'nombre' =>'editar-rol'],
+            ['id' => 100 ,'nombre' =>'estado-rol'],
+            ['id' => 101 ,'nombre' =>'eliminar-rol'],
+            ['id' => 102 ,'nombre' =>'consultar-rol'],
+            ['id' => 103 ,'nombre' =>'listar-rol'],
+            // Administra permiso
+            ['id' => 104 ,'nombre' => 'asignar-permiso'],
+            ['id' => 105 ,'nombre' => 'buscar-permiso'],
+            ['id' => 106 ,'nombre' => 'listar-permiso'],
+            // Administrar permiso
+            ['id' => 107 ,'nombre' => 'listar-bitacora'],
+            ['id' => 108 ,'nombre' => 'buscar-bitacora'],
+            ['id' => 109 ,'nombre' => 'consultar-bitacora'],
+            // Generar reportes
+            ['id' => 110 ,'nombre' => 'generar-reporte-mascota'],
+            ['id' => 111 ,'nombre' => 'generar-reporte-seguimiento'],
         ]);
         DB::table('permiso_rol')->insert([
             // gestionar mascota
@@ -271,6 +364,44 @@ class DatabaseSeeder extends Seeder
             ['id' => 39, 'rol_id' => 3 , 'permiso_id' => 39],
             ['id' => 40, 'rol_id' => 3 , 'permiso_id' => 40],
             ['id' => 41, 'rol_id' => 3 , 'permiso_id' => 41],
+            // Gestionar tipo de denuncia => solo admin
+            // Solo admin
+            // Aprobar o rechazar solicitud de publicacion infromativa
+            ['id' => 42, 'rol_id' => 3 , 'permiso_id' => 49],
+            ['id' => 43, 'rol_id' => 3 , 'permiso_id' => 50],
+            ['id' => 44, 'rol_id' => 3 , 'permiso_id' => 51],
+            // Administra galeria de foto de publicaicon
+            ['id' => 45, 'rol_id' => 3 , 'permiso_id' => 52],
+            ['id' => 46, 'rol_id' => 3 , 'permiso_id' => 53],
+            ['id' => 47, 'rol_id' => 3 , 'permiso_id' => 54],
+            // Gestionar publicaciones informativas => editor 3 y autor 2
+                // editor
+                ['id' => 48, 'rol_id' => 3 , 'permiso_id' => 55],
+                ['id' => 49, 'rol_id' => 3 , 'permiso_id' => 56],
+                ['id' => 50, 'rol_id' => 3 , 'permiso_id' => 57],
+                ['id' => 51, 'rol_id' => 3 , 'permiso_id' => 58],
+                ['id' => 52, 'rol_id' => 3 , 'permiso_id' => 59],
+                ['id' => 53, 'rol_id' => 3 , 'permiso_id' => 60],
+                ['id' => 54, 'rol_id' => 3 , 'permiso_id' => 61],
+                // autor
+                ['id' => 55, 'rol_id' => 2 , 'permiso_id' => 55],
+                ['id' => 56, 'rol_id' => 2 , 'permiso_id' => 56],
+                ['id' => 57, 'rol_id' => 2 , 'permiso_id' => 57],
+                ['id' => 58, 'rol_id' => 2 , 'permiso_id' => 58],
+                ['id' => 59, 'rol_id' => 2 , 'permiso_id' => 59],
+                ['id' => 60, 'rol_id' => 2 , 'permiso_id' => 60],
+                ['id' => 61, 'rol_id' => 2 , 'permiso_id' => 61],
+            // Gestionar denuncia
+            ['id' => 62, 'rol_id' => 4 , 'permiso_id' => 62],
+            ['id' => 63, 'rol_id' => 3 , 'permiso_id' => 63],
+            ['id' => 64, 'rol_id' => 3 , 'permiso_id' => 64],
+            ['id' => 65, 'rol_id' => 3 , 'permiso_id' => 65],
+            ['id' => 66, 'rol_id' => 3 , 'permiso_id' => 66],
+            ['id' => 67, 'rol_id' => 3 , 'permiso_id' => 67],
+            ['id' => 68, 'rol_id' => 3 , 'permiso_id' => 68],
+            // Generar reporte
+            ['id' => 69, 'rol_id' => 4 , 'permiso_id' => 110],
+            ['id' => 70, 'rol_id' => 4 , 'permiso_id' => 111],
         ]);
     }
 }
