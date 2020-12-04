@@ -1,6 +1,11 @@
 @extends('layouts.app')
 @section('title', 'Roles')
 @section('content')
+    @push('css')
+        <style>
+
+        </style>
+        @endpush
     <form action="{{ route('permiso.update', $rol->id) }}" method="POST">
         @csrf
         @method('PUT')
