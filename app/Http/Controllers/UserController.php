@@ -17,11 +17,10 @@ class UserController extends Controller
         $this->middleware('permiso:consultar-usuario')->only(['show']);
         $this->middleware('permiso:registrar-usuario')->only(['create']);
     }
-    public function resendEmailVerification()
+    public function resendEmailVerification(Request $request)
     {
-        // hacer un job para esto
-        $id = auth()->user()->id;
-        $user = User::findOrFail($id);
+        $userId = request()->user()->id;
+        $user = User::findOrFail($userId);
         $user->sendEmailVerificationNotification();
         return back()->with('status', 'Enviado mensaje de confirmacion al correo');
     }

@@ -19,7 +19,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->midd
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
 })->middleware(['auth'])->name('verification.notice');
-Route::get('test', function () {
+/*Route::get('test', function () {
     $to_name = "Registrado a Adoption finder";
     $to_email = "xandyx2014@gmail.com";
 \Illuminate\Support\Facades\Mail::send("email.welcome",[] ,function ($message) use ($to_name, $to_email) {
@@ -28,7 +28,7 @@ Route::get('test', function () {
     $message->from("xandyx2014@gmail.com", "Bienvenido a Adoption finder");
 });
     return "hola mundo";
-});
+});*/
 // verification
 Route::get('/email/verify/{id}/{hash}', function (\Illuminate\Foundation\Auth\EmailVerificationRequest $request) {
     $request->fulfill();
@@ -41,3 +41,5 @@ Route::post('/email/verification-notification', function ($request) {
     return back()->with('status', 'verification-link-sent');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 Route::post('resendEmailVerification', [\App\Http\Controllers\UserController::class, 'resendEmailVerification'])->name('resendEmailVerification');
+
+
