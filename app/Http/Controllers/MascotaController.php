@@ -305,20 +305,14 @@ class MascotaController extends Controller
         $bin = request()->input('bin');
         if ($bin)
         {
-
-            $countSeguimiento = $especie->seguimientos()->get()->count();
-            $adoptado = null;
-            $countTotal = 0;
-            $countTotalImagen = $especie->imagens()->get()->count();
-            $counPublicaicones = count($especie->publicacionAdopcions()->withTrashed()->get() ?? []);
-            if ($especie->adoptado == "1" && $adoptado != null)
+            if ($especie->adoptado == "1")
             {
                 dispatch( new \App\Jobs\BitacoraJob('Eliminar no completado', 'Mascota'));
                 return response()->json([
                     "error" => "$especie->nombre ya ha sido adoptado no se puede eliminar"
                 ]);
             }
-            if ($countSeguimiento == 0 && $countTotalImagen == 0 && $counPublicaicones == 0) {
+            try {
                 $especie->etiquetas()->detach();
                 $especie->forceDelete();
                 dispatch( new \App\Jobs\BitacoraJob('Eliminar', 'Mascota'));
@@ -330,6 +324,14 @@ class MascotaController extends Controller
                 }
                 return back();
             }
+            catch (\Illuminate\Database\QueryException  $e) {
+                $message = $e->getMessage();
+                return response()->json([
+                    "error" => "$especie->nombre tiene dependencias"
+                ]);
+            }
+
+
             if (request()->ajax())
             {
                 $publicaciones = $counPublicaicones;

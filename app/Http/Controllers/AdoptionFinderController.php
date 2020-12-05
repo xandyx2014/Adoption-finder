@@ -41,8 +41,8 @@ class AdoptionFinderController extends Controller
 
     function show($id)
     {
-        $publicacion = PublicacionAdopcion::where('id', $id)->with([
-            'mascota',
+        $publicacion = PublicacionAdopcion::findOrFail($id);
+        $publicacion = $publicacion->with([
             'mascota.user',
         ])->first();
         if ($publicacion->mascota == null) {

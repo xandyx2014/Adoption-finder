@@ -179,7 +179,7 @@ class RazaController extends Controller
         if ($bin)
         {
             // verificar las dependencias y force delete
-            $countTotal = $especie->mascotas()->get()->count();
+            $countTotal = $especie->mascotas()->withTrashed()->get()->count();
             if ($countTotal == 0) {
                 $especie->forceDelete();
                 dispatch( new \App\Jobs\BitacoraJob('Eliminar', 'Raza'));
