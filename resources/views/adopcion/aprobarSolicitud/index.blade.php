@@ -9,8 +9,15 @@
     @if(session()->has('success'))
         <div class="alert alert-success alert-dismissible">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-            <h5><i class="icon fa fa-check"></i> Exelente</h5>
+            <h5><i class="icon fa fa-check"></i> Solicitud rechazada</h5>
             {{ session()->get('success') }}
+        </div>
+    @endif
+    @if(session()->has('rechazado'))
+        <div class="alert alert-danger alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h5><i class="icon fa fa-check"></i> Exelente</h5>
+            {{ session()->get('rechazado') }}
         </div>
     @endif
     <div class="container elevation-4 p-4">
@@ -52,11 +59,7 @@
                             <td>{{ Illuminate\Support\Str::substr( $solicitud->motivo, 0 ,30) }}...</td>
                             <td>{{ $solicitud->user->name }}</td>
                             <td>
-                                @if($solicitud->estado)
-                                    <span class="badge badge-success">SI</span>
-                                @else
-                                    <span class="badge badge-secondary">NO</span>
-                                @endif
+                                    <span class="badge badge-info">{{ $solicitud->estado }}</span>
                             </td>
                             <td>
                                 @include('adopcion.aprobarSolicitud.action', [ 'data' => $solicitud])

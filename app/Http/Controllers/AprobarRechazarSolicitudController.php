@@ -148,7 +148,7 @@ class AprobarRechazarSolicitudController extends Controller
             return back()->withErrors(['igual' => 'Persona adoptante es la misma persona']);
         }
         $solicitud->update([
-            'estado' => 1
+            'estado' => 'ACEPTADO'
         ]);
         $mascota->update([
             'adoptado' => 1,
@@ -166,6 +166,15 @@ class AprobarRechazarSolicitudController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $solicitud = SolicitudAdopcion::findOrFail($id);
+        $usuarioInteresado = User::findOrFail($solicitud->user_id);
+        if ($usuarioInteresado->id == auth()->user()->id) {
+            return back()->withErrors(['igual' => 'Persona adoptante es la misma persona']);
+        }
+        $solicitud->update([
+            'estado' => 'RECHAZADO'
+        ]);
+        return redirect()->route('aprobarSolicitud.index')
+            ->with('rechazado', 'Has rechazado una solicitud a la mascota');
     }
 }

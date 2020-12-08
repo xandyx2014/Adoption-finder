@@ -162,11 +162,17 @@
         </div>
         <div class="row">
             <div class="col">
-                <a href="{{ route('aprobarSolicitud.index') }}" class="btn btn-danger bt-lg w-100">
+                @can('permiso', 'aprobar-rechazar-solicitud')
+                    <form action="{{ route('aprobarSolicitud.update', $solicitud->id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button  type="submit" class="btn btn-danger bt-lg w-100">
                     <span class="text-light">
                         RECHAZAR
                     </span>
-                </a>
+                        </button>
+                    </form>
+                @endcan
             </div>
             <div class="col">
                 @can('permiso', 'aprobar-rechazar-solicitud')

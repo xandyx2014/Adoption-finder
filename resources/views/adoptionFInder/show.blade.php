@@ -19,7 +19,7 @@
                     </div>--}}
                     <div class="ml-2">
                         <div class="h5 m-0"># {{ $publicacion->titulo  }}</div>
-                        <div class="h7 text-muted">{{ $publicacion->user->name  }}</div>
+                        <div class="h7 text-muted">{{ $publicacion->user->name  }} </div>
                     </div>
                 </div>
                 <div>
@@ -49,7 +49,12 @@
                 <i class="fa fa-whatsapp" style="color: green;" aria-hidden="true"></i>
             </a>
             @can('permiso', 'registrar-solicitud-adopcion')
-            <button href="#" class="btn btn-info pull-right" data-toggle="modal" data-target="#exampleModal">
+            <button href="#"
+                    class="btn btn-info pull-right"
+                    @if($publicacion->user_id == auth()->user()->id)
+                    disabled
+                    @endif
+                    data-toggle="modal" data-target="#exampleModal">
                 <i class="fa fa-paw"
                    aria-hidden="true"></i>
                 Solicitar

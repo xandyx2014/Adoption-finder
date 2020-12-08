@@ -86,7 +86,7 @@ class ImagenMascotaController extends Controller
     public function update(Request $request, $id)
     {
         $validateData = $request->validate([
-            'file' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
         $mascota = Mascota::findOrFail($id);
         $file = $request->file('file');

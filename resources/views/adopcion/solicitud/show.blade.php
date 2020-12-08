@@ -21,11 +21,11 @@
                             <dd class="col-sm-8 offset-sm-4">Donec id elit non mi porta gravida at eget metus.</dd>
                             <dt class="col-sm-4">Estado</dt>
                             <dd class="col-sm-8">
-                                @if($solicitud->estado)
-                                    <span class="badge badge-success">Aceptado</span>
-                                    @else
-                                    <span class="badge badge-danger">No aceptado</span>
-                                @endif
+
+                                    <span class="badge badge-info">{{ $solicitud->estado }}</span>
+
+
+
                             </dd>
                             <dt class="col-sm-4">Usuario</dt>
                             <dd class="col-sm-8">

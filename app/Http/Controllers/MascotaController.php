@@ -7,6 +7,7 @@ use App\Models\Etiqueta;
 use App\Models\Imagen;
 use App\Models\Mascota;
 use App\Models\Raza;
+use App\Models\SolicitudAdopcion;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -283,6 +284,23 @@ class MascotaController extends Controller
         ]);
         if ($request->get('propetario') == 0)
         {
+            $solicitud = $mascota->publicacionAdopcions()
+                ->with(
+                    ['solicitudAdopcions' => function($query) {
+                        $query->where('estado', 'aceptado');
+                    }]
+                )
+                ->first();
+            try {
+                $id = collect($solicitud)['solicitud_adopcions'][0]['id'];
+                $solicitud = SolicitudAdopcion::findOrFail($id);
+                $solicitud->update([
+                    'estado' => 'RECHAZADO'
+                ]);
+            } catch (\Throwable $e)
+            {
+                abort(404);
+            }
             $mascota->update([
                 'propetario_id' => null,
                 'adoptado' => 0,

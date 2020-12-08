@@ -34,15 +34,7 @@ class SolicitudAdopcionController extends Controller
                 ->editColumn('motivo', function ($request) {
                     return Str::substr($request->motivo, 0 ,15) . "...";
                 })
-                ->editColumn('estado', function ($request) {
-                    if ($request->estado)
-                    {
-                        return "<span class='badge badge-success'>Aceptado</span>";
-                    }
-                    return "<span class='badge badge-danger'>Pendiente</span>";;
-                })
                 ->addColumn('btn', 'adopcion.solicitud.actionsBin')
-                ->rawColumns(['btn', 'estado'])
                 ->toJson();
         }
         $query = SolicitudAdopcion::with('publicacion_adopcion');

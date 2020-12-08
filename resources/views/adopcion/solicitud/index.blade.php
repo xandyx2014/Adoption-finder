@@ -52,7 +52,6 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>Motivo</th>
-                                        <th>Estado</th>
                                         <th>Creado en</th>
                                         <th>Actualizado en</th>
                                         @if($bin)
@@ -81,14 +80,12 @@
                 const columns = '{{ $bin }}' != '1' ? [
                     {data: 'id'},
                     {data: 'motivo'},
-                    {data: 'estado'},
                     {data: 'created_at'},
                     {data: 'updated_at'},
                     {data: 'btn'},
                 ] : [
                     {data: 'id'},
                     {data: 'motivo'},
-                    {data: 'estado'},
                     {data: 'created_at'},
                     {data: 'updated_at'},
                     {data: 'deleted_at'},

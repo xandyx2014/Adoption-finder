@@ -17,7 +17,7 @@ class CreateSolicitudAdopcionsTable extends Migration
             $table->id();
             $table->string('motivo');
             $table->string('descripcion');
-            $table->boolean('estado')->default(0);
+            $table->enum('estado', ['PENDIENTE', 'ACEPTADO', 'RECHAZADO'])->default('PENDIENTE');
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('publicacion_adopcion_id')->constrained('publicacion_adopcions');
             $table->softDeletes();

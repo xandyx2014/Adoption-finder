@@ -81,7 +81,7 @@
                                     </form>
                                 @endif
                             @endcan
-                            @can('permiso', 'estado-publicacion-informativa')
+                            {{--@can('permiso', 'estado-publicacion-informativa')
                                 <form method="POST" action="{{ route('publicacion.destroy', $publicacion->id) }}"
                                       style="display: inline">
                                     @csrf
@@ -91,17 +91,17 @@
                                         <i class="fa fa-recycle" aria-hidden="true"></i>
                                     </button>
                                 </form>
-                            @endcan
+                            @endcan--}}
                             @can('permiso', 'consultar-publicacion-informativa')
                                 <a class="btn btn-success" href="{{ route('publicacion.show', $publicacion->id) }}">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                 </a>
                             @endcan
-                            @can('permiso', 'editar-publicacion-informativa')
+                            {{--@can('permiso', 'editar-publicacion-informativa')
                                 <a class="btn btn-warning" href="{{ route('publicacion.edit', $publicacion->id) }}">
                                     <i class="fa fa-pencil" aria-hidden="true"></i>
                                 </a>
-                            @endcan
+                            @endcan--}}
 
 
                         </td>
