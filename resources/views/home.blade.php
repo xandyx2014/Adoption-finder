@@ -8,6 +8,7 @@
                   crossorigin="anonymous"/>
         @endpush
     @endonce
+    @auth
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-8">
@@ -257,6 +258,7 @@
             </div>
         </div>
     </div>
+    @endauth
     @once
         @push('js')
             <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"

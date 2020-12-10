@@ -79,7 +79,7 @@ class PublicacionAdopcionController extends Controller
     public function create()
     {
         dispatch( new \App\Jobs\BitacoraJob('Mostrar formulario creacion', 'Publicacion adopcion'));
-        $mascotas = Mascota::all();
+        $mascotas = Mascota::where('adoptado', 0)->get();
         if (Gate::check('no-admin'))
         {
             $mascotas = $mascotas->where('user_id', auth()->user()->id);

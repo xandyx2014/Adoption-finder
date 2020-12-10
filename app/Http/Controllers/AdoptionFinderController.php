@@ -41,20 +41,26 @@ class AdoptionFinderController extends Controller
 
     function show($id)
     {
-        $publicacion = PublicacionAdopcion::findOrFail($id);
-        $publicacion = $publicacion->with([
-            'mascota.user',
-        ])->first();
-        if ($publicacion->mascota == null) {
-            abort(404);
-        }
-        if ($publicacion->mascota->adoptado == 1)
+        try {
+            $publicacion = PublicacionAdopcion::where('id', $id);
+            $publicacion = $publicacion->with([
+                'mascota.user',
+            ])->first();
+            if ($publicacion->mascota == null) {
+                abort(404);
+            }
+            if ($publicacion->mascota->adoptado == 1)
+            {
+                abort(404);
+            }
+            return view('adoptionFInder.show',
+                compact('publicacion')
+            );
+        } catch (\Exception $e)
         {
             abort(404);
         }
-        return view('adoptionFInder.show',
-            compact('publicacion')
-        );;
+
     }
     function store(Request $request)
     {
@@ -71,6 +77,14 @@ class AdoptionFinderController extends Controller
                     return $query->where('user_id', auth()->user()->id);
                 }
         ])->first();
+        $mascota = Mascota::findOrFail($cantidadSolicitudes->mascota_id);
+        if ($mascota != null)
+        {
+            if ($mascota->adoptado == 1)
+            {
+                abort(404);
+            }
+        }
         $cantidad = collect( collect( $cantidadSolicitudes)['solicitud_adopcions'] ?? [])->count();
         if ($cantidad >= 3)
         {

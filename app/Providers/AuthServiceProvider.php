@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Auth\Access\Response;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -31,13 +32,25 @@ class AuthServiceProvider extends ServiceProvider
             return $user->rol->nombre != 'admin';
         });
         Gate::define('permiso', function($user, $permiso) {
-            $auth = $user->rol->permiso;
-            if ($user->rol->nombre == 'admin')
-            {
-                return true;
-            }
-            // $user = User::findOrFail(1)->rol->permiso;
-            return $permiso = $auth->pluck('nombre')->contains($permiso);
+
+                if ($user->rol == null)
+                {
+                    auth()->logout();
+                    redirect('login');
+                    return false;
+                }
+
+                $auth = $user->rol->permiso;
+                if ($user->rol->nombre == 'admin')
+                {
+                    return true;
+                }
+                // $user = User::findOrFail(1)->rol->permiso;
+                return $permiso = $auth->pluck('nombre')->contains($permiso);
+
+
+
+
         });
         Gate::define('is-autor', function ($user) {
             return $user->rol->id == 2;

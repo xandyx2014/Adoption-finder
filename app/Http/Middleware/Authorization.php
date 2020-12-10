@@ -16,17 +16,22 @@ class Authorization
      */
     public function handle(Request $request, Closure $next, $permiso)
     {
-        $user = auth()->user()->rol->permiso;
-        $rol = auth()->user()->rol->nombre;
-        if($rol == 'admin')
-        {
-            return $next($request);
+        try {
+            $user = auth()->user()->rol->permiso;
+            $rol = auth()->user()->rol->nombre;
+            if($rol == 'admin')
+            {
+                return $next($request);
+            }
+            // $user = User::findOrFail(1)->rol->permiso;
+            if($user->pluck('nombre')->contains($permiso))
+            {
+                return $next($request);
+            }
+            return redirect('home');
+        } catch (\Exception $e) {
+            return redirect('home');
         }
-        // $user = User::findOrFail(1)->rol->permiso;
-        if($user->pluck('nombre')->contains($permiso))
-        {
-            return $next($request);
-        }
-        return redirect('home');
+
     }
 }

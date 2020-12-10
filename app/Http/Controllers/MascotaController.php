@@ -29,7 +29,7 @@ class MascotaController extends Controller
      */
     public function index()
     {
-        $query = Mascota::orderBy('created_at', 'desc');
+        $query = Mascota::orderBy('updated_at', 'desc');
         if (Gate::check('no-admin'))
         {
             // dd('no-admin');
@@ -291,15 +291,21 @@ class MascotaController extends Controller
                     }]
                 )
                 ->first();
+
             try {
-                $id = collect($solicitud)['solicitud_adopcions'][0]['id'];
-                $solicitud = SolicitudAdopcion::findOrFail($id);
-                $solicitud->update([
-                    'estado' => 'RECHAZADO'
-                ]);
+                $verify = collect($solicitud)['solicitud_adopcions'] ?? null;
+                if ( $verify != null)
+                {
+                    $id = collect($solicitud)['solicitud_adopcions'][0]['id'];
+                    $solicitud = SolicitudAdopcion::findOrFail($id);
+                    $solicitud->update([
+                        'estado' => 'RECHAZADO'
+                    ]);
+                }
+
             } catch (\Throwable $e)
             {
-                abort(404);
+                abort(505);
             }
             $mascota->update([
                 'propetario_id' => null,
