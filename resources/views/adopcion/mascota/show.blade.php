@@ -59,6 +59,14 @@
                             @if($mascota->adoptado) Si @else No  @endif
                         </span>
                     </li>
+                    @unless($mascota->adoptado_at == null)
+                        <li class="list-group-item d-flex justify-content-between bg-light">
+                            <div class="text-primary">
+                                <h6 class="my-0">Adoptado en</h6>
+                            </div>
+                            <span class="text-primary">{{ \Illuminate\Support\Carbon::parse( $mascota->adoptado_at)->format('d-M-Y') }}</span>
+                        </li>
+                    @endunless
 
                 </ul>
                 @if($mascota->propetario_id != null)

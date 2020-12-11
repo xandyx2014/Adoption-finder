@@ -59,7 +59,7 @@
 
                 </div>
                 <div class="card-body">
-                    <div class="text-muted h7 mb-2"><i class="fa fa-clock-o"></i> {{ $publicacion->created_at }}
+                    <div class="text-muted h7 mb-2"><i class="fa fa-clock-o"></i> {{ \Illuminate\Support\Carbon::parse( $publicacion->created_at)->diffForHumans() }}
                     </div>
                     {{-- <a class="card-link" href="#">
                          <h5 class="card-title">Lorem ipsum dolor sit amet, consectetur adip.</h5>

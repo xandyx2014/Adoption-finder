@@ -156,6 +156,9 @@
         <th scope="col" >Tamaño</th>
         <th scope="col" >Salud</th>
         <th scope="col" >Genero</th>
+        @if($adoptado == 1)
+            <th scope="col">Adotado en</th>
+        @endif
         <th scope="col" style="width: 15%">Descripcion</th>
         <th scope="col" style="width: 15%">Acerca de</th>
         <th scope="col">Creado</th>
@@ -171,6 +174,9 @@
             <td>{{ $especie->tamagno }}</td>
             <td>{{ $especie->salud }}</td>
             <td>{{ $especie->genero }}</td>
+            @unless($especie->adoptado_at == null)
+                <td>{{ \Illuminate\Support\Carbon::parse( $especie->adoptado_at)->format('d-M-Y') }}</td>
+            @endunless
             <td>{{ $especie->descripcion }}</td>
             <td>{{ $especie->about }}</td>
             <td>{{ $especie->created_at }}</td>

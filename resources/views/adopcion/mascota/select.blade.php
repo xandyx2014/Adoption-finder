@@ -32,6 +32,14 @@
                                 <option value="0">No</option>
                             </select>
                         </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01">Adoptado desde</label>
+                            </div>
+                            <input type="date" name="adoptado_at" id="">
+                        </div>
+
+
                     </div>
 
                     <button type="submit" class="btn btn-sm btn-outline-primary">Preparar <i class="fa fa-file-pdf-o"

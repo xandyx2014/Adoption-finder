@@ -10,17 +10,17 @@ class PublicacionAdopcion extends Model
 {
     use HasFactory, SoftDeletes;
     protected $fillable = ['titulo', 'descripcion_corta', 'user_id', 'mascota_id'];
-    public function getCreatedAtAttribute($value)
+    /*public function getCreatedAtAttribute($value)
     {
         return Carbon::parse($value)->format('d-M-Y');
-    }
+    }*/
     public function getDeletedAtAttribute($value)
     {
         return Carbon::parse($value)->format('d-M-Y');
     }
     public function getUpdatedAtAttribute($value)
     {
-        return Carbon::parse($value)->format('d-M-Y');
+        return Carbon::parse($value)->diffForHumans();
     }
     public function denuncias()
     {

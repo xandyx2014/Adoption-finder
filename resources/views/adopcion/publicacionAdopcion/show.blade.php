@@ -6,7 +6,7 @@
            <div class="col-9">
                <div class="my-3 p-3 bg-white rounded box-shadow elevation-4">
                    <h6 class="border-gray mb-0">{{ ucfirst($publicacion->titulo) }}</h6>
-                   <h6 class="border-bottom border-gray pb-2 mb-0 text-muted">{{ $publicacion->created_at }}</h6>
+                   <h6 class="border-bottom border-gray pb-2 mb-0 text-muted">{{ \Illuminate\Support\Carbon::parse( $publicacion->created_at)->format('d-M-Y')}}</h6>
                    <div class="mt-4">
                        {!! $publicacion->descripcion_corta !!}
                    </div>
@@ -64,10 +64,30 @@
                    </div>
                    <div class="media text-muted pt-1">
                        <p class="media-body pb-1 mb-0 small lh-125 border-bottom">
+                           <strong class="d-block text-gray-dark">Raza</strong>
+                           {{ $publicacion->mascota->raza->nombre }}
+                       </p>
+                   </div>
+                   <div class="media text-muted pt-1">
+                       <p class="media-body pb-1 mb-0 small lh-125 border-bottom">
                            <strong class="d-block text-gray-dark">Especie</strong>
                            {{ $publicacion->mascota->especie->nombre }}
                        </p>
                    </div>
+                   <div class="media text-muted pt-1">
+                       <p class="media-body pb-1 mb-0 small lh-125 border-bottom">
+                           <strong class="d-block text-gray-dark">Genero</strong>
+                           {{ $publicacion->mascota->genero }}
+                       </p>
+                   </div>
+                   @unless($publicacion->mascota->adoptado_at  == null)
+                   <div class="media text-muted pt-1">
+                       <p class="media-body pb-1 mb-0 small lh-125 border-bottom">
+                           <strong class="d-block text-gray-dark">Adoptado en</strong>
+                           {{ $publicacion->mascota->adoptado_at }}
+                       </p>
+                   </div>
+                   @endunless
                    <div class="media text-muted pt-1">
                        <p class="media-body pb-1 mb-0 small lh-125 border-bottom">
                            <strong class="d-block text-gray-dark">Total solicitudes</strong>

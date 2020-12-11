@@ -29,11 +29,17 @@ class MascotaController extends Controller
      */
     public function index()
     {
+
         $query = Mascota::orderBy('updated_at', 'desc');
         if (Gate::check('no-admin'))
         {
             // dd('no-admin');
             $query = $query->where('user_id', auth()->user()->id);
+        }
+        if(request()->get('adoptado_at') != null)
+        {
+            $adoptado = request()->get('adoptado_at');
+            $query = $query->whereBetween('adoptado_at', [$adoptado, now()] );
         }
         $razas = Raza::all();
         $especies = Especie::all();
@@ -69,6 +75,7 @@ class MascotaController extends Controller
         dispatch( new \App\Jobs\BitacoraJob('Generar reporte mascotas', 'Mascota'));
         $estado = $request->get('estado');
         $adoptado = $request->get('adoptado');
+        $fechaAdoptado = $request->get('adoptado_at');
         $especies;
         if ($estado == "1")
         {
@@ -78,11 +85,17 @@ class MascotaController extends Controller
         {
             $especies = Mascota::onlyTrashed()->where('adoptado', $adoptado)->get();
         }
+        if ($fechaAdoptado != null)
+        {
+            $especies = $especies->whereBetween('adoptado_at', [$fechaAdoptado, now()] );
+        }
         /**/
+        // return $especies;
         return view('adopcion.mascota.report', [
             'especies' => $especies,
             'estado' => $estado,
-            'adoptado' => $adoptado
+            'adoptado' => $adoptado,
+            'fechaAdoptado' => $fechaAdoptado
         ]);
     }
     function generatePdf(Request $request)
@@ -90,6 +103,7 @@ class MascotaController extends Controller
         dispatch( new \App\Jobs\BitacoraJob('Generar Pdf Mascota mascotas', 'Mascota'));
         $estado = $request->get('estado');
         $adoptado = $request->get('adoptado');
+        $fechaAdoptado = $request->get('adoptado_at');
         $especies;
         if ($estado == "1")
         {
@@ -99,7 +113,11 @@ class MascotaController extends Controller
         {
             $especies = Mascota::onlyTrashed()->where('adoptado', $adoptado)->get();
         }
-        $pdf = PDF::loadView('adopcion.mascota.pdf', compact('especies'));
+        if ($fechaAdoptado != null)
+        {
+            $especies = $especies->whereBetween('adoptado_at', [$fechaAdoptado, now()] );
+        }
+        $pdf = PDF::loadView('adopcion.mascota.pdf', compact('especies', 'adoptado'));
         $pdf->setPaper('a4', 'portrait');
         $pdf->setOptions(["isPhpEnabled" => true]);
         return $pdf->stream();

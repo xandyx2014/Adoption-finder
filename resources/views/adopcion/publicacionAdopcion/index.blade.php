@@ -69,7 +69,7 @@
                         <tr>
                             <th scope="row">{{ $publicacion->id }}</th>
                             <td>{{ $publicacion->titulo }}</td>
-                            <td>{{ $publicacion->created_at }}</td>
+                            <td> {{ \Illuminate\Support\Carbon::parse( $publicacion->created_at)->format('d-M-Y')}}</td>
                             <td>{{ $publicacion->updated_at }}</td>
                             <td>
                                 @if(request()->has('bin'))

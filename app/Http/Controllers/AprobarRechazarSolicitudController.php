@@ -16,6 +16,7 @@ class AprobarRechazarSolicitudController extends Controller
         $this->middleware('auth');
         $this->middleware('permiso:listar-aprobar-rechazar-solicitud')->only(['index']);
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -24,21 +25,18 @@ class AprobarRechazarSolicitudController extends Controller
     public function index()
     {
         $mascotas = Mascota::all();
-        if (Gate::check('no-admin'))
-        {
+        if (Gate::check('no-admin')) {
             // dd('no-admin');
             $mascotas = $mascotas->where('user_id', auth()->user()->id);
         }
         $query = SolicitudAdopcion::orderBy('id', 'desc')->whereHas('publicacion_adopcion.mascota', function ($query) {
             $query->whereNull('deleted_at');
 
-            if (Gate::check('no-admin'))
-            {
+            if (Gate::check('no-admin')) {
                 // dd('no-admin');
                 $query->where('user_id', auth()->user()->id);
             }
-            if (request()->has('mascota_id'))
-            {
+            if (request()->has('mascota_id')) {
                 $query->where('id', request()->input('mascota_id'));
             }
         });
@@ -87,40 +85,39 @@ class AprobarRechazarSolicitudController extends Controller
      */
     public function edit($id)
     {   // Publicacion Publicacion.mascota User
-        dispatch( new \App\Jobs\BitacoraJob('Aprobar Rechazar Solcitud de adopcion', 'Solicitud'));
+        dispatch(new \App\Jobs\BitacoraJob('Aprobar Rechazar Solcitud de adopcion', 'Solicitud'));
         $solicitud = SolicitudAdopcion::where('id', $id)
             ->with([
-                'publicacion_adopcion' => function($query) {
-                    $query->withTrashed();
-                },
-                'publicacion_adopcion.mascota' => function($query) {
-                    $query->withTrashed();
-                },
-                'publicacion_adopcion.mascota.etiquetas' => function($query) {
-                    $query->withTrashed();
-                },
-                'publicacion_adopcion.mascota.especie' => function($query) {
-                    $query->withTrashed();
-                },
-                'publicacion_adopcion.mascota.raza' => function($query) {
-                    $query->withTrashed();
-                },
-                'publicacion_adopcion.mascota.imagens' => function($query) {
-                    $query->withTrashed();
-                },
-                'user' => function($query) {
-                    $query->withTrashed();
-                },
+                    'publicacion_adopcion' => function ($query) {
+                        $query->withTrashed();
+                    },
+                    'publicacion_adopcion.mascota' => function ($query) {
+                        $query->withTrashed();
+                    },
+                    'publicacion_adopcion.mascota.etiquetas' => function ($query) {
+                        $query->withTrashed();
+                    },
+                    'publicacion_adopcion.mascota.especie' => function ($query) {
+                        $query->withTrashed();
+                    },
+                    'publicacion_adopcion.mascota.raza' => function ($query) {
+                        $query->withTrashed();
+                    },
+                    'publicacion_adopcion.mascota.imagens' => function ($query) {
+                        $query->withTrashed();
+                    },
+                    'user' => function ($query) {
+                        $query->withTrashed();
+                    },
                 ]
             )
             ->first();
-        if ($solicitud == null)
-        {
+        if ($solicitud == null) {
             abort(404);
         }
         $solicitudVerificado = optional($solicitud)->publicacion_adopcion;
-        $mascotaVerificado = optional( $solicitudVerificado )->mascota;
-        $usuarioVerificado = optional( $solicitud )->user;
+        $mascotaVerificado = optional($solicitudVerificado)->mascota;
+        $usuarioVerificado = optional($solicitud)->user;
         return view('adopcion.aprobarSolicitud.aprobar', compact('solicitud'));
     }
 
@@ -152,6 +149,7 @@ class AprobarRechazarSolicitudController extends Controller
         ]);
         $mascota->update([
             'adoptado' => 1,
+            'adoptado_at' => now(),
             'propetario_id' => $usuarioInteresado->id
         ]);
         return redirect()->route('aprobarSolicitud.index')
