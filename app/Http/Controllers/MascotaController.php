@@ -331,6 +331,7 @@ class MascotaController extends Controller
             $mascota->update([
                 'propetario_id' => null,
                 'adoptado' => 0,
+                'adoptado_at' => null
             ]);
         }
         $mascota->etiquetas()->sync($request->get('etiquetas'));
