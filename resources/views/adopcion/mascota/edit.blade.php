@@ -70,6 +70,27 @@
                             </div>
 
                         </li>
+                        <li class="list-group-item d-flex justify-content-between lh-condensed">
+                            <div class="w-100">
+                                <h6 class="my-0">Genero</h6>
+                                <select style="width: 100%" name="genero">
+                                    <option
+                                        @if($mascota->genero == 'MACHO')
+                                        selected
+                                        @endif
+                                        value="MACHO">
+                                        Macho
+                                    </option>
+                                    <option
+                                        @if($mascota->genero == 'HEMBRA')
+                                        selected
+                                        @endif
+                                        value="HEMBRA">
+                                        Hembra
+                                    </option>
+                                </select>
+                            </div>
+                        </li>
                         @if($mascota->propetario != null)
                         <li class="list-group-item d-flex justify-content-between lh-condensed">
                             <div>

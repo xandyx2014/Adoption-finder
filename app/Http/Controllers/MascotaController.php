@@ -139,6 +139,7 @@ class MascotaController extends Controller
             'descripcion' => 'required|min:0|max:200',
             'tamagno' => 'required|min:0|max:200',
             'salud' => 'required',
+            'genero' => 'required',
             'about' => 'required',
         ]);
         dispatch( new \App\Jobs\BitacoraJob('Guardar mascotas', 'Mascota'));
@@ -148,6 +149,7 @@ class MascotaController extends Controller
         $mascota->raza_id = $request->get('raza');
         $mascota->user_id = auth()->user()->id;
         $mascota->especie_id = $request->get('especie');
+        $mascota->genero = $request->get('genero');
         $mascota->descripcion = $request->get('descripcion');
         $mascota->tamagno = $request->get('tamagno');
         $mascota->salud = $request->get('salud');
@@ -256,6 +258,7 @@ class MascotaController extends Controller
             'color' => 'required|min:0|max:150',
             'descripcion' => 'required|min:0|max:200',
             'tamagno' => 'required|min:0|max:200',
+            'genero' => 'required',
             'salud' => 'required',
             'about' => 'required',
         ]);
@@ -271,7 +274,6 @@ class MascotaController extends Controller
                 $mascota->imagens()->save($imagen);
             }
         }
-
         $mascota->update([
             'nombre' => $request->get('nombre'),
             'color' => $request->get('color'),
@@ -279,6 +281,7 @@ class MascotaController extends Controller
             'tamagno' => $request->get('tamagno'),
             'salud' => $request->get('salud'),
             'about' => $request->get('about'),
+            'genero' => $request->get('genero'),
             'especie_id' => $request->get('especie'),
             'raza_id' => $request->get('raza'),
         ]);

@@ -39,6 +39,12 @@
                         </div>
                         <span class="text-muted">{{ $mascota->especie->nombre }}</span>
                     </li>
+                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+                        <div>
+                            <h6 class="my-0">Genero</h6>
+                        </div>
+                        <span class="text-muted">{{ $mascota->genero }}</span>
+                    </li>
                     <li class="list-group-item d-flex justify-content-between bg-light">
                         <div class="text-primary">
                             <h6 class="my-0">Dueño</h6>

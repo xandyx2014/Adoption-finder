@@ -54,6 +54,7 @@
         <th scope="col">Descripcion</th>
         <th scope="col">Tamaño</th>
         <th scope="col">Salud</th>
+        <th scope="col">Genero</th>
         <th scope="col" style="width: 20%">Acerca de</th>
         <th scope="col">Adoptado</th>
         <th scope="col">Creado</th>
@@ -68,6 +69,7 @@
         <td>{{ $mascota->descripcion }}</td>
         <td>{{ $mascota->tamagno }}</td>
         <td>{{ $mascota->salud }}</td>
+        <td>{{ $mascota->genero }}</td>
         <td>{{ $mascota->about }}</td>
         @if($mascota->adoptado == 1)
             <td>Si</td>

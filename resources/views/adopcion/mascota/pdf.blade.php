@@ -155,6 +155,7 @@
         <th scope="col" >Color</th>
         <th scope="col" >Tamaño</th>
         <th scope="col" >Salud</th>
+        <th scope="col" >Genero</th>
         <th scope="col" style="width: 15%">Descripcion</th>
         <th scope="col" style="width: 15%">Acerca de</th>
         <th scope="col">Creado</th>
@@ -169,6 +170,7 @@
             <td>{{ $especie->color }}</td>
             <td>{{ $especie->tamagno }}</td>
             <td>{{ $especie->salud }}</td>
+            <td>{{ $especie->genero }}</td>
             <td>{{ $especie->descripcion }}</td>
             <td>{{ $especie->about }}</td>
             <td>{{ $especie->created_at }}</td>

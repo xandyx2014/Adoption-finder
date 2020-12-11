@@ -16,6 +16,8 @@ class Mascota extends Model
         'descripcion',
         'tamagno',
         'salud',
+        'genero',
+        'adoptado_at',
         'especie_id',
         'raza_id',
         'user_id',

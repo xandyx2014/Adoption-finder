@@ -53,6 +53,15 @@
                             </div>
 
                         </li>
+                        <li class="list-group-item d-flex justify-content-between lh-condensed">
+                            <div class="w-100">
+                                <h6 class="my-0">Genero</h6>
+                                <select style="width: 100%" name="genero">
+                                    <option value="MACHO">Macho</option>
+                                    <option value="HEMBRA">Hembra</option>
+                                </select>
+                            </div>
+                        </li>
                         <li class="list-group-item d-flex justify-content-between bg-light">
                             <div >
                                 <h6 class="my-0">Imagenes</h6>

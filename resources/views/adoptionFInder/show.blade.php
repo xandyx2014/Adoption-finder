@@ -156,6 +156,12 @@
         </div>
         <div class="media text-muted pt-1">
             <p class="media-body pb-1 mb-0 small lh-125 border-bottom">
+                <strong class="d-block text-gray-dark">Genero </strong>
+                {{ $publicacion->mascota->genero }}
+            </p>
+        </div>
+        <div class="media text-muted pt-1">
+            <p class="media-body pb-1 mb-0 small lh-125 border-bottom">
                 <strong class="d-block text-gray-dark">Adoptado</strong>
                 @if($publicacion->mascota->adoptado == 1)
                     <span class="badge badge-success p-2">Adoptado</span>

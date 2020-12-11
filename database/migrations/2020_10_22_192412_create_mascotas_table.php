@@ -20,6 +20,8 @@ class CreateMascotasTable extends Migration
             $table->string('descripcion');
             $table->string('tamagno', 10);
             $table->string('salud', 15);
+            $table->enum('genero', ['MACHO', 'HEMBRA'])->default('MACHO');
+            $table->timestamp('adoptado_at')->nullable();
             $table->string('about');
             $table->boolean('adoptado')->default(0);
             $table->foreignId('raza_id')->constrained('razas');
