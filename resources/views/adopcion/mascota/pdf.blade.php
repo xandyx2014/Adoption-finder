@@ -123,7 +123,9 @@
         text-align: center;
     }
 */
-
+    th {
+        background-color: #bdbdbd;
+    }
 </style>
 <body>
 <div>
@@ -208,6 +210,7 @@
             $x = 280;
             $pdf->text($x, $y, $pageText, $font, $size);
             $pdf->text(470, 800, auth()->user()->name , $font, $size);
+            $pdf->text(35, 15 , "Adoption finder", $font, $size);
             $pdf->text(460, 15, "Creado en:{{ \Carbon\Carbon::now()->format('d-M-Y')  }}" , $font, $size);
 
            ');

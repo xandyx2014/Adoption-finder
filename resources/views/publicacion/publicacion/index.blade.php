@@ -119,8 +119,8 @@
                                         <tr>
                                             <td>{{ $publicacion->id }}</td>
                                             <td style="width: 35%;">{{ $publicacion->titulo }}</td>
-                                            <td>{{ $publicacion->created_at }}</td>
-                                            <td>{{ $publicacion->updated_at }}</td>
+                                            <td>{{ \Illuminate\Support\Carbon::parse( $publicacion->created_at)->format('d-M-Y') }}</td>
+                                            <td>{{ \Illuminate\Support\Carbon::parse( $publicacion->updated_at)->diffForHumans()  }}</td>
                                             @if($bin)
                                                 <td>{{ $publicacion->deleted_at }}</td>
                                             @endif

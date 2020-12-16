@@ -8,13 +8,19 @@
     <title>Document</title>
 </head>
 <style>
-
+    /*.page-number {
+        font-weight: bold;
+    }
+    .page-number:after { content: counter(page); }*/
     th,
     td {
         font-size: 0.80em;
         padding: 2px 2px;
         text-align: left;
         border-bottom: 1px solid #E1E1E1;
+    }
+    th {
+        background-color: #bdbdbd;
     }
 
     th:first-child,
@@ -69,7 +75,7 @@
     @endforelse
     </tbody>
 </table>
-
+<p class="page-number"> </p>
 </body>
 <script type="text/php">
 
@@ -83,6 +89,7 @@
             $y = 800;
             $x = 280;
             $pdf->text($x, $y, $pageText, $font, $size);
+            $pdf->text(35, 15 , "Adoption finder", $font, $size);
             $pdf->text(470, 800, auth()->user()->name , $font, $size);
             $pdf->text(470, 15, "{{ \Carbon\Carbon::now()->format('d-M-Y')  }}" , $font, $size);
            ');

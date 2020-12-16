@@ -49,8 +49,8 @@
                                 <tr>
                                     <td>{{ $especie->id }}</td>
                                     <td>{{ $especie->titulo }}</td>
-                                    <td>{{ $especie->created_at }}</td>
-                                    <td>{{ $especie->updated_at }}</td>
+                                    <td>{{ \Illuminate\Support\Carbon::parse( $especie->created_at)->format('d-m-Y')  }}</td>
+                                    <td>{{ \Illuminate\Support\Carbon::parse( $especie->updated_at)->format('d-m-Y')  }}</td>
                                 </tr>
                             @empty
                                 <tr style="text-align: center">

@@ -71,11 +71,11 @@ class EspecieController extends Controller
         $especies;
         if ($estado == "1")
         {
-            $especies = Especie::betweenDate($inicio, $final)->get();
+            $especies = Especie::all();
         }
         else
         {
-            $especies = Especie::onlyTrashed()->betweenDate($inicio, $final)->get();
+            $especies = Especie::onlyTrashed()->get();
         }
         $pdf = PDF::loadView('parametro.especie.pdf', compact('especies'));
         $pdf->setPaper('a4', 'portrait');

@@ -51,7 +51,7 @@
                                    href="{{ route('blog.show', $publicacion->id) }}">{{ Illuminate\Support\Str::substr($publicacion->titulo, 0 , 20) }}
                                     ...</a>
                             </h3>
-                            <div class="mb-1 text-muted">{{ $publicacion->created_at }}</div>
+                            <div class="mb-1 text-muted">{{ \Illuminate\Support\Carbon::parse( $publicacion->created_at)->diffForHumans() }}</div>
                             <p class="card-text mb-auto">
                                 {{ Illuminate\Support\Str::substr($publicacion->subtitulo, 0 , 200) }}...
                             </p>

@@ -15,7 +15,9 @@
         text-align: left;
         border-bottom: 1px solid #E1E1E1;
     }
-
+    th {
+        background-color: #bdbdbd;
+    }
     th:first-child,
     td:first-child {
         padding-left: 0;
@@ -86,6 +88,7 @@
             $x = 280;
             $pdf->text($x, $y, $pageText, $font, $size);
             $pdf->text(470, 800, auth()->user()->name , $font, $size);
+             $pdf->text(35, 15 , "Adoption finder", $font, $size);
             $pdf->text(470, 15, "{{ \Carbon\Carbon::now()->format('d-M-Y')  }}" , $font, $size);
            ');
         }

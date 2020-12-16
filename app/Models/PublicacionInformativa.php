@@ -10,18 +10,18 @@ class PublicacionInformativa extends Model
 {
     use HasFactory, SoftDeletes;
     protected $fillable = ['titulo', 'subtitulo', 'cuerpo', 'user_id', 'tipo_publicacion_id'];
-    public function getCreatedAtAttribute($value)
+    /* public function getCreatedAtAttribute($value)
     {
         return Carbon::parse($value)->format('d-M-Y');
-    }
+    }*/
     public function getDeletedAtAttribute($value)
     {
         return Carbon::parse($value)->format('d-M-Y');
     }
-    public function getUpdatedAtAttribute($value)
+    /*public function getUpdatedAtAttribute($value)
     {
         return Carbon::parse($value)->format('d-M-Y');
-    }
+    }*/
     public function scopeBetweenDate($query, $primero, $final)
     {
         return $query->whereBetween('created_at', [$primero, $final]);

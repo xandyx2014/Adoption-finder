@@ -12,7 +12,9 @@
         text-align: left;
         border-bottom: 1px solid #E1E1E1;
     }
-
+    th {
+        background-color: #bdbdbd;
+    }
     th:first-child,
     td:first-child {
         padding-left: 0;
@@ -159,7 +161,7 @@
     <tbody>
     @foreach($bitacoras as $bitacora)
         <tr>
-            <th scope="row">{{ $bitacora->id }}</th>
+            <td scope="row">{{ $bitacora->id }}</td>
             <td>{{ $bitacora->accion }}</td>
             <td>{{ $bitacora->entidad }}</td>
             <td>{{ $bitacora->created_at }}</td>
@@ -186,6 +188,7 @@
             $y = 800;
             $x = 280;
             $pdf->text($x, $y, $pageText, $font, $size);
+             $pdf->text(35, 15 , "Adoption finder", $font, $size);
             $pdf->text(470, 800, auth()->user()->name , $font, $size);
             $pdf->text(460, 15, "Creado en:{{ \Carbon\Carbon::now()->format('d-M-Y')  }}" , $font, $size);
 

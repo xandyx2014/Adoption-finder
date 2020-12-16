@@ -64,7 +64,7 @@ class PublicacionInformativaController extends Controller
                 'publicaciones' => $publicaciones
             ]);
         }
-        $query = PublicacionInformativa::orderBy('id', 'desc');
+        $query = PublicacionInformativa::orderBy('updated_at', 'desc');
         if (Gate::check('is-autor'))
         {
             $query = $query->where('user_id', auth()->user()->id);

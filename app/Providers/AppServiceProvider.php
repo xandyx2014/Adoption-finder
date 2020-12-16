@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Permiso;
 use App\Models\User;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
@@ -27,6 +28,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Paginator::useBootstrap();
+       /* Carbon::setUTF8(true);
+        Carbon::setLocale(config('app.locale'));
+        setlocale(LC_TIME, config('app.locale'));*/
         /*Blade::if('has', function ($permiso) {
             $user = auth()->user()->rol->permiso;
             // $user = User::findOrFail(1)->rol->permiso;

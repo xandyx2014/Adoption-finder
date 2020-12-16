@@ -29,9 +29,9 @@
                                 <label class="input-group-text" for="inputGroupSelect01">Estado de la solicitud</label>
                             </div>
                             <select class="custom-select" id="estado" name="solicitud" required>
-                                <option value="1" selected>Aceptado</option>
-                                <option value="0">Pendiente</option>
-
+                                <option value="ACEPTADO" selected>Aceptado</option>
+                                <option value="PENDIENTE">Pendiente</option>
+                                <option value="RECHAZADO">Rechazado</option>
                             </select>
                         </div>
                     </div>

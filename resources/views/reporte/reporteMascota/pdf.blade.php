@@ -30,7 +30,9 @@
         width: 100%;
 
     }
-
+    th {
+        background-color: #bdbdbd;
+    }
     .titulo {
         text-align: center;
     }
@@ -266,6 +268,7 @@
             $x = 280;
             $pdf->text($x, $y, $pageText, $font, $size);
             $pdf->text(470, 800, auth()->user()->name , $font, $size);
+             $pdf->text(35, 15 , "Adoption finder", $font, $size);
             $pdf->text(470, 15, "{{ \Carbon\Carbon::now()->format('d-M-Y')  }}" , $font, $size);
            ');
         }
