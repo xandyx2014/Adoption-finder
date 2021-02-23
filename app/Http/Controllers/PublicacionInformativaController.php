@@ -79,6 +79,12 @@ class PublicacionInformativaController extends Controller
                 $query = $query->where('tipo_publicacion_id', request()->get('tipo'));
             }
         }
+        // agregar aprobado rechazado
+        if(request()->has('estadoPublicacion'))
+        {
+            $estado = request()->get('estadoPublicacion');
+            $query = $query->where('estado', $estado);
+        }
         if (request()->has('desde')) {
             if (request()->get('desde') != null) {
                 $query = $query->whereBetween('created_at', [request()->get('desde'), Carbon::now()]);
@@ -93,7 +99,7 @@ class PublicacionInformativaController extends Controller
         }
 
 
-        $query = $query->paginate(4);
+        $query = $query->orderBy('updated_at', 'desc')->paginate(4);
         return view('publicacion.publicacion.index', [
             'bin' => false,
             'users' => $users,

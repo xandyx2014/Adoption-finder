@@ -32,7 +32,6 @@
                             <select class="custom-select" id="estado" name="estadoPublicacion" required>
                                 <option value="1" selected>Aceptado</option>
                                 <option value="0">Pendiente</option>
-
                             </select>
                         </div>
                     </div>

@@ -36,6 +36,17 @@
                         <input type="date" name="desde" class="form-control">
 
                     </div>
+                    <div class="form-group">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01">Estado publicacion</label>
+                            </div>
+                            <select class="custom-select" id="estado" name="estadoPublicacion" required>
+                                <option value="1" selected>Aceptado</option>
+                                <option value="0">Pendiente</option>
+                            </select>
+                        </div>
+                    </div>
                     <button type="submit" class="btn btn-outline-primary">Buscar</button>
                 </form>
             </div>

@@ -14,9 +14,9 @@
                             href="#">{{ $publicacion->user->name }}</a></p>
 
                     @if(Illuminate\Support\Str::contains($publicacion['imagens'][0]['url'], 'http'))
-                        <img class="image-fluid" src='{{ asset( $publicacion['imagens'][0]['url'] ) }}'>
+                        <img class="image-fluid" style="width: 100% !important;"  src='{{ asset( $publicacion['imagens'][0]['url'] ) }}'>
                     @else
-                        <img class="image-fluid" src='{{ asset( "storage/" . $publicacion['imagens'][0]['url'] ) }}'>
+                        <img class="image-fluid" style="width: 100% !important;" src='{{ asset( "storage/" . $publicacion['imagens'][0]['url'] ) }}'>
                     @endif
 
                     <div>
