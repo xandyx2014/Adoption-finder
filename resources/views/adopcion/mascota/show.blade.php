@@ -98,8 +98,12 @@
                             <div class="carousel-inner">
 
                                 @forelse($mascota->imagens as $item)
-                                    <img class="carousel-item @if ($loop->first) active @endif"
-                                         src='{{ asset( "storage/" . $item->url ) }}' alt="" srcset="">
+                                    @if(Illuminate\Support\Str::contains($item->url, 'https'))
+                                        <img src='{{ asset( $item->url ) }}' class="carousel-item @if ($loop->first) active @endif" alt="" srcset="">
+                                    @else
+                                        <img src='{{ asset( "storage/" . $item->url ) }}' class="carousel-item @if ($loop->first) active @endif" alt="" srcset="">
+                                    @endif
+
                                 @empty
                                     <img class="carousel-item active"
                                          src='{{ asset("storage/default.jpg") }}' alt=""
