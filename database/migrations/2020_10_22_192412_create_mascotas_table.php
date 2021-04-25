@@ -14,7 +14,7 @@ class CreateMascotasTable extends Migration
     public function up()
     {
         Schema::create('mascotas', function (Blueprint $table) {
-            $table->id();
+            $table->id()->primary();
             $table->string('color', 20);
             $table->string('nombre', 20);
             $table->string('descripcion');

@@ -14,7 +14,7 @@ class CreatePublicacionInformativasTable extends Migration
     public function up()
     {
         Schema::create('publicacion_informativas', function (Blueprint $table) {
-            $table->id();
+            $table->id()->primary();
             $table->string('titulo', 200);
             $table->string('subtitulo', 150);
             $table->mediumText('cuerpo');

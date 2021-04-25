@@ -14,7 +14,7 @@ class CreateSolicitudAdopcionsTable extends Migration
     public function up()
     {
         Schema::create('solicitud_adopcions', function (Blueprint $table) {
-            $table->id();
+            $table->id()->primary();
             $table->string('motivo');
             $table->string('descripcion');
             $table->enum('estado', ['PENDIENTE', 'ACEPTADO', 'RECHAZADO'])->default('PENDIENTE');

@@ -14,7 +14,7 @@ class CreateSeguimientosTable extends Migration
     public function up()
     {
         Schema::create('seguimientos', function (Blueprint $table) {
-            $table->id();
+            $table->id()->primary();
             $table->string('descripcion');
             $table->string('calidad', 15);
             $table->tinyInteger('puntuacion');

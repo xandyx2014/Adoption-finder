@@ -14,7 +14,7 @@ class CreateTipoDenunciasTable extends Migration
     public function up()
     {
         Schema::create('tipo_denuncias', function (Blueprint $table) {
-            $table->id();
+            $table->id()->primary();
             $table->string('tipo', 100);
             $table->string('descripcion', 200);
             $table->softDeletes();

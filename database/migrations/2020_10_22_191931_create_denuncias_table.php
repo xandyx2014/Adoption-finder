@@ -14,7 +14,7 @@ class CreateDenunciasTable extends Migration
     public function up()
     {
         Schema::create('denuncias', function (Blueprint $table) {
-            $table->id();
+            $table->id()->primary();
             $table->string('descripcion', 200);
             $table->foreignId('tipo_denuncia_id')->constrained('tipo_denuncias');
             $table->morphs('denunciable');
