@@ -14,7 +14,7 @@ class CreatePublicacionAdopcionsTable extends Migration
     public function up()
     {
         Schema::create('publicacion_adopcions', function (Blueprint $table) {
-            $table->id()->primary();
+            $table->id();
             $table->text('titulo');
             $table->longText('descripcion_corta');
             $table->foreignId('user_id')->constrained('users');

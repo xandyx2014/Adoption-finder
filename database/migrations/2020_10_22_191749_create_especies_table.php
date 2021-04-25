@@ -14,7 +14,7 @@ class CreateEspeciesTable extends Migration
     public function up()
     {
         Schema::create('especies', function (Blueprint $table) {
-            $table->id()->primary();
+            $table->id();
             $table->string('nombre');
             $table->string('descripcion');
             $table->softDeletes();

@@ -14,7 +14,7 @@ class CreateTipoPublicacionsTable extends Migration
     public function up()
     {
         Schema::create('tipo_publicacions', function (Blueprint $table) {
-            $table->id()->primary();
+            $table->id();
             $table->string('tipo', 50);
             $table->softDeletes();
             $table->timestamps();
