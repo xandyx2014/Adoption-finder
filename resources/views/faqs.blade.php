@@ -5,21 +5,11 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="container">
+
                     <div class="" id="accordion">
-                        <div class="card ">
-                            <div class="card-header">
-                                <h6 class="card-header text-info">
-                                    ¿Como envio mi solicitud de adopcion?
-                                </h6>
-                            </div>
-                            <div>
-                                <div class="card-block p-3">
-                                    Para poder enviar una solicitud, primero debes registrate a la plataforma y ver cual
+                        <faqs-component pregunta="¿Como envio mi solicitud de adopcion?" descripcion=" Para poder enviar una solicitud, primero debes registrate a la plataforma y ver cual
                                     mascota es de tu gusto y realizar la solicitud de adopcion cual este podra
-                                    contactarte una vez aceptada
-                                </div>
-                            </div>
-                        </div>
+                                    contactarte una vez aceptada"></faqs-component>
                         <div class="card ">
                             <div class="card-header">
                                 <h6 class="card-header text-info">
@@ -34,20 +24,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card ">
-                            <div class="card-header">
-                                <h6 class="card-header text-info">
-                                    ¿Como realizo una denuncia de una publicacion de mascotas?
-                                </h6>
-                            </div>
-                            <div>
-                                <div class="card-block p-3">
-                                    Para realizar una denuncia aparecera un icono alado de cada publicacion cual tu
-                                    podras enviar tu motivo de denuncia y a que tipo de denuncia pertenece especificando
-                                    tus razones
-                                </div>
-                            </div>
-                        </div>
+
                         <div class="card ">
                             <div class="card-header">
                                 <h6 class="card-header text-info">

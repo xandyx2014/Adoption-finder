@@ -12,7 +12,7 @@
                 <line x1="14.31" y1="16" x2="2.83" y2="16"></line>
                 <line x1="16.62" y1="12" x2="10.88" y2="21.94"></line>
             </svg>
-            <small class="d-block mb-3 text-muted">© Bolivia {{ now()->format('yy') }}</small>
+            <small class="d-block mb-3 text-muted">© Bolivia {{ now()->format('Y') }}</small>
         </div>
         <div class="col-6 col-md">
             <h5 class="text-primary">Paginas</h5>
@@ -34,19 +34,19 @@
         <div class="col-6 col-md">
             <h5 class="text-primary">Refugios</h5>
             <ul class="list-unstyled text-small">
-                <li><a class="text-muted" href="https://www.facebook.com/groups/228942774142526/">Mascotas perdidas Santa Cruz</a></li>
-                <li><a class="text-muted" href="https://www.facebook.com/veda.bolivia/">Veda- Voluntarios</a></li>
-                <li><a class="text-muted" href="https://www.facebook.com/groups/23205197680/">No compreas Adopta!</a></li>
-                <li><a class="text-muted" href="https://www.facebook.com/groups/23205197680/">Adopciones Santa cruz Bolivia</a></li>
+                <li><a class="text-muted" target="_blank" href="https://www.facebook.com/groups/228942774142526/">Mascotas perdidas Santa Cruz</a></li>
+                <li><a class="text-muted" target="_blank" href="https://www.facebook.com/veda.bolivia/">Veda- Voluntarios</a></li>
+                <li><a class="text-muted" target="_blank" href="https://www.facebook.com/groups/23205197680/">No compreas Adopta!</a></li>
+                <li><a class="text-muted" target="_blank" href="https://www.facebook.com/groups/23205197680/">Adopciones Santa cruz Bolivia</a></li>
             </ul>
         </div>
         <div class="col-6 col-md">
             <h5 class="text-primary">Refugios</h5>
             <ul class="list-unstyled text-small">
-                <li><a class="text-muted" href="https://www.facebook.com/MiRefugioSC/">MI Refurio</a></li>
-                <li><a class="text-muted" href="https://www.facebook.com/refugio.esperanza.bolivia/">Refugio Esperanza</a></li>
-                <li><a class="text-muted" href="https://www.facebook.com/AsociacionProtectoraDeAnimalesSantaCruz">A.P.A SCZ</a></li>
-                <li><a class="text-muted" href="https://www.facebook.com/MiRefugioSC">Mi refugio</a></li>
+                <li><a class="text-muted" target="_blank" href="https://www.facebook.com/MiRefugioSC/">MI Refurio</a></li>
+                <li><a class="text-muted" target="_blank" href="https://www.facebook.com/refugio.esperanza.bolivia/">Refugio Esperanza</a></li>
+                <li><a class="text-muted" target="_blank" href="https://www.facebook.com/AsociacionProtectoraDeAnimalesSantaCruz">A.P.A SCZ</a></li>
+                <li><a class="text-muted" target="_blank" href="https://www.facebook.com/MiRefugioSC">Mi refugio</a></li>
             </ul>
         </div>
     </div>

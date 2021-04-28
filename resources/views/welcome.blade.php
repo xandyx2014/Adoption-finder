@@ -19,11 +19,11 @@
     <div class="row d-flex justify-content-center  border-bottom mb-3">
         <h5 class="text-muted ">Nuestro objetivos</h5>
     </div>
-    <div class="row mb-2">
+    <div class="row mb-1">
         <div class="col-md-3">
             <div class="card">
 
-                <img class="card-img-top" data-src=""
+                <img  class="card-img-top" data-src=""
                      alt="Thumbnail [200x250]"
                      src="{{ asset('storage/default/dog-1.jpg') }}"
                      data-holder-rendered="true">
@@ -76,7 +76,7 @@
 
                 </div>
                 <div class="card-footer d-flex justify-content-center">
-                    <a href="#" class="btn btn-primary">Ir al Blog...🤍</a>
+                    <a data-turbolinks="false" href="{{ route('blog.index') }}" class="btn btn-primary">Ir al Blog...🤍</a>
                 </div>
             </div>
         </div>
@@ -95,7 +95,7 @@
                             <p class="card-text text-light text-center">
                                 Conoce nuestra publicaciones para ver las mascotas que estan disponibles
                             </p>
-                            <a href="{{ route('finder.index') }}" class="btn btn-outline-light">Ver publicaciones</a>
+                            <a href="{{ route('finder.index') }}" data-turbolinks="false"  class="btn btn-outline-light">Ver publicaciones</a>
                         </div>
                     </div>
                     <div style="width: 250px;">
@@ -105,7 +105,7 @@
                             <p class="card-text text-secondary">
                                 Conoce nuestro blog para mantenerte al dia sobre las publicaciones informativas para tu mascota
                             </p>
-                            <a href="{{ route('blog.index') }}" class="btn btn-outline-primary">Ir al blog</a>
+                            <a href="{{ route('blog.index') }}" data-turbolinks="false" class="btn btn-outline-primary">Ir al blog</a>
                         </div>
                     </div>
                     <div style="width: 250px;">
