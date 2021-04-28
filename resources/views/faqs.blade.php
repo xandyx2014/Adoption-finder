@@ -7,9 +7,21 @@
                 <div class="container">
 
                     <div class="" id="accordion">
-                        <faqs-component pregunta="¿Como envio mi solicitud de adopcion?" descripcion=" Para poder enviar una solicitud, primero debes registrate a la plataforma y ver cual
+                        <div class="card ">
+                            <div class="card-header">
+                                <h6 class="card-header text-info">
+                                    ¿Como envio mi solicitud de adopcion?
+                                </h6>
+                            </div>
+                            <div>
+                                <div class="card-block p-3">
+                                    Para poder enviar una solicitud, primero debes registrate a la plataforma y ver cual
                                     mascota es de tu gusto y realizar la solicitud de adopcion cual este podra
-                                    contactarte una vez aceptada"></faqs-component>
+                                    contactarte una vez aceptada
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="card ">
                             <div class="card-header">
                                 <h6 class="card-header text-info">
@@ -45,7 +57,7 @@
             @include('blog.aside')
         </div>
         @push('js')
-            <script src="{{ asset('js/spa.js') }}"></script>
+            <script src="{{ asset('js/spa.js') }}" defer></script>
         @endpush
     </main>
 @endsection
