@@ -124,7 +124,7 @@
 
     </main>
     @push('js')
-
+        <script src="{{ asset('js/spa.js') }}"></script>
         <script type="text/javascript">
             console.log('Hola');
             var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();

@@ -97,5 +97,6 @@
     <div class="d-flex justify-content-center">
         {{ $publicaciones->links() }}
     </div>
+
 @endsection
 

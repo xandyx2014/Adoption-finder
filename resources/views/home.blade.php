@@ -266,7 +266,7 @@
                     crossorigin="anonymous"></script>
             <script type="application/javascript">
                 var ctx = document.getElementById('myChart').getContext('2d');
-                var myChart = new Chart(ctx, {
+                var myChart = new window.Chart(ctx, {
                     type: 'pie',
                     data: {
                         labels: ['Mascotas no adoptadas', 'Mascota adoptadas',],

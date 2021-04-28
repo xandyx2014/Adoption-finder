@@ -67,6 +67,8 @@
             </div>
             @include('blog.aside')
         </div>
-
+        @push('js')
+            <script src="{{ asset('js/spa.js') }}"></script>
+        @endpush
     </main>
 @endsection

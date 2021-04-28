@@ -55,13 +55,13 @@
 
                 @if (Route::has('login'))
                     @auth
-                        <a href="{{ url('/home') }}" class="btn btn-sm btn-primary">Home <i class="fa fa-home" aria-hidden="true"></i></a>
+                        <a href="{{ url('/home') }}" data-turbolinks="false" class="btn btn-sm btn-primary">Home <i class="fa fa-home" aria-hidden="true"></i></a>
 
                     @else
-                        <a href="{{ route('login') }}" class="btn btn-sm btn-primary"
+                        <a href="{{ route('login') }}" data-turbolinks="false" class="btn btn-sm btn-primary"
                            style="margin-right: 5px;">Login </a>
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="btn btn-sm btn-primary">Register</a>
+                            <a href="{{ route('register') }}" data-turbolinks="false" class="btn btn-sm btn-primary">Register</a>
                         @endif
                     @endif
                 @endif
@@ -72,8 +72,8 @@
     <div class="nav-scroller py-1 mb-2">
         <nav class="nav d-flex justify-content-between">
             <a class="p-2 text-primary" href="/">INICIO</a>
-            <a class="p-2 text-primary" href="{{ route('blog.index') }}">BLOG</a>
-            <a class="p-2 text-primary" href="{{ route('finder.index') }}">BUSCA UNA MASCOTA</a>
+            <a class="p-2 text-primary" data-turbolinks="false" href="{{ route('blog.index') }}">BLOG</a>
+            <a class="p-2 text-primary" data-turbolinks="false" href="{{ route('finder.index') }}">BUSCA UNA MASCOTA</a>
             <a class="p-2 text-primary" href=" {{ route('fasqs') }}">PREGUNTAS FRECUENTES</a>
             <a class="p-2 text-primary" href="{{ route('nosotros') }}">ACERCA DE NOSOTROS</a>
         </nav>

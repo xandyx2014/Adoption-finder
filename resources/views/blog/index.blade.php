@@ -95,4 +95,7 @@
         </div><!-- /.row -->
 
     </main>
+    {{--@push('js')
+        <script src="{{ asset('js/spa.js') }}"></script>
+    @endpush--}}
 @endsection
