@@ -10,7 +10,7 @@
 
                 <div class="blog-post">
                     <h2 class="blog-post-title">{{ $publicacion->subtitulo  }}</h2>
-                    <p class="blog-post-meta"> {{ $publicacion->created_at }} <a
+                    <p class="blog-post-meta"> {{ \Illuminate\Support\Carbon::parse( $publicacion->created_at)->diffForHumans() }} <a
                             href="#">{{ $publicacion->user->name }}</a></p>
 
                     @if(Illuminate\Support\Str::contains($publicacion['imagens'][0]['url'], 'http'))
