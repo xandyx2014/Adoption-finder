@@ -105,8 +105,11 @@
                         @endif
                     @endif--}}
                     <div class="carousel-item @if($loop->first) active @endif">
-                        <img class="img-thumbnail rounded-circle" src='{{ asset( "storage/" .  $imagen->url ) }}' alt=""
-                             srcset="">
+                        @if(Illuminate\Support\Str::contains($imagen->url, 'https'))
+                            <img src='{{ asset( $imagen->url ) }}' class="img-thumbnail rounded-circle @if ($loop->first) active @endif" alt="" srcset="">
+                        @else
+                        <img src='{{ asset( "storage/" . $imagen->url ) }}' class=" img-thumbnail rounded-circle @if ($loop->first) active @endif" alt="" srcset="">
+                        @endif
                     </div>
                 @empty
                     <img class="img-thumbnail rounded-circle" src='{{ asset( "storage/default.jpg" ) }}' alt=""

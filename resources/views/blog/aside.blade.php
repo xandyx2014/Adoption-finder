@@ -4,7 +4,7 @@
         <br>
         <img style="width: 80px"  src="{{ asset('storage/default/welcome-1.png') }}" alt="">
         <p class="mb-0">Conoce nuestro <em>Blog informativo</em>
-            para mantenerte informado acerda de tus mascotas,tips , cuidadosy mucha mas informacion.</p>
+            para mantenerte informado acerca de tus mascotas,tips , cuidados y mucha mas informacion.</p>
     </div>
 
     <div class="p-3">
